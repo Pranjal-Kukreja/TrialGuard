@@ -652,15 +652,6 @@ Set `GEMINI_API_KEY`, `OPENAI_API_KEY`, or `GROQ_API_KEY` in `.env`. If one prov
 
 ---
 
-## Team & Acknowledgements
-
-Team Ctrl+Agen
-
-| Name | Role |
-|:---|:---|
-| *Your Name* | Team Lead |
-| *Teammate* | *Role* |
-| *Teammate* | *Role* |
 
 Thank you to the practitioners who gave their time and feedback: Rutuparna Kulkarni (Clinical Research Coordinator, Heartcare Clinical Research LLP, Ahmedabad), Dr. Surbhi Narula (Ophthalmologist), Dr. Chetna Malik (Dermatologist), Dr. Shubham Arora (Radiologist), all at GS Medical College & Hospital, Hapur, Dr. Darshan D (PharmD, clinical research and pharmacovigilance), Aryana Nayak and Nishchita Gowda (KIMS Koppal Medical College, Karnataka).
 
