@@ -1,0 +1,23 @@
+{
+  "name": "techquest",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:all": "python3 start_all.py",
+    "dev:agents": "python3 start_all.py --agents",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "latest"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.3.4",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.3.4"
+}

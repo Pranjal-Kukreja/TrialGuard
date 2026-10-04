@@ -1,0 +1,121 @@
+TRIALGUARD — SAFETY AGENT — INTERFACE CONTRACT
+================================================
+(For the Orchestrator and Client Agent developers. You do not need to read the
+safety agent's source code — everything you need to call it is below.)
+
+
+1. HOW TO REACH IT
+-------------------
+Base URL:        http://127.0.0.1:8002/     (configurable via SAFETY_FASTAPI_PORT, default: 8002)
+Protocol:        A2A (Agent-to-Agent), JSON-RPC 2.0 over HTTP
+Methods to call: "SendMessage" (A2A standard) or "evaluate_safety" (direct JSON-RPC)
+Agent discovery: GET http://127.0.0.1:8002/.well-known/agent-card.json
+                 (returns name, capabilities, protocols)
+
+
+2. REQUEST SHAPE (what you send)
+---------------------------------
+Option A: Standard A2A Protocol (SendMessage)
+POST http://127.0.0.1:8002/
+Headers: Content-Type: application/json, A2A-Version: 1.0
+
+{
+  "jsonrpc": "2.0",
+  "id": "<unique-request-id>",
+  "method": "SendMessage",
+  "params": {
+    "message": {
+      "messageId": "<unique-message-id>",
+      "role": "ROLE_USER",
+      "parts": [
+        { "text": "<JSON-STRINGIFIED safety input — see section 3>" }
+      ]
+    }
+  }
+}
+
+Option B: Direct JSON-RPC Protocol (evaluate_safety)
+POST http://127.0.0.1:8002/rpc
+Headers: Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": "<unique-request-id>",
+  "method": "evaluate_safety",
+  "params": {
+    <raw safety input dictionary — see section 3>
+  }
+}
+
+
+3. SAFETY INPUT SCHEMA
+-----------------------
+{
+  "trial_id": "string",
+  "patient_id": "string",                     # REQUIRED for biological validation
+  "recent_action": {                          # or "prescribed_action"
+    "drug": "string",
+    "dosage": "string",
+    "frequency": "string",
+    "route": "string"
+  },
+  "patient_data": {                           # or "patient"
+    "lab_results": {
+      "creatinine_clearance": float | dict,   # e.g. 25.0 mL/min or {"value": 25.0, "unit": "mL/min"}
+      "eGFR": float | dict,                   # e.g. 28.0 mL/min
+      "ALT": float | dict,                    # e.g. 45.0 U/L (>120 U/L indicates toxicity)
+      "AST": float | dict                     # e.g. 40.0 U/L (>120 U/L indicates toxicity)
+    },
+    "protocol_facts": {
+      "ongoing_bleeding": bool                # true indicates active hemorrhage contraindication
+    }
+  },
+  "report_history": [                         # optional, list of prior audit reports
+    {
+      "iteration": int,
+      "safety_status": "string",
+      "risk_score": float
+    }
+  ],
+  "modification": "string",                   # optional clinician or agent modification
+  "iteration": int                            # optional iteration counter
+}
+
+
+4. SAFETY OUTPUT SCHEMA
+------------------------
+When calling via "evaluate_safety", response.result contains:
+When calling via "SendMessage", response.result.task.artifacts[0].parts[0].text
+contains the JSON-stringified object:
+
+{
+  "iteration": int,
+  "safety_status": "CLEARED" | "FLAGGED" | "CRITICAL" | "UNKNOWN",
+  "risk_score": float,                        # 0.0 (safest) to 1.0 (highest toxicity/risk)
+  "contraindications_found": int,
+  "violations": [
+    {
+      "rule_id": "string",                    # e.g. "SAFETY_RENAL_CLEARANCE_BREACH"
+      "parameter": "string",                  # e.g. "creatinine_clearance"
+      "observed": "string",                   # e.g. "22.0 mL/min"
+      "expected": "string",                   # e.g. ">= 30.0 mL/min"
+      "severity": "HARD" | "MODERATE" | "LOW",
+      "reason": "string"
+    }
+  ],
+  "summary": "string",
+  "needs_human_review": bool
+}
+
+
+5. CLINICAL BOUNDARIES EVALUATED
+---------------------------------
+1. Renal Impairment:
+   - CrCl or eGFR < 30.0 mL/min: Hard contraindication for anticoagulant/renally-cleared drugs.
+   - CrCl or eGFR < 15.0 mL/min: End-stage renal disease (ESRD), critical hazard.
+2. Hepatic Toxicity:
+   - ALT or AST > 120 U/L (> 3x Upper Limit of Normal): Hard contraindication.
+3. Bleeding Hazards:
+   - Active ongoing hemorrhage with anticoagulant/antiplatelet therapies.
+4. PHI Safeguard:
+   - Missing patient_id aborts evaluation with status UNKNOWN and PHI_REQUIRED violation.

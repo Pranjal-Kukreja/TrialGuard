@@ -1,0 +1,4 @@
+[project]
+name = "techquest-mcp-audit"
+version = "0.1.0"
+requires-python = ">=3.11"

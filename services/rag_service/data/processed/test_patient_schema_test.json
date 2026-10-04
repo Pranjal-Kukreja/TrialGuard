@@ -1,0 +1,69 @@
+{
+  "patient_id": "TEST-PATIENT-001",
+
+  "demographics": {
+    "age": 67
+  },
+
+  "medical_history": {
+    "non_valvular_af_or_flutter": true,
+    "history_intracranial_hemorrhage": false,
+    "ongoing_bleeding_or_coagulopathy": false,
+    "bleeding_diathesis_or_coagulopathy": false,
+    "significant_renal_or_liver_disease": false
+  },
+
+  "protocol_facts": {
+    "planned_or_existing_oral_anticoagulation": true,
+
+    "days_since_acs": 5,
+    "days_since_pci": 5,
+
+    "planned_p2y12_inhibitor": true,
+    "recent_or_planned_cabg": false,
+    "contraindication_to_vka_apixaban_p2y12_or_aspirin": false,
+
+    "days_since_ua_nstemi_index_event": 5,
+    "medical_management_strategy_decided": true,
+
+    "age": 67,
+    "prior_mi": true,
+    "diabetes": false,
+    "prior_revascularization": false,
+
+    "days_since_pci_or_cabg": 60,
+    "stemi_index_event": false,
+    "nyha_class_iv_within_24h": false,
+
+    "received_des": true,
+    "months_post_pci_followup": 12,
+
+    "requires_continued_anticoagulation": false,
+    "hours_since_acs_hospitalization": 24,
+    "unacceptable_bleeding_risk": false
+  },
+
+  "mi_during_followup": false,
+  "repeat_revascularization_during_followup": false,
+
+  "aspirin_current": true,
+  "clopidogrel_current": true,
+
+  "consent_capacity": true,
+
+  "lab_results": {
+    "creatinine_clearance": 75,
+    "platelets": 180000
+  },
+
+  "allergies": [],
+
+  "medications": [
+    "aspirin",
+    "clopidogrel"
+  ],
+
+  "reproductive_status": {
+    "pregnant": false
+  }
+}

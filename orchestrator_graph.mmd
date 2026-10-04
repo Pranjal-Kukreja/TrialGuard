@@ -1,0 +1,52 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	fhir_fetch(fhir_fetch)
+	rag_analysis(rag_analysis)
+	guardrail_1(guardrail_1)
+	data_resupply(data_resupply)
+	max_iterations_exceeded(max_iterations_exceeded)
+	guardrail_2(guardrail_2)
+	short_circuit(short_circuit)
+	clinical_trial_status_check(clinical_trial_status_check)
+	master_agent(master_agent)
+	compliance_agent(compliance_agent)
+	safety_agent(safety_agent)
+	financial_agent(financial_agent)
+	protocol_adjudication(protocol_adjudication)
+	multi_agent_evaluation(multi_agent_evaluation)
+	hitl_escalation(hitl_escalation)
+	complete_audit_node(complete_audit_node)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> fhir_fetch;
+	clinical_trial_status_check -. &nbsp;parallel_processing_fan_out&nbsp; .-> master_agent;
+	clinical_trial_status_check -. &nbsp;short_circuit_node&nbsp; .-> short_circuit;
+	compliance_agent --> multi_agent_evaluation;
+	data_resupply --> fhir_fetch;
+	fhir_fetch --> rag_analysis;
+	financial_agent --> multi_agent_evaluation;
+	guardrail_1 -. &nbsp;missing_data_request&nbsp; .-> data_resupply;
+	guardrail_1 -.-> guardrail_2;
+	guardrail_1 -.-> max_iterations_exceeded;
+	guardrail_2 -.-> clinical_trial_status_check;
+	guardrail_2 -. &nbsp;short_circuit_node&nbsp; .-> short_circuit;
+	hitl_escalation -.-> complete_audit_node;
+	hitl_escalation -.-> rag_analysis;
+	master_agent --> compliance_agent;
+	master_agent --> financial_agent;
+	master_agent --> protocol_adjudication;
+	master_agent --> safety_agent;
+	max_iterations_exceeded --> complete_audit_node;
+	multi_agent_evaluation --> hitl_escalation;
+	protocol_adjudication --> multi_agent_evaluation;
+	rag_analysis --> guardrail_1;
+	safety_agent --> multi_agent_evaluation;
+	short_circuit --> complete_audit_node;
+	complete_audit_node --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc

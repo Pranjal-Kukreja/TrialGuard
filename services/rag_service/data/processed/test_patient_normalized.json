@@ -1,0 +1,25 @@
+{
+  "patient_id": "P001",
+  "demographics": {
+    "age": 67
+  },
+  "protocol_facts": {
+    "age": 67
+  },
+  "lab_results": {
+    "creatinine_clearance": {
+      "value": 42,
+      "unit": "mL/min"
+    }
+  },
+  "reproductive_status": {
+    "pregnant": false
+  },
+  "medications": [
+    "aspirin",
+    "clopidogrel"
+  ],
+  "allergies": [
+    "penicillin"
+  ]
+}

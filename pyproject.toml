@@ -1,0 +1,47 @@
+[project]
+name = "techquest"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain-core>=1.6.2",
+    "langgraph>=1.2.11",
+    "typing-extensions>=4.16.0",
+    "techquest-orchestrator",
+    "techquest-gateway",
+    "shared-schemas",
+    "python-dotenv>=1.2.3",
+    "grandalf>=0.8",
+    "groq>=1.7.0",
+    "fastapi[standard]>=0.141.1",
+    "sentence-transformers>=6.0.1",
+    "chromadb>=1.5.9",
+    "supabase>=2.31.0",
+    "langchain-openai>=1.6.2",
+    "reportlab>=5.0.1",
+    "httpx>=0.28.1",
+    "a2a-sdk>=1.1.2",
+]
+
+[tool.uv.workspace]
+members = [
+    "apps/*",
+    "packages/*",
+]
+exclude = ["apps/web"]
+
+[tool.uv.sources]
+techquest-orchestrator = { workspace = true }
+shared-schemas = { workspace = true }
+techquest-mcp-ehr = { workspace = true }
+techquest-agent-compliance = { workspace = true }
+techquest-agent-safety = { workspace = true }
+techquest-agent-financial = { workspace = true }
+techquest-agent-master = { workspace = true }
+techquest-gateway = { workspace = true }
+techquest-mcp-audit = { workspace = true }
+techquest-mcp-rag = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.3.0",
+]

@@ -1,0 +1,21 @@
+project:
+  name: TrialGuard AI
+  version: 0.1.0
+
+embeddings:
+  model: BAAI/bge-small-en-v1.5
+
+vector_db:
+  path: vector_db/chroma
+  trial_collection: trialguard_trials
+  fda_collection: trialguard_fda_labels
+
+retrieval:
+  trial_top_k: 6
+  fda_top_k: 4
+
+rules:
+  path: data/processed/rules/rules.json
+
+llm:
+  temperature: 0

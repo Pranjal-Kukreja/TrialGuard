@@ -1,0 +1,26 @@
+{
+  "patient_id": "SCORE_FAIL_01",
+  "mi_during_followup": false,
+  "repeat_revascularization_during_followup": false,
+  "aspirin_current": true,
+  "clopidogrel_current": true,
+  "protocol_facts": {
+    "received_des": true,
+    "months_post_pci_followup": 12
+  },
+  "consent_capacity": true,
+  "allergies": ["aspirin"],
+  "medications": ["aspirin", "clopidogrel"],
+  "lab_results": {
+    "platelets": {
+      "value": 150000,
+      "unit": "/uL"
+    }
+  },
+  "medical_history": {
+    "bleeding_diathesis_or_coagulopathy": false
+  },
+  "reproductive_status": {
+    "pregnant": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "patient_id": "ATLAS_PASS_01",
+  "demographics": {
+    "age": 60
+  },
+  "medications": ["aspirin"],
+  "medical_history": {
+    "significant_renal_or_liver_disease": false
+  },
+  "protocol_facts": {
+    "hours_since_acs_hospitalization": 24,
+    "requires_continued_anticoagulation": false,
+    "unacceptable_bleeding_risk": false
+  }
+}

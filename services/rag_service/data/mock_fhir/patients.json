@@ -1,0 +1,2153 @@
+{
+  "metadata": {
+    "synthetic": true,
+    "purpose": "TrialGuard prototype mock FHIR/EHR fixtures",
+    "default_trial_id": "NCT02415400",
+    "patient_count": 30
+  },
+  "patients": [
+    {
+      "patient_id": "P001",
+      "demo_category": "PASS",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P001"
+      }
+    },
+    {
+      "patient_id": "P002",
+      "demo_category": "PASS",
+      "patient": {
+        "age": 72,
+        "sex": "male",
+        "weight": 82,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 60,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P002"
+      }
+    },
+    {
+      "patient_id": "P003",
+      "demo_category": "PASS",
+      "patient": {
+        "age": 55,
+        "sex": "female",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": true,
+          "pregnancy_test_negative": true
+        },
+        "patient_id": "P003"
+      }
+    },
+    {
+      "patient_id": "P004",
+      "demo_category": "PASS",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 2.4,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 31.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P004"
+      }
+    },
+    {
+      "patient_id": "P005",
+      "demo_category": "PASS",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": true,
+          "days_since_acute_coronary_syndrome": 10,
+          "pci_pathway": false,
+          "days_since_PCI": null,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P005"
+      }
+    },
+    {
+      "patient_id": "P006",
+      "demo_category": "PASS",
+      "patient": {
+        "age": 45,
+        "sex": "male",
+        "weight": 90,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 75,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P006"
+      }
+    },
+    {
+      "patient_id": "P007",
+      "demo_category": "PASS",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 30.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P007"
+      }
+    },
+    {
+      "patient_id": "P008",
+      "demo_category": "PASS",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 2.5,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P008"
+      }
+    },
+    {
+      "patient_id": "P009",
+      "demo_category": "PASS",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "atrial flutter",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P009"
+      }
+    },
+    {
+      "patient_id": "P010",
+      "demo_category": "PASS",
+      "patient": {
+        "age": 18,
+        "sex": "male",
+        "weight": 70,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P010"
+      }
+    },
+    {
+      "patient_id": "P011",
+      "demo_category": "FAIL",
+      "patient": {
+        "age": 17,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P011",
+        "_demo_expected_reason": "age below minimum"
+      }
+    },
+    {
+      "patient_id": "P012",
+      "demo_category": "FAIL",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 3.0,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P012",
+        "_demo_expected_reason": "serum creatinine above exclusion threshold"
+      }
+    },
+    {
+      "patient_id": "P013",
+      "demo_category": "FAIL",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 24.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P013",
+        "_demo_expected_reason": "creatinine clearance below threshold"
+      }
+    },
+    {
+      "patient_id": "P014",
+      "demo_category": "FAIL",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": true,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P014",
+        "_demo_expected_reason": "history of intracranial hemorrhage"
+      }
+    },
+    {
+      "patient_id": "P015",
+      "demo_category": "FAIL",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [
+          "active bleeding"
+        ],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": true,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P015",
+        "_demo_expected_reason": "ongoing bleeding"
+      }
+    },
+    {
+      "patient_id": "P016",
+      "demo_category": "FAIL",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": true,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P016",
+        "_demo_expected_reason": "known coagulopathy"
+      }
+    },
+    {
+      "patient_id": "P017",
+      "demo_category": "FAIL",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": true,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P017",
+        "_demo_expected_reason": "CABG for index ACS"
+      }
+    },
+    {
+      "patient_id": "P018",
+      "demo_category": "FAIL",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease",
+          "mechanical heart valve"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": true,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P018",
+        "_demo_expected_reason": "other chronic anticoagulation indication"
+      }
+    },
+    {
+      "patient_id": "P019",
+      "demo_category": "FAIL",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [
+            "apixaban"
+          ],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P019",
+        "_demo_expected_reason": "drug contraindication"
+      }
+    },
+    {
+      "patient_id": "P020",
+      "demo_category": "FAIL",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 3,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P020",
+        "_demo_expected_reason": "P2Y12 duration below requirement"
+      }
+    },
+    {
+      "patient_id": "P021",
+      "demo_category": "REVIEW",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P021",
+        "_demo_expected_reason": "missing serum creatinine"
+      }
+    },
+    {
+      "patient_id": "P022",
+      "demo_category": "REVIEW",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P022",
+        "_demo_expected_reason": "missing creatinine clearance"
+      }
+    },
+    {
+      "patient_id": "P023",
+      "demo_category": "REVIEW",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": null,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P023",
+        "_demo_expected_reason": "PCI timing missing"
+      }
+    },
+    {
+      "patient_id": "P024",
+      "demo_category": "REVIEW",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": true,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": false,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P024",
+        "_demo_expected_reason": "ACS timing missing"
+      }
+    },
+    {
+      "patient_id": "P025",
+      "demo_category": "REVIEW",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P025",
+        "_demo_expected_reason": "anticoagulation plan missing"
+      }
+    },
+    {
+      "patient_id": "P026",
+      "demo_category": "REVIEW",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P026",
+        "_demo_expected_reason": "P2Y12 duration missing"
+      }
+    },
+    {
+      "patient_id": "P027",
+      "demo_category": "REVIEW",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P027",
+        "_demo_expected_reason": "ongoing bleeding status unknown"
+      }
+    },
+    {
+      "patient_id": "P028",
+      "demo_category": "REVIEW",
+      "patient": {
+        "age": 67,
+        "sex": "male",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P028",
+        "_demo_expected_reason": "coagulopathy status unknown"
+      }
+    },
+    {
+      "patient_id": "P029",
+      "demo_category": "REVIEW",
+      "patient": {
+        "age": 67,
+        "sex": "female",
+        "weight": 75.0,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.2,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": true,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P029",
+        "_demo_expected_reason": "pregnancy test missing"
+      }
+    },
+    {
+      "patient_id": "P030",
+      "demo_category": "REVIEW",
+      "patient": {
+        "age": 82,
+        "sex": "male",
+        "weight": null,
+        "diagnoses": [
+          "non-valvular atrial fibrillation",
+          "coronary artery disease"
+        ],
+        "medications": [
+          "aspirin",
+          "clopidogrel"
+        ],
+        "allergies": [],
+        "lab_results": {
+          "ALT": {
+            "value": 1.1,
+            "unit": "ULN"
+          },
+          "AST": {
+            "value": 1.0,
+            "unit": "ULN"
+          },
+          "eGFR": {
+            "value": 55.0,
+            "unit": "mL/min/1.73m2"
+          },
+          "serum_creatinine": {
+            "value": 1.4,
+            "unit": "mg/dL"
+          },
+          "creatinine_clearance": {
+            "value": 45.0,
+            "unit": "mL/min"
+          }
+        },
+        "vital_signs": {
+          "heart_rate": {
+            "value": 76,
+            "unit": "bpm"
+          },
+          "blood_pressure_systolic": {
+            "value": 128,
+            "unit": "mmHg"
+          }
+        },
+        "medical_history": [],
+        "current_symptoms": [],
+        "protocol_facts": {
+          "oral_anticoagulation_required": true,
+          "acs_pathway": false,
+          "days_since_acute_coronary_syndrome": null,
+          "pci_pathway": true,
+          "days_since_PCI": 7,
+          "planned_p2y12_duration": 6,
+          "history_of_intracranial_hemorrhage": false,
+          "ongoing_bleeding": false,
+          "known_coagulopathy": false,
+          "cabg_for_index_acs": false,
+          "other_condition_requiring_chronic_anticoagulation": false,
+          "drug_contraindication": [],
+          "pregnant": false,
+          "breastfeeding": false,
+          "woman_of_childbearing_potential": false,
+          "pregnancy_test_negative": null
+        },
+        "patient_id": "P030",
+        "_demo_expected_reason": "weight missing for apixaban dose evaluation"
+      }
+    }
+  ]
+}

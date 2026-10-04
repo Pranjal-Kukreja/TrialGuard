@@ -1,0 +1,196 @@
+TRIALGUARD — MASTER A2A SERVER & COMPLIANCE AGENT — INTERFACE CONTRACT
+========================================================================
+(Governs Agent-to-Agent communication between the Orchestrator Client Nodes:
+apps/orchestrator/nodes/compliance_client.py, universal_a2a_client.py,
+and the Unified A2A Master Daemon in apps/agent-master/a2a_server.py.)
+
+
+1. SERVICE LOCATION & DAEMON CONNECTIVITY
+------------------------------------------
+Base URL:          http://127.0.0.1:8001/     (Configurable via A2A_PORT / A2A_HOST / A2A_URL)
+Service Entry:     apps/agent-master/a2a_server.py
+Supported RPC URIs: POST http://127.0.0.1:8001/ and POST http://127.0.0.1:8001/rpc
+Protocol:          A2A (Agent-to-Agent), JSON-RPC 2.0 over HTTP
+Primary Method:    "SendMessage" (A2A Task Specification)
+Direct Methods:    "evaluate_compliance", "evaluate_safety", "evaluate_financial"
+Agent Discovery:   GET http://127.0.0.1:8001/.well-known/agent-card.json
+De-registration:   apps/agent-compliance/a2a_server.py is DEPRECATED and REMOVED.
+
+
+2. REQUEST ENVELOPE (JSON-RPC 2.0)
+------------------------------------
+POST to http://127.0.0.1:8001/ with the standard A2A envelope:
+
+{
+  "jsonrpc": "2.0",
+  "id": "<uuid4>",
+  "method": "SendMessage",
+  "params": {
+    "message": {
+      "messageId": "<uuid4>",
+      "role": "ROLE_USER",
+      "parts": [
+        { "text": "<JSON-STRINGIFIED payload containing agent_type — see Section 3>" }
+      ]
+    }
+  }
+}
+
+Headers Required:
+  Content-Type: application/json
+  A2A-Version: 1.0
+
+
+3. COMPLIANCE INPUT PAYLOAD (Inside parts[0].text)
+---------------------------------------------------
+The stringified JSON payload passed inside parts[0].text must include "agent_type": "compliance":
+
+{
+  "agent_type": "compliance",
+  "trial_id": "string",
+  "iteration": integer,
+  "recent_action": {
+    "drug": "string",
+    "dosage": "string",
+    "frequency": "string",
+    "route": "string",
+    "raw_text": "string"
+  },
+  "relevant_protocols": [
+    {
+      "chunk_id": "string",
+      "rule_id": "string",
+      "text": "string",
+      "section": "string",
+      "score": number
+    }
+  ],
+  "report_history": [
+    {
+      "iteration": integer,
+      "compliance_status": "COMPLIANT" | "NON_COMPLIANT" | "UNKNOWN",
+      "violations": [
+        {
+          "parameter": "string",
+          "observed": "string",
+          "expected": {
+            "operator": "string",
+            "value": "string" | number,
+            "unit": "string"
+          },
+          "protocol_text": "string",
+          "reason": "string"
+        }
+      ],
+      "explanation": "string"
+    }
+  ]
+}
+
+Strict Field Invariants:
+• ROUTING KEY: Must provide "agent_type": "compliance" (falls back to compliance if omitted).
+• REQUIRED FIELDS: trial_id, recent_action, relevant_protocols.
+• OPTIONAL FIELDS: iteration (defaults to len(report_history) + 1), report_history (defaults to []).
+• HIPAA / DE-IDENTIFICATION: DO NOT pass "patient_id", "patient", or "patient_data" into the
+  compliance evaluation dispatch. The Master A2A Server rejects any compliance request containing
+  patient demographic identifiers with an immediate guardrail violation.
+• INITIAL EVALUATION: Set report_history to [] and iteration to 1 on the first pass.
+
+
+4. RESPONSE UNPACKING LOGIC
+-----------------------------
+The response is wrapped in an A2A task artifact envelope:
+
+1. Validate task status:
+   response["result"]["task"]["status"]["state"] in ("COMPLETED", "TASK_STATE_COMPLETED")
+2. Extract artifacts:
+   Iterate through response["result"]["task"]["artifacts"][].
+   Target the artifact where artifact["name"] == "compliance_result" or inspect artifact["parts"][].
+3. Parse:
+   json.loads(part["text"]) to obtain the canonical ComplianceVerdictRecord (Section 5).
+
+
+5. PARSED COMPLIANCE OUTPUT SCHEMA (ComplianceVerdictRecord)
+-------------------------------------------------------------
+Matches the exact TypedDict definition in shared_schemas.state:
+
+{
+  "trial_id": "string",
+  "iteration": integer,
+  "compliance_status": "COMPLIANT" | "NON_COMPLIANT" | "UNKNOWN",
+  "valid": boolean,
+  "confidence": number,
+  "violations": [
+    {
+      "parameter": "string",
+      "observed": "string" | number | object,
+      "expected": {
+        "operator": "string",
+        "value": "string" | number,
+        "unit": "string"
+      },
+      "protocol_text": "string",
+      "reason": "string"
+    }
+  ],
+  "explanation": "string",
+  "sources": [
+    {
+      "chunk_id": "string",
+      "section": "string",
+      "score": number,
+      "text": "string"
+    }
+  ],
+  "prescribed_action": {
+    "drug": "string",
+    "dosage": "string",
+    "frequency": "string",
+    "route": "string",
+    "raw_text": "string"
+  },
+  "needs_human_review": boolean
+}
+
+State Reducer Mapping in apps/orchestrator (TrialState):
+• Output Record       -> Appended to state["compliance_verdict_history"] via append_history_reducer
+• violations          -> Appended to state["violations"] via operator.add
+• needs_human_review  -> Synchronized to state["compliance_needed"] and state["needs_human_review"]
+• Complete output     -> Appended to state["audit_logs"] via operator.add
+
+
+6. THE HITL "MODIFY" CYCLE (compliance_verdict_history)
+---------------------------------------------------------
+When a clinician selects "modify" in HITL, updates the prescribed regimen, and loops
+back to evaluation via Command(goto="rag_analysis"):
+1. Orchestrator reads accumulated records from state["compliance_verdict_history"].
+2. Sets payload["iteration"] = state["refinement_iteration_count"] + 1.
+3. Passes prior iterations in payload["report_history"].
+4. The compliance engine on the Master A2A Server checks the updated regimen against protocol
+   boundaries in light of previous violations to confirm whether the dose titration or interval
+   change fully resolved the earlier deviation.
+5. The new ComplianceVerdictRecord is appended to state["compliance_verdict_history"],
+   preserving complete chronological auditability for downstream multi_agent_evaluation and PDF generation.
+
+
+7. CONVERGENCE & MULTI-AGENT SYNTHESIS
+---------------------------------------
+• Fan-Out: parallel_processing_fan_out triggers compliance_agent, safety_agent, financial_agent,
+  and protocol_adjudication concurrently.
+• Multi-Agent Convergence: Output from compliance_agent converges at multi_agent_evaluation alongside
+  the other agents.
+• HITL Hand-off: multi_agent_evaluation synthesizes all sub-agent histories into a consolidated
+  verdict (APPROVED / REJECTED / NEEDS_REVIEW) and routes directly to hitl_escalation.
+
+
+8. ERROR HANDLING & RESILIENT FALLBACKS
+----------------------------------------
+• HTTP != 200 / Server Offline: Caught by compliance_client.py; switches to LOCAL_FALLBACK mode.
+• Fallback Execution: Evaluates deterministic protocol dosing limits (e.g. 5 mg apixaban ceiling) locally.
+• Injected Payload: If both remote A2A RPC and local rules fail, injects a fallback record:
+    - compliance_status = "UNKNOWN"
+    - valid = False
+    - confidence = 0.0
+    - needs_human_review = True
+• Audit Sealing: Flags state["compliance_needed"] = True, logs failure in state["audit_logs"],
+  and continues to multi_agent_evaluation without halting the LangGraph execution.

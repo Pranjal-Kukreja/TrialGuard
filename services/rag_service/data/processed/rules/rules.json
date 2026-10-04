@@ -1,0 +1,602 @@
+{
+  "schema_version": "3.0",
+  "engine": {
+    "name": "TrialGuard Patient-to-Trial Eligibility Engine",
+    "purpose": "Demonstration-only patient-to-trial eligibility screening",
+    "decision_policy": {
+      "trial_logic": "Each trial is evaluated independently",
+      "inclusion_logic": "ALL required inclusion criteria must be satisfied unless rule_type is inclusion_any",
+      "exclusion_logic": "ANY satisfied exclusion criterion makes the patient ineligible for that trial",
+      "missing_evidence_policy": "INSUFFICIENT_EVIDENCE",
+      "conflicting_evidence_policy": "INSUFFICIENT_EVIDENCE",
+      "final_outputs": [
+        "ELIGIBLE",
+        "INELIGIBLE",
+        "INSUFFICIENT_EVIDENCE"
+      ]
+    }
+  },
+
+  "trials": {
+
+    "NCT02415400": {
+
+      "name": "AUGUSTUS",
+      "support_level": "FULL",
+      "rules_available": true,
+      "rag_available": true,
+
+      "eligibility_logic": {
+        "type": "AND",
+        "inclusion_required": "ALL",
+        "exclusion_trigger": "ANY"
+      },
+
+      "rules": [
+
+        {
+          "rule_id": "NCT02415400_INC_AGE",
+          "scope": "trial_eligibility",
+          "criterion_type": "inclusion",
+          "rule_type": "numeric_range",
+          "parameter": "age",
+          "field_path": "demographics.age",
+          "min": 18,
+          "unit": "years",
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT02415400_INC_NVAF",
+          "scope": "trial_eligibility",
+          "criterion_type": "inclusion",
+          "rule_type": "exact_match",
+          "parameter": "non_valvular_af_or_flutter",
+          "field_path": "medical_history.non_valvular_af_or_flutter",
+          "expected": true,
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT02415400_INC_ORAL_ANTICOAG",
+          "scope": "trial_eligibility",
+          "criterion_type": "inclusion",
+          "rule_type": "exact_match",
+          "parameter": "planned_or_existing_oral_anticoagulation",
+          "field_path": "protocol_facts.planned_or_existing_oral_anticoagulation",
+          "expected": true,
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT02415400_INC_RECENT_ACS_OR_PCI",
+          "scope": "trial_eligibility",
+          "criterion_type": "inclusion",
+          "rule_type": "numeric_window_any",
+          "parameter": "recent_acs_or_pci",
+          "field_path": "protocol_facts",
+          "conditions": [
+            {
+              "field": "days_since_acs",
+              "operator": "<=",
+              "value": 14,
+              "unit": "days"
+            },
+            {
+              "field": "days_since_pci",
+              "operator": "<=",
+              "value": 14,
+              "unit": "days"
+            }
+          ],
+          "operator": "OR",
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT02415400_INC_P2Y12",
+          "scope": "trial_eligibility",
+          "criterion_type": "inclusion",
+          "rule_type": "exact_match",
+          "parameter": "planned_p2y12_inhibitor",
+          "field_path": "protocol_facts.planned_p2y12_inhibitor",
+          "expected": true,
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT02415400_EXC_SEVERE_RENAL",
+          "scope": "trial_eligibility",
+          "criterion_type": "exclusion",
+          "rule_type": "numeric_exclusion",
+          "parameter": "creatinine_clearance",
+          "field_path": "lab_results.creatinine_clearance",
+          "operator": "<",
+          "threshold": 30,
+          "unit": "mL/min",
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT02415400_EXC_ICH",
+          "scope": "trial_eligibility",
+          "criterion_type": "exclusion",
+          "rule_type": "exact_exclusion",
+          "parameter": "history_intracranial_hemorrhage",
+          "field_path": "medical_history.history_intracranial_hemorrhage",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT02415400_EXC_CABG",
+          "scope": "trial_eligibility",
+          "criterion_type": "exclusion",
+          "rule_type": "exact_exclusion",
+          "parameter": "recent_or_planned_cabg",
+          "field_path": "protocol_facts.recent_or_planned_cabg",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT02415400_EXC_BLEEDING",
+          "scope": "trial_eligibility",
+          "criterion_type": "exclusion",
+          "rule_type": "exact_exclusion",
+          "parameter": "ongoing_bleeding_or_coagulopathy",
+          "field_path": "medical_history.ongoing_bleeding_or_coagulopathy",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT02415400_EXC_DRUG_CONTRAINDICATION",
+          "scope": "trial_eligibility",
+          "criterion_type": "exclusion",
+          "rule_type": "exact_exclusion",
+          "parameter": "contraindication_to_study_antithrombotic_therapy",
+          "field_path": "protocol_facts.contraindication_to_vka_apixaban_p2y12_or_aspirin",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        }
+      ]
+    },
+
+
+    "NCT00699998": {
+
+      "name": "TRILOGY ACS",
+      "support_level": "PARTIAL",
+      "rules_available": true,
+      "rag_available": true,
+
+      "eligibility_logic": {
+        "type": "AND",
+        "inclusion_required": "ALL",
+        "exclusion_trigger": "ANY"
+      },
+
+      "rules": [
+
+        {
+          "rule_id": "NCT00699998_INC_EVENT_TIME",
+          "scope": "trial_eligibility",
+          "criterion_type": "inclusion",
+          "rule_type": "numeric_range",
+          "parameter": "days_since_ua_nstemi_index_event",
+          "field_path": "protocol_facts.days_since_ua_nstemi_index_event",
+          "max": 10,
+          "unit": "days",
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00699998_INC_MED_MGMT",
+          "scope": "trial_eligibility",
+          "criterion_type": "inclusion",
+          "rule_type": "exact_match",
+          "parameter": "medical_management_strategy_decided",
+          "field_path": "protocol_facts.medical_management_strategy_decided",
+          "expected": true,
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00699998_INC_HIGH_RISK_FEATURE",
+          "scope": "trial_eligibility",
+          "criterion_type": "inclusion",
+          "rule_type": "inclusion_any",
+          "parameter": "high_risk_features",
+          "field_path": "protocol_facts",
+          "conditions": [
+            {
+              "field": "age",
+              "operator": ">",
+              "value": 60
+            },
+            {
+              "field": "prior_mi",
+              "operator": "==",
+              "value": true
+            },
+            {
+              "field": "diabetes",
+              "operator": "==",
+              "value": true
+            },
+            {
+              "field": "prior_revascularization",
+              "operator": "==",
+              "value": true
+            }
+          ],
+          "minimum_matches": 1,
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00699998_EXC_PRIOR_PROCEDURE",
+          "scope": "trial_eligibility",
+          "criterion_type": "exclusion",
+          "rule_type": "numeric_exclusion",
+          "parameter": "days_since_pci_or_cabg",
+          "field_path": "protocol_facts.days_since_pci_or_cabg",
+          "operator": "<",
+          "threshold": 30,
+          "unit": "days",
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00699998_EXC_STEMI",
+          "scope": "trial_eligibility",
+          "criterion_type": "exclusion",
+          "rule_type": "exact_exclusion",
+          "parameter": "stemi_index_event",
+          "field_path": "protocol_facts.stemi_index_event",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00699998_EXC_NYHA_IV",
+          "scope": "trial_eligibility",
+          "criterion_type": "exclusion",
+          "rule_type": "exact_exclusion",
+          "parameter": "nyha_class_iv_within_24h",
+          "field_path": "protocol_facts.nyha_class_iv_within_24h",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00699998_EXC_DIALYSIS",
+          "scope": "trial_eligibility",
+          "criterion_type": "exclusion",
+          "rule_type": "exclusion_any",
+          "parameter": "dialysis",
+          "field_path": "medical_history",
+          "disallowed_values": [
+            "hemodialysis",
+            "peritoneal dialysis"
+          ],
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        }
+      ]
+    },
+
+
+    "NCT00781573": {
+
+      "name": "SCORE",
+      "support_level": "PARTIAL",
+      "rules_available": true,
+      "rag_available": true,
+
+      "eligibility_logic": {
+        "type": "AND",
+        "inclusion_required": "ALL",
+        "exclusion_trigger": "ANY"
+      },
+
+      "rules": [
+
+        {
+          "rule_id": "NCT00781573_INC_DES",
+          "criterion_type": "inclusion",
+          "rule_type": "exact_match",
+          "parameter": "received_des",
+          "field_path": "protocol_facts.received_des",
+          "expected": true,
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00781573_INC_FOLLOWUP",
+          "criterion_type": "inclusion",
+          "rule_type": "numeric_range",
+          "parameter": "months_post_pci_followup",
+          "field_path": "protocol_facts.months_post_pci_followup",
+          "min": 9,
+          "max": 15,
+          "unit": "months",
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00781573_INC_EVENT_FREE",
+          "criterion_type": "inclusion",
+          "rule_type": "compound",
+          "parameter": "event_free_followup",
+          "conditions": [
+            {
+              "field": "mi_during_followup",
+              "operator": "==",
+              "value": false
+            },
+            {
+              "field": "repeat_revascularization_during_followup",
+              "operator": "==",
+              "value": false
+            }
+          ],
+          "operator": "AND",
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00781573_INC_DAPT",
+          "criterion_type": "inclusion",
+          "rule_type": "compound",
+          "parameter": "continued_dapt",
+          "conditions": [
+            {
+              "field": "aspirin_current",
+              "operator": "==",
+              "value": true
+            },
+            {
+              "field": "clopidogrel_current",
+              "operator": "==",
+              "value": true
+            }
+          ],
+          "operator": "AND",
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00781573_INC_CONSENT",
+          "criterion_type": "inclusion",
+          "rule_type": "exact_match",
+          "parameter": "consent_capacity",
+          "field_path": "consent_capacity",
+          "expected": true,
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00781573_EXC_ASPIRIN_ALLERGY",
+          "criterion_type": "exclusion",
+          "rule_type": "exclusion_any",
+          "parameter": "aspirin_allergy",
+          "field_path": "allergies",
+          "disallowed_values": [
+            "aspirin"
+          ],
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00781573_EXC_CLOPIDOGREL_ALLERGY",
+          "criterion_type": "exclusion",
+          "rule_type": "exclusion_any",
+          "parameter": "clopidogrel_allergy",
+          "field_path": "allergies",
+          "disallowed_values": [
+            "clopidogrel"
+          ],
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00781573_EXC_WARFARIN",
+          "criterion_type": "exclusion",
+          "rule_type": "exclusion_any",
+          "parameter": "warfarin",
+          "field_path": "medications",
+          "disallowed_values": [
+            "warfarin"
+          ],
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00781573_EXC_PLATELETS",
+          "criterion_type": "exclusion",
+          "rule_type": "numeric_exclusion",
+          "parameter": "platelets",
+          "field_path": "lab_results.platelets",
+          "operator": "<",
+          "threshold": 100000,
+          "unit": "/uL",
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00781573_EXC_BLEEDING_DIATHESIS",
+          "criterion_type": "exclusion",
+          "rule_type": "exact_exclusion",
+          "parameter": "bleeding_diathesis_or_coagulopathy",
+          "field_path": "medical_history.bleeding_diathesis_or_coagulopathy",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00781573_EXC_PREGNANCY",
+          "criterion_type": "exclusion",
+          "rule_type": "exact_exclusion",
+          "parameter": "pregnancy",
+          "field_path": "reproductive_status.pregnant",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        }
+      ]
+    },
+
+
+    "NCT00809965": {
+
+      "name": "ATLAS ACS 2-TIMI 51",
+      "support_level": "PARTIAL",
+      "rules_available": true,
+      "rag_available": true,
+
+      "eligibility_logic": {
+        "type": "AND",
+        "inclusion_required": "ALL",
+        "exclusion_trigger": "ANY"
+      },
+
+      "rules": [
+
+        {
+          "rule_id": "NCT00809965_INC_AGE",
+          "criterion_type": "inclusion",
+          "rule_type": "numeric_range",
+          "parameter": "age",
+          "field_path": "demographics.age",
+          "min": 18,
+          "unit": "years",
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00809965_INC_ANTIPLATELET",
+          "criterion_type": "inclusion",
+          "rule_type": "inclusion_any",
+          "parameter": "aspirin_or_thienopyridine",
+          "field_path": "medications",
+          "required_values": [
+            "aspirin",
+            "clopidogrel",
+            "prasugrel",
+            "ticagrelor"
+          ],
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00809965_INC_RECENT_ACS",
+          "criterion_type": "inclusion",
+          "rule_type": "numeric_range",
+          "parameter": "recent_acs",
+          "field_path": "protocol_facts.hours_since_acs_hospitalization",
+          "max": 48,
+          "unit": "hours",
+          "action": "REQUIRE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00809965_EXC_ANTICOAGULANT_NEED",
+          "criterion_type": "exclusion",
+          "rule_type": "exact_exclusion",
+          "parameter": "requires_continued_anticoagulation",
+          "field_path": "protocol_facts.requires_continued_anticoagulation",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00809965_EXC_RENAL_LIVER",
+          "criterion_type": "exclusion",
+          "rule_type": "clinical_condition_exclusion",
+          "parameter": "significant_renal_or_liver_disease",
+          "field_path": "medical_history",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        },
+
+        {
+          "rule_id": "NCT00809965_EXC_BLEEDING_RISK",
+          "criterion_type": "exclusion",
+          "rule_type": "clinical_condition_exclusion",
+          "parameter": "unacceptable_bleeding_risk",
+          "field_path": "protocol_facts.unacceptable_bleeding_risk",
+          "disallowed_value": true,
+          "action": "EXCLUDE",
+          "evidence_required": true,
+          "severity": "HARD"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,32 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	guardrail_1(guardrail_1)
+	data_resupply(data_resupply)
+	max_iterations_exceeded(max_iterations_exceeded)
+	guardrail_2(guardrail_2)
+	short_circuit(short_circuit)
+	clinical_trial_status_check(clinical_trial_status_check)
+	parallel_processing_fan_out(parallel_processing_fan_out)
+	protocol_adjudication(protocol_adjudication)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> guardrail_1;
+	clinical_trial_status_check -.-> parallel_processing_fan_out;
+	clinical_trial_status_check -. &nbsp;short_circuit_node&nbsp; .-> short_circuit;
+	data_resupply --> guardrail_1;
+	guardrail_1 -. &nbsp;missing_data_request&nbsp; .-> data_resupply;
+	guardrail_1 -.-> guardrail_2;
+	guardrail_1 -.-> max_iterations_exceeded;
+	guardrail_2 -.-> clinical_trial_status_check;
+	guardrail_2 -. &nbsp;short_circuit_node&nbsp; .-> short_circuit;
+	parallel_processing_fan_out --> protocol_adjudication;
+	max_iterations_exceeded --> __end__;
+	protocol_adjudication --> __end__;
+	short_circuit --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc

@@ -1,0 +1,36 @@
+[project]
+name = "techquest-agent-compliance"
+version = "0.1.0"
+description = "A2A Compliance Agent service for TrialGuard clinical trial protocol evaluation"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "starlette>=0.37.0",
+    "uvicorn[standard]>=0.30.0",
+    "openai>=1.30.0",
+    "pydantic>=2.7.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.31.0",
+    "httpx>=0.27.0",
+    "fastapi>=0.111.0",
+    "protobuf>=4.25.0",
+    "shared-schemas",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["*"]
+exclude = ["tests*", "__pycache__*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

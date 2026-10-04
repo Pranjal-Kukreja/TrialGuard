@@ -1,0 +1,677 @@
+{
+  "schema_version": "3.0",
+  "patient_id": "P001",
+  "trials": {
+    "NCT02415400": {
+      "trial_id": "NCT02415400",
+      "trial_name": "AUGUSTUS",
+      "support_level": "FULL",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "reason": "One or more required criteria could not be determined from available evidence.",
+      "summary": {
+        "total_rules": 10,
+        "inclusion_rules": 5,
+        "exclusion_rules": 5,
+        "pass": 2,
+        "fail": 0,
+        "unknown": 8
+      },
+      "rule_results": [
+        {
+          "rule_id": "NCT02415400_INC_AGE",
+          "rule_type": "numeric_range",
+          "criterion_type": "inclusion",
+          "parameter": "age",
+          "field_path": "demographics.age",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "PASS",
+          "reason": "Numeric range requirement satisfied.",
+          "observed": 67,
+          "expected": {
+            "min": 18,
+            "max": null,
+            "unit": "years"
+          }
+        },
+        {
+          "rule_id": "NCT02415400_INC_NVAF",
+          "rule_type": "exact_match",
+          "criterion_type": "inclusion",
+          "parameter": "non_valvular_af_or_flutter",
+          "field_path": "medical_history.non_valvular_af_or_flutter",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Required evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT02415400_INC_ORAL_ANTICOAG",
+          "rule_type": "exact_match",
+          "criterion_type": "inclusion",
+          "parameter": "planned_or_existing_oral_anticoagulation",
+          "field_path": "protocol_facts.planned_or_existing_oral_anticoagulation",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Required evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT02415400_INC_RECENT_ACS_OR_PCI",
+          "rule_type": "numeric_window_any",
+          "criterion_type": "inclusion",
+          "parameter": "recent_acs_or_pci",
+          "field_path": "protocol_facts",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "No condition was confirmed and one or more conditions lack evidence.",
+          "observed": null,
+          "expected": null,
+          "condition_results": [
+            {
+              "field": "days_since_acs",
+              "resolved_path": "protocol_facts.days_since_acs",
+              "operator": "<=",
+              "expected": 14,
+              "observed": null,
+              "state": "UNKNOWN"
+            },
+            {
+              "field": "days_since_pci",
+              "resolved_path": "protocol_facts.days_since_pci",
+              "operator": "<=",
+              "expected": 14,
+              "observed": null,
+              "state": "UNKNOWN"
+            }
+          ]
+        },
+        {
+          "rule_id": "NCT02415400_INC_P2Y12",
+          "rule_type": "exact_match",
+          "criterion_type": "inclusion",
+          "parameter": "planned_p2y12_inhibitor",
+          "field_path": "protocol_facts.planned_p2y12_inhibitor",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Required evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT02415400_EXC_SEVERE_RENAL",
+          "rule_type": "numeric_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "creatinine_clearance",
+          "field_path": "lab_results.creatinine_clearance",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "PASS",
+          "reason": "Exclusion criterion not triggered.",
+          "observed": {
+            "value": 42,
+            "unit": "mL/min"
+          },
+          "expected": {
+            "operator": "<",
+            "threshold": 30,
+            "unit": "mL/min"
+          }
+        },
+        {
+          "rule_id": "NCT02415400_EXC_ICH",
+          "rule_type": "exact_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "history_intracranial_hemorrhage",
+          "field_path": "medical_history.history_intracranial_hemorrhage",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Exclusion evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT02415400_EXC_CABG",
+          "rule_type": "exact_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "recent_or_planned_cabg",
+          "field_path": "protocol_facts.recent_or_planned_cabg",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Exclusion evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT02415400_EXC_BLEEDING",
+          "rule_type": "exact_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "ongoing_bleeding_or_coagulopathy",
+          "field_path": "medical_history.ongoing_bleeding_or_coagulopathy",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Exclusion evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT02415400_EXC_DRUG_CONTRAINDICATION",
+          "rule_type": "exact_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "contraindication_to_study_antithrombotic_therapy",
+          "field_path": "protocol_facts.contraindication_to_vka_apixaban_p2y12_or_aspirin",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Exclusion evidence is missing.",
+          "observed": null,
+          "expected": true
+        }
+      ]
+    },
+    "NCT00699998": {
+      "trial_id": "NCT00699998",
+      "trial_name": "TRILOGY ACS",
+      "support_level": "PARTIAL",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "reason": "One or more required criteria could not be determined from available evidence.",
+      "summary": {
+        "total_rules": 7,
+        "inclusion_rules": 3,
+        "exclusion_rules": 4,
+        "pass": 1,
+        "fail": 0,
+        "unknown": 6
+      },
+      "rule_results": [
+        {
+          "rule_id": "NCT00699998_INC_EVENT_TIME",
+          "rule_type": "numeric_range",
+          "criterion_type": "inclusion",
+          "parameter": "days_since_ua_nstemi_index_event",
+          "field_path": "protocol_facts.days_since_ua_nstemi_index_event",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Required numeric evidence is missing.",
+          "observed": null,
+          "expected": null
+        },
+        {
+          "rule_id": "NCT00699998_INC_MED_MGMT",
+          "rule_type": "exact_match",
+          "criterion_type": "inclusion",
+          "parameter": "medical_management_strategy_decided",
+          "field_path": "protocol_facts.medical_management_strategy_decided",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Required evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT00699998_INC_HIGH_RISK_FEATURE",
+          "rule_type": "inclusion_any",
+          "criterion_type": "inclusion",
+          "parameter": "high_risk_features",
+          "field_path": "protocol_facts",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "PASS",
+          "reason": "1 condition(s) matched; 1 required.",
+          "observed": null,
+          "expected": null,
+          "condition_results": [
+            {
+              "field": "age",
+              "operator": ">",
+              "expected": 60,
+              "observed": 67,
+              "state": "PASS"
+            },
+            {
+              "field": "prior_mi",
+              "operator": "==",
+              "expected": true,
+              "observed": null,
+              "state": "UNKNOWN"
+            },
+            {
+              "field": "diabetes",
+              "operator": "==",
+              "expected": true,
+              "observed": null,
+              "state": "UNKNOWN"
+            },
+            {
+              "field": "prior_revascularization",
+              "operator": "==",
+              "expected": true,
+              "observed": null,
+              "state": "UNKNOWN"
+            }
+          ]
+        },
+        {
+          "rule_id": "NCT00699998_EXC_PRIOR_PROCEDURE",
+          "rule_type": "numeric_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "days_since_pci_or_cabg",
+          "field_path": "protocol_facts.days_since_pci_or_cabg",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Exclusion evidence is missing.",
+          "observed": null,
+          "expected": {
+            "operator": "<",
+            "threshold": 30,
+            "unit": "days"
+          }
+        },
+        {
+          "rule_id": "NCT00699998_EXC_STEMI",
+          "rule_type": "exact_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "stemi_index_event",
+          "field_path": "protocol_facts.stemi_index_event",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Exclusion evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT00699998_EXC_NYHA_IV",
+          "rule_type": "exact_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "nyha_class_iv_within_24h",
+          "field_path": "protocol_facts.nyha_class_iv_within_24h",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Exclusion evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT00699998_EXC_DIALYSIS",
+          "rule_type": "exclusion_any",
+          "criterion_type": "exclusion",
+          "parameter": "dialysis",
+          "field_path": "medical_history",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Collection evidence for exclusion is missing.",
+          "observed": null,
+          "expected": [
+            "hemodialysis",
+            "peritoneal dialysis"
+          ]
+        }
+      ]
+    },
+    "NCT00781573": {
+      "trial_id": "NCT00781573",
+      "trial_name": "SCORE",
+      "support_level": "PARTIAL",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "reason": "One or more required criteria could not be determined from available evidence.",
+      "summary": {
+        "total_rules": 11,
+        "inclusion_rules": 5,
+        "exclusion_rules": 6,
+        "pass": 4,
+        "fail": 0,
+        "unknown": 7
+      },
+      "rule_results": [
+        {
+          "rule_id": "NCT00781573_INC_DES",
+          "rule_type": "exact_match",
+          "criterion_type": "inclusion",
+          "parameter": "received_des",
+          "field_path": "protocol_facts.received_des",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Required evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT00781573_INC_FOLLOWUP",
+          "rule_type": "numeric_range",
+          "criterion_type": "inclusion",
+          "parameter": "months_post_pci_followup",
+          "field_path": "protocol_facts.months_post_pci_followup",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Required numeric evidence is missing.",
+          "observed": null,
+          "expected": null
+        },
+        {
+          "rule_id": "NCT00781573_INC_EVENT_FREE",
+          "rule_type": "compound",
+          "criterion_type": "inclusion",
+          "parameter": "event_free_followup",
+          "field_path": null,
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "One or more compound AND conditions lack evidence.",
+          "observed": null,
+          "expected": null,
+          "condition_results": [
+            {
+              "field": "mi_during_followup",
+              "operator": "==",
+              "expected": false,
+              "observed": null,
+              "state": "UNKNOWN"
+            },
+            {
+              "field": "repeat_revascularization_during_followup",
+              "operator": "==",
+              "expected": false,
+              "observed": null,
+              "state": "UNKNOWN"
+            }
+          ]
+        },
+        {
+          "rule_id": "NCT00781573_INC_DAPT",
+          "rule_type": "compound",
+          "criterion_type": "inclusion",
+          "parameter": "continued_dapt",
+          "field_path": null,
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "One or more compound AND conditions lack evidence.",
+          "observed": null,
+          "expected": null,
+          "condition_results": [
+            {
+              "field": "aspirin_current",
+              "operator": "==",
+              "expected": true,
+              "observed": null,
+              "state": "UNKNOWN"
+            },
+            {
+              "field": "clopidogrel_current",
+              "operator": "==",
+              "expected": true,
+              "observed": null,
+              "state": "UNKNOWN"
+            }
+          ]
+        },
+        {
+          "rule_id": "NCT00781573_INC_CONSENT",
+          "rule_type": "exact_match",
+          "criterion_type": "inclusion",
+          "parameter": "consent_capacity",
+          "field_path": "consent_capacity",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Required evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT00781573_EXC_ASPIRIN_ALLERGY",
+          "rule_type": "exclusion_any",
+          "criterion_type": "exclusion",
+          "parameter": "aspirin_allergy",
+          "field_path": "allergies",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "PASS",
+          "reason": "No disallowed values were found.",
+          "observed": [
+            "penicillin"
+          ],
+          "expected": [
+            "aspirin"
+          ]
+        },
+        {
+          "rule_id": "NCT00781573_EXC_CLOPIDOGREL_ALLERGY",
+          "rule_type": "exclusion_any",
+          "criterion_type": "exclusion",
+          "parameter": "clopidogrel_allergy",
+          "field_path": "allergies",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "PASS",
+          "reason": "No disallowed values were found.",
+          "observed": [
+            "penicillin"
+          ],
+          "expected": [
+            "clopidogrel"
+          ]
+        },
+        {
+          "rule_id": "NCT00781573_EXC_WARFARIN",
+          "rule_type": "exclusion_any",
+          "criterion_type": "exclusion",
+          "parameter": "warfarin",
+          "field_path": "medications",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "PASS",
+          "reason": "No disallowed values were found.",
+          "observed": [
+            "aspirin",
+            "clopidogrel"
+          ],
+          "expected": [
+            "warfarin"
+          ]
+        },
+        {
+          "rule_id": "NCT00781573_EXC_PLATELETS",
+          "rule_type": "numeric_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "platelets",
+          "field_path": "lab_results.platelets",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Exclusion evidence is missing.",
+          "observed": null,
+          "expected": {
+            "operator": "<",
+            "threshold": 100000,
+            "unit": "/uL"
+          }
+        },
+        {
+          "rule_id": "NCT00781573_EXC_BLEEDING_DIATHESIS",
+          "rule_type": "exact_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "bleeding_diathesis_or_coagulopathy",
+          "field_path": "medical_history.bleeding_diathesis_or_coagulopathy",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Exclusion evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT00781573_EXC_PREGNANCY",
+          "rule_type": "exact_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "pregnancy",
+          "field_path": "reproductive_status.pregnant",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "PASS",
+          "reason": "Disallowed value is not present.",
+          "observed": false,
+          "expected": true
+        }
+      ]
+    },
+    "NCT00809965": {
+      "trial_id": "NCT00809965",
+      "trial_name": "ATLAS ACS 2-TIMI 51",
+      "support_level": "PARTIAL",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "reason": "One or more required criteria could not be determined from available evidence.",
+      "summary": {
+        "total_rules": 6,
+        "inclusion_rules": 3,
+        "exclusion_rules": 3,
+        "pass": 2,
+        "fail": 0,
+        "unknown": 4
+      },
+      "rule_results": [
+        {
+          "rule_id": "NCT00809965_INC_AGE",
+          "rule_type": "numeric_range",
+          "criterion_type": "inclusion",
+          "parameter": "age",
+          "field_path": "demographics.age",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "PASS",
+          "reason": "Numeric range requirement satisfied.",
+          "observed": 67,
+          "expected": {
+            "min": 18,
+            "max": null,
+            "unit": "years"
+          }
+        },
+        {
+          "rule_id": "NCT00809965_INC_ANTIPLATELET",
+          "rule_type": "inclusion_any",
+          "criterion_type": "inclusion",
+          "parameter": "aspirin_or_thienopyridine",
+          "field_path": "medications",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "PASS",
+          "reason": "At least one required value is present.",
+          "observed": [
+            "aspirin",
+            "clopidogrel"
+          ],
+          "expected": [
+            "aspirin",
+            "clopidogrel",
+            "prasugrel",
+            "ticagrelor"
+          ]
+        },
+        {
+          "rule_id": "NCT00809965_INC_RECENT_ACS",
+          "rule_type": "numeric_range",
+          "criterion_type": "inclusion",
+          "parameter": "recent_acs",
+          "field_path": "protocol_facts.hours_since_acs_hospitalization",
+          "action": "REQUIRE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Required numeric evidence is missing.",
+          "observed": null,
+          "expected": null
+        },
+        {
+          "rule_id": "NCT00809965_EXC_ANTICOAGULANT_NEED",
+          "rule_type": "exact_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "requires_continued_anticoagulation",
+          "field_path": "protocol_facts.requires_continued_anticoagulation",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Exclusion evidence is missing.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT00809965_EXC_RENAL_LIVER",
+          "rule_type": "clinical_condition_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "significant_renal_or_liver_disease",
+          "field_path": "medical_history",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Clinical condition evidence is missing at medical_history.significant_renal_or_liver_disease.",
+          "observed": null,
+          "expected": true
+        },
+        {
+          "rule_id": "NCT00809965_EXC_BLEEDING_RISK",
+          "rule_type": "clinical_condition_exclusion",
+          "criterion_type": "exclusion",
+          "parameter": "unacceptable_bleeding_risk",
+          "field_path": "protocol_facts.unacceptable_bleeding_risk",
+          "action": "EXCLUDE",
+          "severity": "HARD",
+          "evidence_required": true,
+          "state": "UNKNOWN",
+          "reason": "Clinical condition evidence is missing at protocol_facts.unacceptable_bleeding_risk.",
+          "observed": null,
+          "expected": true
+        }
+      ]
+    }
+  }
+}

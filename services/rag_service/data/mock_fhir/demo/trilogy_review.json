@@ -1,0 +1,14 @@
+{
+  "patient_id": "TRILOGY_REVIEW_01",
+  "medical_history": [],
+  "protocol_facts": {
+    "days_since_ua_nstemi_index_event": 5,
+    "age": 67,
+    "prior_mi": false,
+    "diabetes": false,
+    "prior_revascularization": false,
+    "days_since_pci_or_cabg": 60,
+    "stemi_index_event": false,
+    "nyha_class_iv_within_24h": false
+  }
+}

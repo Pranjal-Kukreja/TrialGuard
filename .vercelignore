@@ -1,0 +1,39 @@
+# Ignore all backend services, python environments, and vector stores
+services/
+packages/
+apps/agent*
+apps/gateway/
+apps/orchestrator/
+*.py
+*.lock
+uv.lock
+requirements.txt
+pyproject.toml
+.venv/
+env/
+venv/
+__pycache__/
+
+# Vector databases, chunks, datasets
+**/vector_db/**
+**/chroma/**
+**/chunks/**
+**/*.jsonl
+**/*.bin
+**/*.pickle
+**/*.sqlite3
+
+# Secrets & local env files (managed via Vercel dashboard / CLI)
+.env
+.env.*
+!.env.example
+
+# Diagrams & logs
+*.png
+*.mmd
+*.log
+**/agent_io_trace.txt
+.ipynb_checkpoints
+.virtual_documents
+*.tsbuildinfo
+.next/

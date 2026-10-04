@@ -1,0 +1,54 @@
+{
+  "patient_id": "P001",
+  "age": 67,
+  "sex": "male",
+  "weight": 75,
+  "diagnoses": [
+    "non-valvular atrial fibrillation",
+    "coronary artery disease"
+  ],
+  "medications": [
+    "aspirin",
+    "clopidogrel"
+  ],
+  "allergies": [
+    "penicillin"
+  ],
+  "lab_results": {
+    "ALT": 4.1,
+    "AST": 2.0,
+    "eGFR": 42,
+    "serum_creatinine": {
+      "value": 1.2,
+      "unit": "mg/dL"
+    },
+    "creatinine_clearance": {
+      "value": 42,
+      "unit": "mL/min"
+    }
+  },
+  "vital_signs": {
+    "heart_rate": 78,
+    "blood_pressure_systolic": 130
+  },
+  "medical_history": [
+    "previous bleeding event"
+  ],
+  "current_symptoms": [],
+  "protocol_facts": {
+    "oral_anticoagulation_required": true,
+    "acs_pathway": false,
+    "pci_pathway": true,
+    "days_since_PCI": 7,
+    "planned_p2y12_duration": 6,
+    "history_of_intracranial_hemorrhage": false,
+    "ongoing_bleeding": false,
+    "known_coagulopathy": false,
+    "cabg_for_index_acs": false,
+    "other_condition_requiring_chronic_anticoagulation": false,
+    "drug_contraindication": [],
+    "pregnant": false,
+    "breastfeeding": false,
+    "woman_of_childbearing_potential": false
+  }
+}

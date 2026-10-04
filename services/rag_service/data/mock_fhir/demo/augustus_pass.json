@@ -1,0 +1,25 @@
+{
+  "patient_id": "AUGUSTUS_PASS_01",
+  "demographics": {
+    "age": 67
+  },
+  "medical_history": {
+    "non_valvular_af_or_flutter": true,
+    "history_intracranial_hemorrhage": false,
+    "ongoing_bleeding_or_coagulopathy": false
+  },
+  "lab_results": {
+    "creatinine_clearance": {
+      "value": 42,
+      "unit": "mL/min"
+    }
+  },
+  "protocol_facts": {
+    "planned_or_existing_oral_anticoagulation": true,
+    "days_since_acs": 7,
+    "days_since_pci": null,
+    "planned_p2y12_inhibitor": true,
+    "recent_or_planned_cabg": false,
+    "contraindication_to_vka_apixaban_p2y12_or_aspirin": false
+  }
+}

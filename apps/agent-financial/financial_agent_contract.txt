@@ -1,0 +1,88 @@
+TRIALGUARD — FINANCIAL & COVERAGE AGENT — INTERFACE CONTRACT
+============================================================
+(For the Client Agent / Orchestrator developer. Everything you
+need to invoke the Financial Agent is documented below.)
+
+
+1. HOW TO REACH IT
+-------------------
+Base URL:        http://127.0.0.1:8003/     (configurable via FINANCIAL_FASTAPI_PORT)
+Protocol:        A2A (Agent-to-Agent), JSON-RPC 2.0 over HTTP
+Method to call:  "SendMessage" (or "evaluate_financial")
+Agent discovery: GET http://127.0.0.1:8003/.well-known/agent-card.json
+
+
+2. REQUEST SHAPE (what you send)
+---------------------------------
+POST to http://127.0.0.1:8003/ or http://127.0.0.1:8003/rpc:
+
+{
+  "jsonrpc": "2.0",
+  "id": "<unique-uuid>",
+  "method": "SendMessage",
+  "params": {
+    "message": {
+      "messageId": "<unique-uuid>",
+      "role": "ROLE_USER",
+      "parts": [
+        { "text": "<JSON-STRINGIFIED financial input — see section 3>" }
+      ]
+    }
+  }
+}
+
+Headers required:
+  Content-Type: application/json
+  A2A-Version: 1.0
+
+
+3. FINANCIAL INPUT SCHEMA (what goes inside parts[0].text)
+----------------------------------------------------------
+{
+  "trial_id": "string",
+  "recent_action": {
+    "drug": "string",
+    "dosage": "string",
+    "frequency": "string",
+    "route": "string",
+    "raw_text": "string"
+  },
+  "financial_context": {
+    "payer_id": "string",
+    "insurance_plan": "string",
+    "coverage_tier": "string",
+    "has_preauth": boolean
+  },
+  "relevant_policies": [
+    {
+      "policy_id": "string",
+      "section": "string",
+      "text": "string"
+    }
+  ],
+  "report_history": []
+}
+
+⚠️ STRICT PHI GUARDRAIL:
+DO NOT include "patient_id", "patient", "patient_data", "dob", or "ssn".
+The Financial Agent explicitly rejects requests containing demographic identifiers.
+
+
+4. FINANCIAL OUTPUT SCHEMA (what you get back in task artifacts)
+-----------------------------------------------------------------
+{
+  "iteration": number,
+  "coverage_status": "COVERED" | "NOT_COVERED" | "REQUIRES_PRE_AUTH",
+  "pre_auth_required": boolean,
+  "sponsor_billing_eligible": boolean,
+  "tier": "string",
+  "exceptions": [
+    {
+      "billing_code": "string",
+      "procedure": "string",
+      "coverage_status": "string",
+      "reason": "string"
+    }
+  ],
+  "explanation": "string"
+}

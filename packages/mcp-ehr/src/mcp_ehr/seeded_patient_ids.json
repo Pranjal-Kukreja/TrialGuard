@@ -1,0 +1,246 @@
+{
+  "P001": {
+    "fhir_id": "138792165",
+    "name": "Swaminathan",
+    "cohort": "Cohort B - Renal Stratification"
+  },
+  "P002": {
+    "fhir_id": "138792182",
+    "name": "Sneha Deshpande",
+    "cohort": "Cohort A - Standard Protocol"
+  },
+  "P003": {
+    "fhir_id": "138792240",
+    "name": "Gurpreet Kaur Sandhu",
+    "cohort": "Cohort B - NAFLD Protocol"
+  },
+  "P004": {
+    "fhir_id": "138792211",
+    "name": "Kavita Shekhawat",
+    "cohort": "Cohort C - Solid Tumor Oncology"
+  },
+  "P005": {
+    "fhir_id": "138792202",
+    "name": "Ravi Paswan",
+    "cohort": "Cohort B - Renal Stratification"
+  },
+  "P006": {
+    "fhir_id": "138792391",
+    "name": "Yarlagadda Surya Narayana",
+    "cohort": "Cohort A - Standard Protocol"
+  },
+  "P007": {
+    "fhir_id": "138792261",
+    "name": "Monalisha Hazarika",
+    "cohort": "Cohort B - NAFLD Protocol"
+  },
+  "P008": {
+    "fhir_id": "138792279",
+    "name": "Smita Bandyopadhyay",
+    "cohort": "Cohort C - Solid Tumor Oncology"
+  },
+  "P009": {
+    "fhir_id": "138792306",
+    "name": "P. N. Menachery",
+    "cohort": "Cohort B - Renal Stratification"
+  },
+  "P010": {
+    "fhir_id": "138792297",
+    "name": "Rohan Deshpande",
+    "cohort": "Cohort A - Standard Protocol"
+  },
+  "P011": {
+    "fhir_id": "138792335",
+    "name": "Jasleen Kaur Bajwa",
+    "cohort": "Cohort B - NAFLD Protocol"
+  },
+  "P012": {
+    "fhir_id": "138792353",
+    "name": "Priya Rathore",
+    "cohort": "Cohort C - Solid Tumor Oncology"
+  },
+  "P014": {
+    "fhir_id": "138792372",
+    "name": "Kondaveeti Anitha",
+    "cohort": "Cohort A - Standard Protocol"
+  },
+  "P015": {
+    "fhir_id": "138792410",
+    "name": "Anjali Borphukan",
+    "cohort": "Cohort B - NAFLD Protocol"
+  },
+  "P016": {
+    "fhir_id": "138792427",
+    "name": "Ananya Bandyopadhyay",
+    "cohort": "Cohort C - Solid Tumor Oncology"
+  },
+  "P017": {
+    "fhir_id": "138792446",
+    "name": "Meenakshi Chettiar",
+    "cohort": "Cohort B - Renal Stratification"
+  },
+  "P018": {
+    "fhir_id": "138792464",
+    "name": "Smita Deshpande",
+    "cohort": "Cohort A - Standard Protocol"
+  },
+  "P019": {
+    "fhir_id": "138792483",
+    "name": "Gurpreet Bajwa",
+    "cohort": "Cohort B - NAFLD Protocol"
+  },
+  "P020": {
+    "fhir_id": "138792501",
+    "name": "Meera Solanki",
+    "cohort": "Cohort C - Solid Tumor Oncology"
+  },
+  "P021": {
+    "fhir_id": "138792529",
+    "name": "Ramesh Kushwaha",
+    "cohort": "Cohort B - Renal Stratification"
+  },
+  "P022": {
+    "fhir_id": "138792559",
+    "name": "Kondaveeti Padma",
+    "cohort": "Cohort A - Standard Protocol"
+  },
+  "P023": {
+    "fhir_id": "138792520",
+    "name": "Mitali Borphukan",
+    "cohort": "Cohort B - NAFLD Protocol"
+  },
+  "P024": {
+    "fhir_id": "138792578",
+    "name": "Smita Bandyopadhyay",
+    "cohort": "Cohort C - Solid Tumor Oncology"
+  },
+  "P025": {
+    "fhir_id": "1728",
+    "name": "Rajesh Paswan",
+    "cohort": "Cohort B - Renal Stratification"
+  },
+  "P026": {
+    "fhir_id": "1710",
+    "name": "Srinidhi Yarlagadda",
+    "cohort": "Cohort B - NAFLD Protocol"
+  },
+  "P027": {
+    "fhir_id": "1691",
+    "name": "Smita Bandyopadhyay",
+    "cohort": "Cohort C - Solid Tumor Oncology"
+  },
+  "P028": {
+    "fhir_id": "1747",
+    "name": "Ramanathan Chettiar",
+    "cohort": "Cohort A - Standard Protocol"
+  },
+  "P029": {
+    "fhir_id": "4201",
+    "name": "Simran Kaur",
+    "cohort": "Cohort B - NAFLD Protocol"
+  },
+  "P030": {
+    "fhir_id": "4202",
+    "name": "Arunoday Saikia",
+    "cohort": "Cohort B - Renal Stratification"
+  },
+  "P031": {
+    "fhir_id": "4182",
+    "name": "Ananya Mahapatra",
+    "cohort": "Cohort C - Solid Tumor Oncology"
+  },
+  "P032": {
+    "fhir_id": "4237",
+    "name": "Ravi Vangapandu",
+    "cohort": "Cohort A - Standard Protocol"
+  },
+  "P038": {
+    "fhir_id": "synthetic-P038",
+    "name": "Ananya Deshmukh",
+    "cohort": "Cohort A - [G1 Ingress Failure] Missing Biological Sex"
+  },
+  "P039": {
+    "fhir_id": "synthetic-P039",
+    "name": "Robert Chen",
+    "cohort": "Cohort B - [G1 Ingress Failure] Missing Patient Age"
+  },
+  "P040": {
+    "fhir_id": "synthetic-P040",
+    "name": "Fatima Al-Mansoor",
+    "cohort": "Cohort C - [G1 Ingress Failure] Missing Age & Sex (21 CFR 312.62)"
+  },
+  "P041": {
+    "fhir_id": "synthetic-P041",
+    "name": "Vikram Malhotra",
+    "cohort": "Cohort B - [G2 Hard Boundary Breach] Catastrophic Renal Collapse"
+  },
+  "P042": {
+    "fhir_id": "synthetic-P042",
+    "name": "Zoe Washington",
+    "cohort": "Cohort B - [G2 Hard Boundary Breach] Severe Hyperbilirubinemia & Liver Collapse"
+  },
+  "P043": {
+    "fhir_id": "synthetic-P043",
+    "name": "Suresh Patel",
+    "cohort": "Cohort C - [G2 Hard Boundary Breach] Severe Agranulocytosis & Marrow Failure"
+  },
+  "P044": {
+    "fhir_id": "synthetic-P044",
+    "name": "Claire Dubois",
+    "cohort": "Cohort A - [RAG Rule Violation] Massive Overdose (60 mg BID)"
+  },
+  "P045": {
+    "fhir_id": "synthetic-P045",
+    "name": "Tariq Mahmoud",
+    "cohort": "Cohort A - [RAG Rule Violation] Acute GI Bleed Washout (8 Days)"
+  },
+  "P046": {
+    "fhir_id": "synthetic-P046",
+    "name": "Devraj Sengupta",
+    "cohort": "Cohort B - [RAG Rule Violation] Renal Trial Floor Exclusion (CrCl 22 mL/min)"
+  },
+  "P047": {
+    "fhir_id": "synthetic-P047",
+    "name": "Hannah Rosen",
+    "cohort": "Cohort C - [RAG Rule Violation] Active Autoimmune Disease Exclusion"
+  },
+  "P048": {
+    "fhir_id": "synthetic-P048",
+    "name": "Carlos Mendoza",
+    "cohort": "Cohort A - [A2A Safety Rejection] Fatal Dual CYP3A4 / P-gp Interaction"
+  },
+  "P049": {
+    "fhir_id": "synthetic-P049",
+    "name": "Aditi Joshi",
+    "cohort": "Cohort C - [A2A Financial Denial] Unapproved Biologic Off-Label Billing ($52,800)"
+  },
+  "P050": {
+    "fhir_id": "synthetic-P050",
+    "name": "Benjamin Sterling",
+    "cohort": "Cohort A - [A2A Multi-Specialist Dissent] Triple Antiplatelet Hemorrhage Hazard & Prior Auth"
+  },
+  "P051": {
+    "fhir_id": "synthetic-P051",
+    "name": "Lakshmi Ramanathan",
+    "cohort": "Cohort A - [All Pass: Unanimous Justified] Standard Atrial Fibrillation"
+  },
+  "P052": {
+    "fhir_id": "synthetic-P052",
+    "name": "Alexander Wright",
+    "cohort": "Cohort C - [All Pass: Unanimous Justified] Solid Tumor Oncology"
+  },
+  "P053": {
+    "fhir_id": "synthetic-P053",
+    "name": "Sneha Kulkarni",
+    "cohort": "Cohort B - [All Pass: Unanimous Justified] Metabolic NAFLD / MASH"
+  },
+  "P054": {
+    "fhir_id": "synthetic-P054",
+    "name": "David Kim",
+    "cohort": "Cohort B - [All Pass: Unanimous Justified] Renal SGLT2i Stratification"
+  },
+  "P013": {
+    "fhir_id": "synthetic-P013",
+    "name": "Kavita Deshmukh"
+  }
+}
