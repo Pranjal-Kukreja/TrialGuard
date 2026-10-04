@@ -3,6 +3,7 @@
 # TrialGuard
 ### Agentic Point-of-Care Validation for Clinical Trials
 
+[![Deployed App](https://img.shields.io/badge/Deployed%20App-techquest--roan.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://techquest-roan.vercel.app)
 [![A2A Protocol](https://img.shields.io/badge/Protocol-A2A%20JSON--RPC%202.0-4285F4?style=for-the-badge)](https://github.com/google/a2a)
 [![LangGraph](https://img.shields.io/badge/Orchestration-LangGraph-FF6F00?style=for-the-badge&logo=langchain&logoColor=white)](https://github.com/langchain-ai/langgraph)
 [![FastMCP](https://img.shields.io/badge/EHR%20Interface-FastMCP%20FHIR%20R4-009688?style=for-the-badge)](https://modelcontextprotocol.io)
@@ -15,9 +16,13 @@
   When a researcher proposes a mid-trial dose change, TrialGuard checks protocol compliance, patient safety, and financial impact, then records what the system advised and what the human decided.
 </p>
 
+<p align="center">
+  Deployed product: <a href="https://techquest-roan.vercel.app">https://techquest-roan.vercel.app</a>
+</p>
+
 </div>
 
->  Research prototype. TrialGuard is a proof of concept built and tested on open-source protocol documents and synthetic patient data. It is not a medical device, has not been clinically validated, and must not be used to make real treatment decisions.
+> Research prototype. TrialGuard is a proof of concept built and tested on open-source protocol documents and synthetic patient data. It is not a medical device, has not been clinically validated, and must not be used to make real treatment decisions.
 
 ---
 
