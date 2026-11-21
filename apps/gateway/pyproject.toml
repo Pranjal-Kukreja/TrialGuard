@@ -17,10 +17,12 @@ dependencies = [
     "langchain-core>=0.3.0",
     "langchain-openai>=0.2.0",
     "shared-schemas",
+    "techquest-mcp-audit",
 ]
 
 [tool.uv.sources]
 shared-schemas = { workspace = true }
+techquest-mcp-audit = { workspace = true }
 
 [tool.setuptools.packages.find]
 where = ["."]

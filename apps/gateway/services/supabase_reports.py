@@ -10,6 +10,7 @@ from pathlib import Path
 from uuid import uuid4
 
 import httpx
+from mcp_audit import seal_record, verify_chain
 
 logger = logging.getLogger(__name__)
 
@@ -77,11 +78,17 @@ def _save_local_report(patient_id: str, report: dict) -> None:
 
 
 def append_final_report(patient_id: str, report: dict) -> dict:
-    finalized_report = {
-        "report_id": str(uuid4()),
-        "saved_at": datetime.now(timezone.utc).isoformat(),
-        **report,
-    }
+    # Each patient's reports form a SHA-256 hash chain; the new record links to the last one.
+    existing_reports = get_final_reports(patient_id)
+    prev_hash = existing_reports[-1].get("hash") if existing_reports else None
+    finalized_report = seal_record(
+        {
+            "report_id": str(uuid4()),
+            "saved_at": datetime.now(timezone.utc).isoformat(),
+            **report,
+        },
+        prev_hash,
+    )
 
     # 1. Always save locally first so the report is NEVER lost
     _save_local_report(patient_id, finalized_report)
@@ -195,3 +202,9 @@ def get_final_reports(patient_id: str) -> list[dict]:
             combined.append(r)
 
     return combined
+
+
+
+def verify_patient_chain(patient_id: str) -> dict:
+    """Recompute the hash chain over a patient's stored reports."""
+    return verify_chain(get_final_reports(patient_id)).as_dict()

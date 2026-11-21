@@ -1,6 +1,6 @@
 """
 TrialGuard 21 CFR Part 11 Adjudication PDF Report Generator.
-Generates an audit-ready, tamper-evident clinical trial adjudication summary.
+Generates an audit-ready clinical trial adjudication summary with the record's SHA-256 chain hash.
 """
 
 import io
@@ -310,7 +310,7 @@ def generate_adjudication_pdf_bytes(report_payload: Dict[str, Any]) -> io.BytesI
 
     story.append(Spacer(1, 14))
 
-    # 6. Immutable Audit Trail (21 CFR Part 11)
+    # 6. Audit trail
     story.append(Paragraph("21 CFR Part 11 Electronic Audit Trail", h2_style))
     if audit_trail:
         trail_rows = [
@@ -344,6 +344,23 @@ def generate_adjudication_pdf_bytes(report_payload: Dict[str, Any]) -> io.BytesI
         story.append(t_trail)
     else:
         story.append(Paragraph("<i>No historical audit trail records present.</i>", cell_style))
+
+    # 7. SHA-256 hash chain status
+    chain = report_payload.get("audit_chain") or {}
+    story.append(Spacer(1, 10))
+    story.append(Paragraph("Audit Hash Chain (SHA-256)", h2_style))
+    if chain.get("hash"):
+        if chain.get("verified"):
+            status = f"Chain verified ({chain.get('length', 0)} record(s))"
+        elif chain.get("verified") is False:
+            status = f"CHAIN BROKEN at record index {chain.get('broken_index')}"
+        else:
+            status = "Not verified"
+        story.append(Paragraph(f"<b>Status:</b> {status}", cell_style))
+        story.append(Paragraph(f"<b>Record hash:</b> <font face='Courier' size='7'>{chain['hash']}</font>", cell_style))
+        story.append(Paragraph(f"<b>Previous hash:</b> <font face='Courier' size='7'>{chain.get('prev_hash')}</font>", cell_style))
+    else:
+        story.append(Paragraph("<i>No sealed report record found for this patient.</i>", cell_style))
 
     doc.build(story)
     buffer.seek(0)

@@ -5,12 +5,15 @@ Updated to synchronize with the complete TrialGuard pipeline:
   - Summarizes multi-agent specialist verdicts (Compliance, Safety, Financial).
   - Reflects refinement loop iterations and chronological history tracking.
   - Normalizes eligibility, final_decision, and confidence parameters.
-  - Formats an immutable 21 CFR Part 11 audit entry into state['audit_logs'].
+  - Seals the final audit entry with a SHA-256 hash and appends it to state['audit_logs'].
+    The entry commits to every earlier audit log of the run via `prior_logs_sha256`.
 """
 
+import hashlib
 import json
 import time
 from typing import Any, Dict, List
+from mcp_audit import canonical_json, seal_record
 from shared_schemas.state import TrialState
 
 
@@ -104,7 +107,7 @@ def complete_audit_node(state: TrialState) -> Dict[str, Any]:
         print(f"\n • Clinician Rationale  : {clinician_notes}")
     print("=" * 75 + "\n")
 
-    # Immutable Audit Log Entry
+    # Final audit entry (sealed below)
     audit_entry: Dict[str, Any] = {
         "timestamp": time.time(),
         "step": "final_audit_sealed",
@@ -127,7 +130,11 @@ def complete_audit_node(state: TrialState) -> Dict[str, Any]:
             "final_safety_status": safe_latest.get("safety_status"),
             "final_financial_status": fin_latest.get("coverage_status"),
         },
+        "prior_logs_sha256": hashlib.sha256(
+            canonical_json(state.get("audit_logs", [])).encode("utf-8")
+        ).hexdigest(),
     }
+    audit_entry = seal_record(audit_entry)
 
     return {
         "final_decision": verdict,

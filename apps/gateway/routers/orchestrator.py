@@ -11,6 +11,8 @@ from collections import defaultdict
 
 from typing import Optional
 
+from mcp_audit import verify_chain
+
 from fastapi import APIRouter, HTTPException, Query, Request, Response
 from fastapi.responses import StreamingResponse
 
@@ -24,7 +26,12 @@ except ImportError:
 
 from services.client_agent import run as run_client_agent
 from services.patient_service import extract_patient_clinical_package, get_all_patients
-from services.supabase_reports import ReportPersistenceError, append_final_report, get_final_reports
+from services.supabase_reports import (
+    ReportPersistenceError,
+    append_final_report,
+    get_final_reports,
+    verify_patient_chain,
+)
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -561,6 +568,17 @@ async def get_reports(patient_id: str) -> dict:
     return {"patientId": patient_id, "reports": reports}
 
 
+@router.get("/api/reports/{patient_id}/verify")
+async def verify_reports(patient_id: str) -> dict:
+    """Recompute the SHA-256 hash chain over a patient's finalized reports."""
+    try:
+        result = verify_patient_chain(patient_id)
+    except Exception as error:
+        logger.warning("Error verifying report chain for %s: %s", patient_id, error)
+        raise HTTPException(status_code=502, detail="Could not load reports to verify")
+    return {"patientId": patient_id, **result}
+
+
 @router.get("/api/reports/{patient_id}/pdf")
 async def download_adjudication_pdf(patient_id: str, decision: Optional[str] = Query(default=None)):
     if generate_adjudication_pdf_bytes is None:
@@ -568,10 +586,12 @@ async def download_adjudication_pdf(patient_id: str, decision: Optional[str] = Q
 
     # 1. Look up finalized saved reports or live HITL package
     latest_report = None
+    chain_check = None
     try:
         saved_reports = get_final_reports(patient_id)
         if saved_reports:
             latest_report = saved_reports[-1]
+            chain_check = verify_chain(saved_reports)
     except Exception:
         pass
 
@@ -680,6 +700,13 @@ async def download_adjudication_pdf(patient_id: str, decision: Optional[str] = Q
         },
         "active_violations": violations,
         "audit_trail": audit_logs,
+        "audit_chain": {
+            "hash": (latest_report or {}).get("hash"),
+            "prev_hash": (latest_report or {}).get("prev_hash"),
+            "verified": chain_check.ok if chain_check else None,
+            "length": chain_check.length if chain_check else 0,
+            "broken_index": chain_check.broken_index if chain_check else None,
+        },
     }
 
     pdf_buffer = generate_adjudication_pdf_bytes(report_payload)

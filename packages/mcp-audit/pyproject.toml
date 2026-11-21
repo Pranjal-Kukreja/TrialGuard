@@ -1,4 +1,13 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "techquest-mcp-audit"
 version = "0.1.0"
+description = "Append-only SHA-256 hash chain for TrialGuard audit records"
 requires-python = ">=3.11"
+dependencies = []
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_audit"]
