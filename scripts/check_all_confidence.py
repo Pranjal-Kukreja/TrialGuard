@@ -1,25 +1,15 @@
+"""Prints verdict, confidence and HITL status for every seeded patient.
+
+Run from the repo root:  uv run python -m scripts.check_all_confidence
+"""
+
 import json
-import sys
 from pathlib import Path
 
-# Add package paths to sys.path so imports resolve cleanly from root
-ROOT_DIR = Path(__file__).resolve().parent
-for p in [
-    ROOT_DIR,
-    ROOT_DIR / "apps" / "orchestrator",
-    ROOT_DIR / "packages" / "mcp-ehr" / "src" / "mcp_ehr",
-    ROOT_DIR / "packages" / "shared-schemas",
-]:
-    if str(p) not in sys.path:
-        sys.path.insert(0, str(p))
+from apps.orchestrator.gateway import prepare_trial_state_from_ui
+from apps.orchestrator.graph import app_graph
 
-try:
-    from gateway import prepare_trial_state_from_ui
-    from graph import app_graph
-except ImportError:
-    from apps.orchestrator.gateway import prepare_trial_state_from_ui
-    from apps.orchestrator.graph import app_graph
-
+ROOT_DIR = Path(__file__).resolve().parents[1]
 JSON_PATH = ROOT_DIR / "packages" / "mcp-ehr" / "src" / "mcp_ehr" / "seeded_patient_ids.json"
 DEFAULT_TRIAL = "NCT02415400"
 

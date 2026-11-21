@@ -1,33 +1,14 @@
-import sys
+"""Renders the LangGraph topology as ASCII, Mermaid (.mmd) and PNG into docs/.
+
+Run from the repo root:  uv run python -m scripts.visualize_graph
+"""
+
 from pathlib import Path
 
-# Resolve workspace layout dynamically
-ROOT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = ROOT_DIR if (ROOT_DIR / "apps").exists() else ROOT_DIR.parents[1]
+from apps.orchestrator.graph import app_graph
 
-# Path injection for monorepo cross-package resolution
-PATHS = [
-    REPO_ROOT,
-    REPO_ROOT / "apps" / "orchestrator",
-    REPO_ROOT / "apps" / "agent_master",
-    REPO_ROOT / "apps" / "agent-master",
-    REPO_ROOT / "packages" / "mcp-ehr" / "src" / "mcp_ehr",
-    REPO_ROOT / "packages" / "mcp-ehr" / "src",
-    REPO_ROOT / "packages" / "shared-schemas",
-]
-
-for p in PATHS:
-    if p.exists() and str(p) not in sys.path:
-        sys.path.insert(0, str(p))
-
-try:
-    from apps.orchestrator.graph import app_graph
-except ImportError:
-    try:
-        from graph import app_graph
-    except ImportError:
-        from apps.orchestrator.graph import build_graph
-        app_graph = build_graph()
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DOCS_DIR = REPO_ROOT / "docs"
 
 
 def main():
@@ -48,7 +29,7 @@ def main():
     # -------------------------------------------------------------------
     # 2. Output Raw Mermaid Definition (.mmd)
     # -------------------------------------------------------------------
-    mmd_path = REPO_ROOT / "orchestrator_graph.mmd"
+    mmd_path = DOCS_DIR / "orchestrator_graph.mmd"
     try:
         mermaid_code = graph_drawable.draw_mermaid()
         mmd_path.write_text(mermaid_code, encoding="utf-8")
@@ -59,7 +40,7 @@ def main():
     # -------------------------------------------------------------------
     # 3. Export Rendered Visual Diagram (.png)
     # -------------------------------------------------------------------
-    out_path = REPO_ROOT / "orchestrator_graph.png"
+    out_path = DOCS_DIR / "orchestrator_graph.png"
     try:
         png_bytes = graph_drawable.draw_mermaid_png()
         out_path.write_bytes(png_bytes)

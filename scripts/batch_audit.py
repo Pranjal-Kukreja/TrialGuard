@@ -1,33 +1,15 @@
+"""Headless batch adjudication: runs every seeded patient through the LangGraph workflow.
+
+Run from the repo root:  uv run python -m scripts.batch_audit
+"""
+
 import json
-import os
-import sys
 from pathlib import Path
-from typing import Any, Dict
 
-# Monorepo path resolution
-ROOT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = ROOT_DIR if (ROOT_DIR / "apps").exists() else ROOT_DIR.parents[1]
+from apps.orchestrator.gateway import prepare_trial_state_from_ui
+from apps.orchestrator.graph import app_graph
 
-PATHS = [
-    REPO_ROOT,
-    REPO_ROOT / "apps" / "orchestrator",
-    REPO_ROOT / "apps" / "agent_master",
-    REPO_ROOT / "packages" / "mcp-ehr" / "src" / "mcp_ehr",
-    REPO_ROOT / "packages" / "mcp-ehr" / "src",
-    REPO_ROOT / "packages" / "shared-schemas",
-]
-
-for p in PATHS:
-    if p.exists() and str(p) not in sys.path:
-        sys.path.insert(0, str(p))
-
-try:
-    from apps.orchestrator.gateway import prepare_trial_state_from_ui
-    from apps.orchestrator.graph import app_graph
-except ImportError:
-    from gateway import prepare_trial_state_from_ui
-    from graph import app_graph
-
+REPO_ROOT = Path(__file__).resolve().parents[1]
 JSON_PATH = REPO_ROOT / "packages" / "mcp-ehr" / "src" / "mcp_ehr" / "seeded_patient_ids.json"
 DEFAULT_TRIAL = "NCT02415400"
 
