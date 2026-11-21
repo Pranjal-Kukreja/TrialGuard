@@ -3,8 +3,8 @@
 # TrialGuard
 ### Agentic Point-of-Care Validation for Clinical Trials
 
-[![Deployed App](https://img.shields.io/badge/Deployed%20App-techquest--roan.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://techquest-roan.vercel.app)
-[![A2A Protocol](https://img.shields.io/badge/Protocol-A2A%20JSON--RPC%202.0-4285F4?style=for-the-badge)](https://github.com/google/a2a)
+[![Live App](https://img.shields.io/badge/Live%20App-techquest--roan.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://techquest-roan.vercel.app)
+[![A2A Protocol](https://img.shields.io/badge/Protocol-A2A%20JSON--RPC%202.0-4285F4?style=for-the-badge)](https://github.com/a2aproject/A2A)
 [![LangGraph](https://img.shields.io/badge/Orchestration-LangGraph-FF6F00?style=for-the-badge&logo=langchain&logoColor=white)](https://github.com/langchain-ai/langgraph)
 [![FastMCP](https://img.shields.io/badge/EHR%20Interface-FastMCP%20FHIR%20R4-009688?style=for-the-badge)](https://modelcontextprotocol.io)
 [![Next.js](https://img.shields.io/badge/Frontend-Next.js%2016-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  Deployed product: <a href="https://techquest-roan.vercel.app">https://techquest-roan.vercel.app</a>
+  Live app: <a href="https://techquest-roan.vercel.app">https://techquest-roan.vercel.app</a>
 </p>
 
 </div>
@@ -41,13 +41,16 @@
 11. [Implementation Status](#implementation-status)
 12. [Installation & Setup](#installation--setup)
 13. [Running TrialGuard](#running-trialguard)
-14. [Evaluator Walkthrough](#evaluator-walkthrough)
-15. [Test Patient Matrix](#test-patient-matrix)
-16. [Audit Trail & Regulatory Alignment](#audit-trail--regulatory-alignment)
-17. [Limitations & Future Work](#limitations--future-work)
-18. [Troubleshooting](#troubleshooting)
-19. [References](#references)
-20. [Team & Acknowledgements](#team--acknowledgements)
+14. [Run the tests](#run-the-tests)
+15. [Evaluator Walkthrough](#evaluator-walkthrough)
+16. [Test Patient Matrix](#test-patient-matrix)
+17. [Audit Trail & Regulatory Alignment](#audit-trail--regulatory-alignment)
+18. [Limitations & Future Work](#limitations--future-work)
+19. [Troubleshooting](#troubleshooting)
+20. [Repository history](#repository-history)
+21. [Team and my contribution](#team-and-my-contribution)
+22. [References](#references)
+23. [Acknowledgements](#acknowledgements)
 
 ---
 
@@ -80,17 +83,17 @@ Our thesis: agent apps can move protocol, safety, and financial checks from some
 TrialGuard steps in at one moment, for one proposed action at a time:
 
 1. A researcher submits a proposed dose change for a patient in a trial.
-2. The system pulls the patient's history (FHIR) and the relevant protocol (RAG, keyed by Trial ID).
-3. Deterministic guardrails check data integrity and hard safety limits before any LLM is called.
-4. Cases that pass fan out to three independent specialist agents (Compliance, Safety, Financial) over the A2A protocol, running in parallel.
-5. A consensus reducer merges their verdicts and detects dissent.
-6. A human-in-the-loop gate lets the researcher Accept, Reject, or Modify.
-7. Every agent output and human decision is written to a tamper-evident audit trail.
+2. The system pulls the patient's record (FHIR-shaped synthetic data) and the relevant protocol evidence, keyed by Trial ID.
+3. Deterministic guardrails check data integrity and hard safety limits.
+4. Three independent specialist agents (Compliance, Safety, Financial) are called in parallel over the A2A protocol.
+5. A reducer merges their verdicts with a deterministic rule and flags dissent.
+6. A human-in-the-loop step lets the researcher Accept, Reject, or Modify.
+7. The decision and the agent results are saved as a report. Each report carries a SHA-256 hash that links it to the previous report for the same patient.
 
 Who uses it
 
 - Researchers and investigators get advice *before* they act.
-- Trial leadership can see which researchers accepted or overrode the system's advice, and how often.
+- The saved reports record what was recommended and what the human decided. A view for trial leadership that aggregates this across researchers is **not built yet** (see [Limitations](#limitations--future-work)).
 
 ---
 
@@ -98,11 +101,11 @@ Who uses it
 
 A trial protocol caps Apixaban at 5 mg twice daily. A researcher proposes 40 mg twice daily for a patient.
 
-- The Compliance Agent retrieves the protocol clause and returns `NON_COMPLIANT`: the dose exceeds the 5 mg cap.
+- The Compliance Agent compares the proposed dose with the protocol clause and returns `NON_COMPLIANT`: the dose exceeds the 5 mg cap.
 - The Safety Agent reads this patient's labs and history and flags patient-specific risk.
-- The Financial Agent checks the proposed order against structured billing data and reports coverage and cost exposure.
+- The Financial Agent checks the proposed order against coverage rules and reports coverage and cost exposure.
 
-The reducer combines these into one recommendation: `NOT_JUSTIFIED`, with a suggested compliant alternative. The researcher can accept the suggestion, reject it and keep the original order, or modify the plan to something in between. Whatever they choose is logged, so anyone reviewing the trial later can see exactly what was recommended and what actually happened.
+The reducer combines these into one recommendation: `NOT_JUSTIFIED`, with a suggested compliant alternative. The researcher can accept the suggestion, reject it and keep the original order, or modify the plan to something in between. Whatever they choose is saved, so anyone reviewing the trial later can see what was recommended and what actually happened.
 
 ---
 
@@ -110,7 +113,7 @@ The reducer combines these into one recommendation: `NOT_JUSTIFIED`, with a sugg
 
 Three reasons drove the choice of agents over a simple rule checker:
 
-1. Protocols are unstructured. Eligibility criteria, safety limits, and dosing rules are written in natural language. Converting them into rigid if-then rules is fragile and means rewriting code whenever a protocol changes. TrialGuard instead treats the protocol as a knowledge source: it is parsed, chunked, embedded, and stored in a vector database. At query time the most relevant clauses are retrieved by semantic similarity and passed to the LLM, which reasons over them alongside the patient's data.
+1. Protocols are unstructured. Eligibility criteria, safety limits, and dosing rules are written in natural language. Converting them into rigid if-then rules is fragile and means rewriting code whenever a protocol changes. TrialGuard instead treats the protocol as a knowledge source: it is parsed, chunked, embedded, and stored in a vector database (`services/rag_service`). At query time the most relevant clauses are retrieved by semantic similarity and passed to the LLM, which reasons over them alongside the patient's data. (See [Implementation Status](#implementation-status) for where this is and is not wired into the running app.)
 
 2. The decision needs three kinds of judgment at once. In practice these questions go to three different people: *is it safe, does it follow the rules, what does it cost?* Splitting the work across three focused agents running in parallel mirrors how a hospital actually does it, in seconds instead of days.
 
@@ -124,11 +127,11 @@ Three reasons drove the choice of agents over a simple rule checker:
        [ EMR / FHIR Ingress ]
                  │
    ┌─────────────▼─────────────┐
-   │ Guardrail-1: Schema/Demo  │ ──(Missing Data)──> [ Self-Healing Resupply Loop ]
+   │ Guardrail-1: Schema/Demo  │ ──(Missing Data)──> [ Resupply Loop / Lockout ]
    └─────────────┬─────────────┘
                  │ (Passed)
    ┌─────────────▼─────────────┐
-   │ Guardrail-2: Safety Floor │ ──(Life-Threatening)─> [ SHORT-CIRCUIT KILLSWITCH ]
+   │ Guardrail-2: Safety Floor │ ──(Life-Threatening)─> [ SHORT-CIRCUIT ]
    └─────────────┬─────────────┘
                  │ (Passed)
    ┌─────────────▼─────────────┐
@@ -142,23 +145,35 @@ Three reasons drove the choice of agents over a simple rule checker:
           │           │                          │
           └───────────┼──────────────────────────┘
                       ▼
-        [ Multi-Agent Consensus Reducer ]
+            [ Consensus Reducer ]
                       │
-            (Dissent / Overdose)
                       ▼
    ┌─────────────────────────────────────┐
-   │ HITL Exception Gate & Clinical LLM  │
+   │ HITL Gate: Accept / Reject / Modify │
    │  - Free-Text Doctor Note Extraction │
-   │  - Fuzzy Spelling Typo Correction   │
+   │  - Typo Correction (synonym list)   │
    │  - 1-Click Protocol Remediation     │
-   │  - Bi-Directional FHIR Sync         │
+   │  - Write-back to local fixtures     │
    └──────────────────┬──────────────────┘
                       │
                       ▼
-          [ SHA-256 Hash-Chained Audit ]
+       [ Saved report + SHA-256 hash chain ]
 ```
 
-### Full LangGraph flow
+This is the design view. The two code paths below implement it differently.
+
+### Two execution paths
+
+**Gateway path (what `start_all.py` and the web app run).** The Next.js app talks to the FastAPI gateway in `apps/gateway`. `services/client_agent.py` extracts the proposed action, calls the three specialists over A2A in parallel (falling back to in-process calls if a specialist service is down), applies the guardrails, runs the reducer, and holds the result for the HITL step. On Accept or Reject, `services/supabase_reports.py` saves the report to local JSON and, if configured, Supabase.
+
+In this path:
+- The protocol evidence passed to the Compliance agent is a small fixed set of clauses per trial (`_simulated_rag_output` in `apps/gateway/routers/orchestrator.py`), not a live vector search.
+- The guardrails are evaluated after the specialists are called, and override their results when they trip.
+- Some demo patients have scripted outcomes keyed by patient ID (`client_agent.py`: P037, P048, P049, P050, and the passing cases P036 and P051–P054). Specialist confidence values and the arbitration confidence are fixed numbers, not computed.
+
+**LangGraph reference path (`apps/orchestrator`).** A LangGraph state machine (`graph.py`) with the guardrails running before the specialists are called, an `interrupt()`-based HITL node (`hitl.py`), a Modify loop back to retrieval, and a Postgres-or-memory checkpointer (`checkpointer.py`). Protocol retrieval uses Chroma when a vector index has been built, and falls back to a rule evaluator otherwise. It runs from `python -m scripts.batch_audit` and the standalone `apps/orchestrator/server.py`. It is **not** wired into the web app. The generated graph is in [`docs/orchestrator_graph.mmd`](docs/orchestrator_graph.mmd) and [`docs/orchestrator_graph.png`](docs/orchestrator_graph.png).
+
+### LangGraph flow (design view)
 
 ```mermaid
 graph TD
@@ -169,7 +184,7 @@ graph TD
     classDef audit fill:#064E3B,stroke:#10B981,stroke-width:2px,color:#fff;
     classDef killswitch fill:#4C0519,stroke:#F43F5E,stroke-width:2px,color:#fff;
 
-    Start([Patient Intake & Prescription Order]):::startEnd --> FHIR[FastMCP EHR Client / Patient Ingress]
+    Start([Patient Intake & Prescription Order]):::startEnd --> FHIR[EHR Client / Patient Ingress]
     FHIR --> RAG[RAG Protocol Retriever ChromaDB]
     RAG --> G1{Guardrail-1: Ingress Integrity}:::guardrail
 
@@ -179,7 +194,7 @@ graph TD
     Lockout --> Audit
 
     G1 -- Valid Demographics --> G2{Guardrail-2: Safety Corridors}:::guardrail
-    G2 -- Critical Lab Violation --> ShortCircuit[Short-Circuit Killswitch: SHORT_CIRCUITED]:::killswitch
+    G2 -- Critical Lab Violation --> ShortCircuit[Short-Circuit: SHORT_CIRCUITED]:::killswitch
     ShortCircuit --> Audit
 
     G2 -- Safe Labs --> StatusCheck[Trial Eligibility & Status Verification]
@@ -190,52 +205,49 @@ graph TD
     Master -->|A2A :8003| FinAgent[Financial & Billing Specialist Agent]:::agent
     Master --> ProtocolAdj[Protocol Rules Adjudication Engine]:::agent
 
-    CompAgent --> Reducer[Multi-Agent Consensus Reducer Node]:::reducer
+    CompAgent --> Reducer[Consensus Reducer Node]:::reducer
     SafeAgent --> Reducer
     FinAgent --> Reducer
     ProtocolAdj --> Reducer
 
     Reducer --> HITL{Consensus Evaluation & Dissent Detection}:::guardrail
-    HITL -- Unanimous Consensus --> Audit[Audit Node: SHA-256 Hash Chain]:::audit
-    HITL -- Dissent / Overdose / Exception --> Drawer[HITL Exception Gate & Clinical LLM Override]
+    HITL -- Unanimous Consensus --> Audit[Audit Node: sealed SHA-256 entry]:::audit
+    HITL -- Dissent / Overdose / Exception --> Drawer[HITL Gate: Accept / Reject / Modify]
 
-    Drawer -- 1-Click Remediation / Confirmed Note --> FHIRSync[Bidirectional FHIR / EHR Synchronization]
-    FHIRSync --> RAG
+    Drawer -- Modify --> RAG
+    Drawer -- Accept / Reject --> Audit
 
     Audit --> Done([Final Adjudication Package & Certificate]):::startEnd
 ```
 
-### Flow in words
-
-A researcher submits a proposed action and patient identifier through the Next.js dashboard to a FastAPI gateway in front of the LangGraph orchestrator. The orchestrator first fetches the patient's history from the FHIR MCP server, then sends the history and proposed action to the RAG MCP service, which uses the Trial ID to pull the relevant protocol out of a ChromaDB vector store. After the guardrails, the master agent dispatches the case to the three A2A specialists, and each sends its answer back to the same master agent, which merges them into one recommendation. A Modify decision loops back to the orchestrator for re-analysis; Accept and Reject both save the full record as evidence of what happened.
-
 ### Monorepo structure
 
 ```
-trialguard/
+TrialGuard/
 ├── apps/
 │   ├── web/                     # Next.js 16 Command Center (React 19, @xyflow/react, Tailwind v4)
-│   ├── gateway/                 # FastAPI Central Gateway & Ingress Router (:8000)
-│   ├── agent-compliance/        # Protocol Compliance Agent Microservice (:8001, A2A)
-│   ├── agent-safety/            # Clinical Safety Specialist Microservice (:8002, A2A)
-│   ├── agent-financial/         # Financial & Billing Specialist Microservice (:8003, A2A)
-│   ├── agent_master/            # A2A Master Client & Dispatcher
-│   └── orchestrator/            # LangGraph State Machine, Nodes, Edges & Report Engine
+│   ├── gateway/                 # FastAPI gateway: ingress, guardrails, reducer, report store (:8000)
+│   ├── agent-compliance/        # Protocol Compliance Agent service (:8001, A2A)
+│   ├── agent-safety/            # Patient Safety Agent service (:8002, A2A)
+│   ├── agent-financial/         # Financial & Coverage Agent service (:8003, A2A)
+│   ├── agent_master/            # A2A master client used by the LangGraph path
+│   └── orchestrator/            # LangGraph state machine, nodes, checkpointer, PDF report generator
 ├── packages/
-│   ├── mcp-ehr/                 # FastMCP FHIR R4 Server & Patient Fixtures
-│   ├── mcp-rag/                 # Protocol Retrieval Integration Stubs
-│   ├── mcp-audit/               # Audit Trail Helpers (hash chain)
-│   └── shared-schemas/          # Pydantic & TypeScript Data Models
+│   ├── mcp-ehr/                 # FastMCP FHIR R4 server, patient fixtures, FHIR client
+│   ├── mcp-audit/               # SHA-256 hash chain for audit records
+│   ├── mcp-rag/                 # Empty placeholder (RAG is a FastAPI service in services/rag_service)
+│   └── shared-schemas/          # Pydantic models and rule definitions (Python only)
 ├── services/
-│   └── rag_service/             # ChromaDB Vector Store & Embedding Pipelines
-├── scripts/
-│   └── seed_comprehensive_patients.py # 17 Synthetic Patient Verification Fixtures
-├── start_all.py                 # Multi-Service Process Orchestrator & Streamer
-├── batch_audit.py               # Headless CLI Batch Adjudication Runner
-├── visualize_graph.py           # LangGraph Topology Visualizer (ASCII, Mermaid, PNG)
-├── pyproject.toml               # Python Workspace Monorepo Configuration
-├── package.json                 # Turborepo Node.js Monorepo Configuration
-└── .env.example                 # Environment Variables Template
+│   └── rag_service/             # FastAPI RAG/rule service: ingestion, Chroma store, embeddings, tests
+├── scripts/                     # seed_comprehensive_patients.py, batch_audit.py, check_all_confidence.py, visualize_graph.py
+├── docs/                        # README_AUDIT.md, generated LangGraph diagram
+├── supabase/migrations/         # SQL for the adjudication_reports column
+├── User Research/               # User_Research.pdf
+├── Market Research/             # Market_Research_final.pdf
+├── start_all.py                 # Starts the web app, gateway and three agent services
+├── pyproject.toml               # uv workspace and pytest config
+├── package.json                 # Turborepo / pnpm workspace
+└── .env.example                 # Environment variable template
 ```
 
 ---
@@ -246,20 +258,20 @@ trialguard/
 
 Each agent is constrained to a specific, checkable source rather than an open-ended prompt.
 
-- Protocol Compliance retrieves verbatim clauses from the trial protocol through the RAG service using explicit Trial-ID metadata filtering. It checks whether a proposed dose escalation or frequency change aligns with the phase schedule and dose-modification rules, and cites the exact page for each detected deviation.
+- Protocol Compliance is given protocol clauses for the trial (by Trial ID) and the proposed action. It checks whether a proposed dose escalation or frequency change aligns with the phase schedule and dose-modification rules. In the running app the clauses are the fixed set described above; the retrieval pipeline that would supply them lives in `services/rag_service`.
 - Patient Safety is given dedicated structured fields (age, weight, kidney and liver lab results, and so on) so it can flag risks specific to *this* patient instead of giving generic advice. It also evaluates drug-drug interactions and toxicity corridors.
-- Financial & Billing does not let the LLM estimate costs, and does not pull numbers out of a free-text budget document through RAG, where context mixing makes mistakes more likely. It reads a structured cost sheet (cost per extra visit, per lab panel, per unit of drug) and applies trial billing policies to determine coverage and patient out-of-pocket exposure, with an explanation.
+- Financial & Billing does not let the LLM decide cost figures. Exposure amounts come from a hard-coded per-drug table in the agent code, and coverage status is overridden by a dose check when the dose is outside the protocol. The LLM only contributes the coverage explanation. There is no external cost-sheet file or billing database; the billing policies named in the output are text in the code.
 
 ### Context isolation
 
-Each specialist only sees what it needs. The Safety agent receives structured EHR data and the proposed action (no protocol text); the Compliance agent receives protocol rules and the action (no patient history).
+Each specialist only sees what it needs. The Safety agent receives structured EHR data and the proposed action (no protocol text); the Compliance agent receives protocol rules and the action (no patient history). The A2A adapter rejects a compliance payload that contains patient data and a safety payload that contains protocol chunks (`apps/gateway/a2a_server.py`), and the Financial agent's payload has patient identifiers stripped before it is sent.
 
 - Independent opinions. In a single monolithic prompt, an agent that sees both datasets can be biased by one against the other, for example inventing safety concerns simply because a protocol is strict. Isolation keeps each assessment independent before consensus.
-- Parallel execution. Because the agents do not depend on each other, the master agent fans out all three concurrently. Latency is bounded by the *slowest* agent, not the sum of all three.
+- Parallel execution. Because the agents do not depend on each other, the three are called concurrently. Latency is bounded by the *slowest* agent, not the sum of all three.
 
 ### Deterministic before probabilistic
 
-Hard clinical limits are enforced in code before any LLM inference. The LLM never gets a vote on catastrophic cases, and no tokens are spent on them.
+Hard clinical limits are checked in code, not by the LLM. In the LangGraph path they run before any specialist is called. In the gateway path they run after the specialists respond and override them, so the LLM never decides a catastrophic case, but tokens are still spent on it.
 
 ### The human stays in charge
 
@@ -269,35 +281,37 @@ The system advises; the researcher decides. Modify exists because clinical decis
 
 ## Core Features
 
-#### 1. A2A Distributed Specialist Consensus
-Instead of a single monolithic prompt, clinical reasoning is split across independent microservices communicating over the Agent-to-Agent (A2A) protocol via HTTP / JSON-RPC 2.0 (`a2a.sendMessage`):
-* Protocol Compliance Agent (`:8001`): trial arms, dosing intervals, inclusion criteria.
-* Safety Specialist Agent (`:8002`): drug-drug interactions, toxicity corridors, adverse events.
-* Financial & Billing Agent (`:8003`): sponsor budget coverage, CMS/Medicare clinical-trial billing policies, patient out-of-pocket exposure.
+#### 1. A2A Specialist Consensus
+Instead of a single monolithic prompt, clinical reasoning is split across independent services communicating over the Agent-to-Agent (A2A) protocol via HTTP / JSON-RPC 2.0 (method `SendMessage`, served at `/` and `/rpc` on each agent):
+* Protocol Compliance Agent (`:8001`): dosing limits and protocol rules.
+* Safety Specialist Agent (`:8002`): drug-drug interactions, toxicity corridors, organ-function limits.
+* Financial & Billing Agent (`:8003`): sponsor coverage and patient out-of-pocket exposure.
+
+Each agent publishes an agent card at `/.well-known/agent-card.json`. If an agent service is unreachable, the gateway falls back to calling the same logic in-process.
 
 #### 2. Two-Tier Ingress Guardrails
-* Guardrail-1 (schema hygiene & self-healing resupply loop): validates demographic and clinical integrity (DOB, biological sex, vital signs, trial mapping). If data is missing, it triggers an automated Data Resupply Loop that re-queries the FastMCP EHR endpoints up to `MAX_REFINEMENT_ITERATIONS=3`. If the budget is exhausted, the patient is permanently locked out (`EXCLUDED_MAX_ITERS`).
-* Guardrail-2 (deterministic catastrophic safety corridors): evaluates life-threatening contraindications (e.g. eGFR < 15 mL/min, Total Bilirubin > 5x ULN, ANC < 500/µL, intracranial hemorrhage) before any LLM call, and triggers an instant Short-Circuit Killswitch (`SHORT_CIRCUITED`).
+* Guardrail-1 (demographic integrity and retry budget): checks patient ID, age and biological sex. The retry budget is 3 attempts (`max_iters`); when it is exhausted the patient is locked out (`EXCLUDED_MAX_ITERS`). In the gateway path the resupply is entered by a clinician in the UI; in the LangGraph path `data_resupply` re-queries the EHR client.
+* Guardrail-2 (catastrophic safety corridors): in the gateway path, fails on eGFR < 15 mL/min/1.73m², ANC < 500/µL, total bilirubin > 4.0 mg/dL, or ALT/AST > 200 U/L, and short-circuits the verdict to `NOT_JUSTIFIED`. The LangGraph path applies the baseline and per-trial rules in `packages/shared-schemas/shared_schemas/rules.py` instead.
 
-#### 3. Hybrid RAG Protocol Knowledge Engine
-Combines semantic vector search (ChromaDB + sentence-transformers) with deterministic protocol-parameter enforcement. Protocol documents (antithrombotic, oncology, SGLT2i renal, NAFLD/MASH) are parsed, chunked, and indexed per trial.
+#### 3. RAG Protocol Knowledge Engine
+`services/rag_service` implements ingestion, chunking, embeddings (sentence-transformers), a Chroma vector store and a rule engine for four demo protocols (antithrombotic, oncology, SGLT2i renal, NAFLD/MASH). The vector index is not committed (`vector_db/` is gitignored), and the gateway path does not query it (see [Two execution paths](#two-execution-paths)).
 
-#### 4. Multi-Agent Consensus Reducer
-Gathers specialist verdicts, calculates weighted confidence vectors, detects dissenting opinions, and applies deterministic conflict resolution to reach a final verdict: `JUSTIFIED`, `NOT_JUSTIFIED`, or `REQUIRES_HITL`.
+#### 4. Consensus Reducer
+Gathers the three specialist results and applies a deterministic rule: any `NON_COMPLIANT` or `UNSAFE` result gives `NOT_JUSTIFIED`; all three clear gives `JUSTIFIED`; anything else gives `NEEDS_REVIEW`. An LLM writes the short summary text only. The gateway also lists which agents disagreed (`agent_discrepancies`).
 
-#### 5. HITL Exception Gate & Bidirectional FHIR Sync
+#### 5. HITL Gate and write-back
 When a protocol deviation or overdose occurs:
-* Free-text note extraction: a clinical LLM parses the physician's narrative note into a structured order.
-* Fuzzy typo normalization: misspelled drug names are corrected (e.g. `"apixiban"` to `Apixaban`).
+* Free-text note extraction: an LLM parses the physician's note into a structured order. If the LLM is unreachable (1.2 s limit), a local rule-based extractor is used.
+* Typo normalization: misspelled drug names are corrected from a built-in synonym list (e.g. `"apixiban"` to `Apixaban`).
 * Conversational filtering: vague or non-clinical notes trigger a `Clinical Warning: Inappropriate or Ambiguous Doctor Note` banner and block submission until resolved.
 * 1-click protocol remediation: one click normalizes a non-compliant dose to the protocol-compliant ceiling.
-* Bidirectional writeback: validated updates are synchronized to in-memory registries, local JSON fixtures, and (optionally) Supabase.
+* Write-back: validated updates are written to the local patient JSON fixtures and, when Supabase is configured, to the `patients.prescribed_action` column. Failures to write are not surfaced to the user. There is no FHIR server write-back.
 
-#### 6. Tamper-Evident Audit Trail
-Every agent execution, consensus decision, and physician override is chained with SHA-256 hashes, producing an audit certificate and exportable PDF/JSON reports. See [Audit Trail & Regulatory Alignment](#audit-trail--regulatory-alignment).
+#### 6. Hash-Chained Report Store
+Each saved decision report is sealed with a SHA-256 hash that depends on its contents and on the previous report for the same patient. `GET /api/reports/{patient_id}/verify` recomputes the chain and reports the first broken link. See [Audit Trail & Regulatory Alignment](#audit-trail--regulatory-alignment).
 
 #### 7. Command Center UI with Live ReactFlow Telemetry
-Built on Next.js 16, React 19, and `@xyflow/react` v12, with memoized custom nodes and real-time Server-Sent Events (SSE) streaming so the multi-agent execution graph updates live without canvas jitter.
+Built on Next.js 16, React 19, and `@xyflow/react` v12, with Server-Sent Events (SSE) streaming so the multi-agent execution graph updates as the agents finish.
 
 ---
 
@@ -305,40 +319,42 @@ Built on Next.js 16, React 19, and `@xyflow/react` v12, with memoized custom nod
 
 | Layer | Technology | Role |
 |:---|:---|:---|
-| Backend listener | FastAPI | Gateway the dashboard talks to |
-| Orchestration | LangGraph | Stateful workflow: guardrails, HITL checkpoint, Modify loop, case hand-off |
-| Agent communication | A2A protocol | Lets the master agent discover and call the three specialists |
-| Tool access | FastMCP (MCP) | Standard interface for patient data (FHIR server) and protocol data (RAG service) |
-| Retrieval | RAG + ChromaDB | Pulls the right protocol text by Trial ID and combines it with patient data |
-| Persistence | Supabase *(optional)* | Cloud storage for patient data and audited decisions; falls back to local storage |
+| Backend | FastAPI | Gateway the dashboard talks to; also hosts the in-process A2A adapter |
+| Orchestration | LangGraph | Reference state machine: guardrails, HITL interrupt, Modify loop (not wired to the web app) |
+| Agent communication | A2A protocol | The gateway calls the three specialist services over JSON-RPC 2.0 |
+| Tool access | FastMCP | `packages/mcp-ehr` exposes `get_patient`, `search_patients`, `find_nearest_patients` as an MCP server. The pipeline imports the same functions directly |
+| Retrieval | Chroma + sentence-transformers | RAG service; index must be built locally |
+| Persistence | Supabase *(optional)* | `patients` table, report storage, optional Postgres for the LangGraph checkpointer. Falls back to local JSON / memory |
 | Frontend | Next.js 16, React 19, ReactFlow | Researcher-facing dashboard and live graph |
-| LLM providers | Gemini / OpenAI / Groq | At least one required, with automatic fallback between providers |
+| LLM | Any OpenAI-compatible API | `KADO_API_KEY` or `OPENAI_API_KEY`; Groq optionally for FHIR harmonization. No provider fallback chain |
 
 ---
 
 ## Existing Alternatives
 
-We found no existing tool that combines protocol-specific compliance, patient-specific safety, and cost impact into a single recommendation with an audited override trail.
+We found no existing tool that combines protocol-specific compliance, patient-specific safety, and cost impact into a single recommendation with an audited override trail. This is based on our own search, not a systematic review.
 
 | Tool | Domains | Frequency | Audit trail |
 |:---|:---|:---|:---|
 | Hospital CDS alerts | Safety only | Point-of-care | Dropdown reason code |
 | TransCelerate RACT [5] | Protocol complexity & operational risk | Once, at design | None |
 | CluePoints [7] | Data / safety statistics | Periodic / post-hoc | Batch (site-level) |
-| TrialGuard | Safety, protocol, financial | Point-of-care, per action | Full decision log |
+| TrialGuard | Safety, protocol, financial | Point-of-care, per action | Per-decision report with hash chain |
 
 - Hospital CDS alerts focus on general formulary interactions, not trial-specific investigational protocols, and override tracking is typically a dismissive dropdown without a verifiable rationale.
 - TransCelerate RACT evaluates risk across several categories but is a static checklist at protocol design, not an active system during execution.
 - CluePoints performs centralized statistical surveillance across sites, retrospectively. It does not parse protocol semantics or evaluate individual point-of-care actions.
 
+Market sizing and the competitive comparison are in [Market Research](Market%20Research/Market_Research_final.pdf).
+
 ---
 
 ## User Research
 
-To test the operational viability and clinical fit of the idea, we ran discovery interviews with seven practitioners across clinical research, pharmacovigilance, and medicine (names in [Acknowledgements](#team--acknowledgements)). Three recurring findings shaped the product:
+We interviewed seven practitioners across clinical research, pharmacovigilance, and medicine. The interviews were written question-and-answer exchanges over LinkedIn and WhatsApp, using the same three questions about point-of-care checks, the Accept / Reject / Modify screen, and logging of overrides. Names and roles are in [Acknowledgements](#acknowledgements); the write-up and screenshots are in [User Research](User%20Research/User_Research.pdf), and the market side is in [Market Research](Market%20Research/Market_Research_final.pdf). Three recurring findings shaped the product:
 
 1. Point-of-care gap validated. Even when protocol rules and patient safety are both considered, they are rarely available *together* at the moment a dosage change is decided. Checking both at once makes the decision faster, more consistent, and easier to justify under a complex protocol.
-2. Autonomy and nuance ("Modify"). Clinical decisions are rarely binary, and a Modify option is valued for preserving clinical judgment. Practitioners also warned that the tool would be ignored, like routine hospital alerts, if its recommendations are verbose or fire on obviously low-risk cases. This motivated the concise, page-cited rationale display.
+2. Autonomy and nuance ("Modify"). Clinical decisions are rarely binary, and a Modify option is valued for preserving clinical judgment. Practitioners also warned that the tool would be ignored, like routine hospital alerts, if its recommendations are verbose or fire on obviously low-risk cases. This motivated the concise rationale display.
 3. Audit trail value vs. burden. Practitioners strongly supported logging overrides together with rationales, so retrospective audits can show that deviations were deliberate rather than arbitrary. They also stressed that the documentation step must stay lightweight and fast to avoid adding administrative overhead.
 
 ---
@@ -349,11 +365,15 @@ Every claim in this project is labelled as implemented, simulated, or assumed.
 
 | Type | Description |
 |:---|:---|
-| Implemented | End-to-end pipeline: FastAPI gateway, LangGraph orchestration, A2A exchange, RAG (ChromaDB, Trial-ID-keyed), FHIR MCP server, guardrails, consensus reducer, HITL gate, hash-chained audit logging, ReactFlow dashboard |
-| Simulated | Open-source protocol documents; synthetic FHIR patient dataset (17 profiles) |
+| Implemented | FastAPI gateway; three A2A specialist services with JSON-RPC 2.0 `SendMessage`; context isolation checks; Guardrail-1 and Guardrail-2; deterministic reducer; Accept / Reject / Modify flow; hash-chained report store with a verify endpoint; ReactFlow dashboard with SSE; FastMCP EHR server; LangGraph reference workflow with a Postgres-or-memory checkpointer |
+| Simulated | Open-source protocol documents; synthetic FHIR-shaped patient data (54 profiles); the protocol clauses the gateway path passes to the Compliance agent; scripted outcomes for several demo patients; the cost table behind the Financial agent |
+| Built but not used by the running app | Chroma retrieval pipeline (needs a locally built index); LangGraph workflow and Postgres checkpointer (run via `scripts/batch_audit.py`, untested against a real database in this repo) |
+| Not implemented | RAG as an MCP server; leadership view of researcher accept/override behavior; a lockout registry for barred subjects (lockout is per-session UI state); FHIR server write-back; Gemini and multi-provider LLM fallback |
 | Assumed | That accumulated Accept / Reject / Modify records would give trial leadership a materially different view of researcher behavior than they have today |
 
 The pipeline is designed to run on an organization's own protocol documents and a real FHIR dataset without architectural changes. The substitutions above reflect what data was available to us, not a limit of the pipeline.
+
+Supabase: the web app reads the `patients` table (`apps/web/app/actions.ts`), and `scripts/seed_comprehensive_patients.py` can upsert synthetic patients into it. The gateway reads patients from local JSON, not Supabase. Reports are written locally first, then to `patients.clinical_data.adjudication_reports`, then to the `adjudication_reports` jsonb column added by [`supabase/migrations`](supabase/migrations/20260916_add_adjudication_reports.sql). The repository does not contain the SQL that creates the `patients` table itself.
 
 ---
 
@@ -362,9 +382,9 @@ The pipeline is designed to run on an organization's own protocol documents and 
 ### Prerequisites
 
 * OS: macOS (Apple Silicon or Intel), Linux (Ubuntu 20.04+ / Debian 11+), or Windows 11 with WSL2
-* Memory / disk: 8 GB RAM minimum (16 GB recommended for concurrent LLM streaming), 3 GB free disk space
+* Memory / disk: 8 GB RAM minimum, 3 GB free disk space (the Python environment includes `sentence-transformers` and its dependencies)
 * Python: 3.11 or higher (`python3 --version`)
-* Node.js: 20.x LTS or 22.x LTS (`node --version`)
+* Node.js: 20.x LTS or later (`node --version`)
 * `uv` (Python workspace manager):
   ```bash
   curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -373,14 +393,14 @@ The pipeline is designed to run on an organization's own protocol documents and 
   ```bash
   npm install -g pnpm@12.3.4
   ```
-* At least one LLM API key: [Google Gemini](https://aistudio.google.com/) (default), [OpenAI](https://platform.openai.com/), or [Groq](https://console.groq.com/)
+* An API key for an OpenAI-compatible LLM endpoint. Without one the app still runs: the safety and financial agents use local rules, but the compliance agent returns `UNKNOWN` and the gateway's rule checks decide the verdict.
 * *(Optional)* Supabase URL and key for cloud persistence. If omitted, TrialGuard falls back to in-memory and local-disk storage.
 
 ### Step 1: Clone
 
 ```bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
+git clone https://github.com/Pranjal-Kukreja/TrialGuard.git
+cd TrialGuard
 ```
 
 ### Step 2: Python dependencies
@@ -397,6 +417,7 @@ python3 -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 pip install -e packages/shared-schemas
+pip install -e packages/mcp-audit
 pip install -e packages/mcp-ehr
 pip install -e apps/gateway
 pip install -e apps/orchestrator
@@ -405,6 +426,7 @@ pip install -e apps/agent-safety
 pip install -e apps/agent-financial
 pip install -e apps/agent_master
 ```
+This path is not tested; `uv sync` is the supported route.
 </details>
 
 ### Step 3: Frontend dependencies
@@ -419,47 +441,18 @@ pnpm install
 cp .env.example .env
 ```
 
-Edit `.env`:
-
-```ini
-# LLM providers (provide at least one valid key)
-GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-2.5-flash
-GEMINI_FALLBACK_MODELS=gemini-2.0-flash,gemini-1.5-flash
-
-# Alternatively or concurrently:
-OPENAI_API_KEY=your_openai_api_key_here
-GROQ_API_KEY=your_groq_api_key_here
-GROQ_MODEL=llama-3.3-70b-versatile
-
-# Microservice ports and A2A endpoints (defaults for localhost)
-GATEWAY_PORT=8000
-COMPLIANCE_FASTAPI_PORT=8001
-SAFETY_FASTAPI_PORT=8002
-FINANCIAL_FASTAPI_PORT=8003
-
-A2A_COMPLIANCE_URL=http://127.0.0.1:8001/a2a
-A2A_SAFETY_URL=http://127.0.0.1:8002/a2a
-A2A_FINANCIAL_URL=http://127.0.0.1:8003/a2a
-
-# Max iterations for the Guardrail-1 self-healing resupply loop
-MAX_REFINEMENT_ITERATIONS=3
-
-# Optional Supabase (falls back to local JSON if blank)
-SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-```
+Edit `.env`. The variables the code reads are listed with comments in [`.env.example`](.env.example). At minimum set `KADO_API_KEY` or `OPENAI_API_KEY` (and `KADO_BASE_URL` / `KADO_MODEL` if you are not using the hackathon gateway). `A2A_*_URL` values are base URLs such as `http://127.0.0.1:8001`; the gateway appends `/rpc`.
 
 > Never commit your `.env` file or API keys.
 
-### Step 5: Seed synthetic patients
+### Step 5: Seed synthetic patients *(optional)*
+
+The patient fixtures (`packages/mcp-ehr/src/mcp_ehr/patients_expanded.json`) are already committed, so this step is only needed to regenerate them.
 
 ```bash
 uv run python scripts/seed_comprehensive_patients.py
 ```
-Expected output: `✓ Seeded 17 comprehensive synthetic clinical trial patients into local fixtures.`
+It adds the 17 scenario patients P038–P054 to the local fixture files and, if Supabase credentials are set, upserts them into the `patients` table.
 
 ---
 
@@ -468,10 +461,10 @@ Expected output: `✓ Seeded 17 comprehensive synthetic clinical trial patients 
 ### Method 1: One command (recommended)
 
 ```bash
-python3 start_all.py
+uv run python start_all.py
 ```
 
-This boots all five services with color-coded, multiplexed logs:
+This starts five services with color-coded, multiplexed logs:
 
 ```
 ==============================================================
@@ -484,7 +477,7 @@ This boots all five services with color-coded, multiplexed logs:
 ==============================================================
 ```
 
-Open http://localhost:3000. Press `Ctrl + C` to stop everything; the launcher traps `SIGINT`/`SIGTERM` and shuts down child processes cleanly.
+Open http://localhost:3000. Press `Ctrl + C` to stop everything; the launcher traps `SIGINT`/`SIGTERM` and shuts down child processes.
 
 ### Method 2: Individual services (separate terminals)
 
@@ -496,34 +489,39 @@ uv run python apps/gateway/main.py              # Terminal 4, :8000
 pnpm --filter @techquest/web dev                # Terminal 5, :3000
 ```
 
-### Method 3: Headless batch audit
+### Method 3: Headless batch run of the LangGraph workflow
 
 ```bash
-uv run python batch_audit.py
+uv run python -m scripts.batch_audit
 ```
+
+Runs every ID in `seeded_patient_ids.json` (49 profiles) through the LangGraph reference workflow with the action "Standard Protocol Review". It takes a few minutes. Excerpt of real output, produced without an LLM key and without the agent services running (so the specialists used their fallbacks):
 
 ```
 ==========================================================================
-  TRIALGUARD BATCH ADJUDICATION AUDIT: 17 PROFILES (NCT02415400)
+  TRIALGUARD BATCH ADJUDICATION AUDIT: 49 PROFILES (NCT02415400)
 ==========================================================================
 
 PID    | Name                   | Verdict    | Conf   | HITL   | Violations
 ------------------------------------------------------------------------
-P034   | Sunita Rao             | JUSTIFIED  | 0.98   | False  | 0
-P036   | Michael Chang          | NOT_JUST   | 0.92   | True   | 1
-P038   | Ananya Deshmukh        | EXCLUDED   | 1.00   | False  | 1
-P039   | Robert Chen            | EXCLUDED   | 1.00   | False  | 1
-P041   | Elena Rostova          | SHORT_CIRC | 1.00   | False  | 1
-P042   | Marcus Vance           | SHORT_CIRC | 1.00   | False  | 1
-P043   | Priya Patel            | SHORT_CIRC | 1.00   | False  | 1
+P038   | Ananya Deshmukh        | APPROVED   | 0.90   | False  | 0
+P039   | Robert Chen            | APPROVED   | 0.90   | False  | 0
+P041   | Vikram Malhotra        | REJECTED   | 0.40   | False  | 4
+P042   | Zoe Washington         | REJECTED   | 0.40   | False  | 3
+P043   | Suresh Patel           | REJECTED   | 0.40   | False  | 1
+P045   | Tariq Mahmoud          | REJECTED   | 0.90   | True   | 1
+P046   | Devraj Sengupta        | REJECTED   | 0.90   | True   | 2
+...
 ```
+
+In that run 44 profiles were `APPROVED` and 5 `REJECTED` (P041, P042, P043, P045, P046). The missing-demographics profiles P038 and P039 come out `APPROVED` on this path; the demographic lockout flow is exercised in the gateway path (see the walkthrough). `scripts/check_all_confidence.py` is a near-duplicate without error handling that prints the same table.
 
 ### Method 4: Visualize the LangGraph topology
 
 ```bash
-uv run python visualize_graph.py
+uv run python -m scripts.visualize_graph
 ```
-Outputs an ASCII graph in the terminal, `orchestrator_graph.mmd` (Mermaid), and `orchestrator_graph.png`.
+Prints an ASCII graph and writes `docs/orchestrator_graph.mmd` (Mermaid) and `docs/orchestrator_graph.png`. The PNG step uses a remote Mermaid renderer and needs internet access.
 
 ### Verification commands
 
@@ -531,41 +529,57 @@ Outputs an ASCII graph in the terminal, `orchestrator_graph.mmd` (Mermaid), and 
 # Web build validation (TypeScript + Next.js)
 pnpm --filter @techquest/web build
 
-# Agent microservice contract tests
-uv run python apps/agent-compliance/test_compliance.py
+# Gateway and agent health
+curl -s http://localhost:8000/health                                    # {"status":"ok"}
+curl -s http://localhost:8001/.well-known/agent-card.json               # also :8002, :8003
+
+# Verify the hash chain of a patient's saved reports
+curl -s http://localhost:8000/api/reports/P036/verify
+```
+
+---
+
+## Run the tests
+
+```bash
+uv run pytest                                  # hash chain, report store, audit node (19 tests)
+(cd services/rag_service && uv run pytest)     # RAG / rule engine suite (31 tests)
+```
+
+The first command covers the audit hash chain: a valid chain passes, editing any field of an earlier record fails verification at that record, record order matters, and the gateway's report store chains reports per patient and detects tampering. The agent contract tests need the agent services running and are not part of `pytest`:
+
+```bash
+uv run python start_all.py --agents            # in one terminal
 uv run python apps/agent-safety/test_safety.py
 uv run python apps/agent-financial/test_financial.py
-
-# Health endpoints
-curl -s http://localhost:8000/health | grep '"status":"ok"'
-curl -s http://localhost:8001/health | grep '"status":"healthy"'
-curl -s http://localhost:8002/health | grep '"status":"healthy"'
-curl -s http://localhost:8003/health | grep '"status":"healthy"'
+uv run python apps/agent-compliance/test_compliance.py   # needs KADO_API_KEY or OPENAI_API_KEY
 ```
+
+The compliance agent has no offline fallback, so its test returns `UNKNOWN` and fails without an LLM key.
 
 ---
 
 ## Evaluator Walkthrough
 
-At http://localhost:3000, these flows show each design decision in action.
+At http://localhost:3000 (gateway path), these flows show each design decision. The verdicts in flows 1–4 were checked by sending each patient through the gateway API during the cleanup. The browser interactions themselves (buttons, drawers, note extraction) were not re-tested in a browser then.
 
-#### 1. Standard compliant patient (unanimous approval)
-Select preset P034 (Sunita Rao), order `Apixaban 5 mg oral twice daily`, click Start Adjudication. The patient passes Guardrail-1 and Guardrail-2 (CrCl 68 mL/min > 30 mL/min threshold), the three agents run in parallel, and the reducer returns `JUSTIFIED` with full sponsor coverage and a SHA-256 audit certificate.
+#### 1. Standard compliant patient
+Select P051 (Lakshmi Ramanathan), order `Apixaban 5 mg oral twice daily` (CrCl 74 mL/min). The patient passes Guardrail-1 and Guardrail-2, the three agents run in parallel, and the result is `JUSTIFIED`. Accept it to save the report; the PDF certificate then shows the report's SHA-256 hash and a "chain verified" line.
 
-#### 2. Guardrail-1 failure and self-healing lockout
-Select P038 (missing biological sex) or P039 (missing age). The system runs the Data Resupply Loop up to 3 times, then permanently excludes the patient (`Patient ID Permanently Excluded (3/3 Retries Exhausted)`) and locks the submit button.
+#### 2. Guardrail-1 failure and lockout
+Select P038 (missing biological sex) or P039 (missing age). Guardrail-1 fails and the verdict is `NOT_JUSTIFIED`. The UI asks the clinician to resupply the missing field; after 3 failed attempts the patient is locked out (`EXCLUDED_MAX_ITERS`) and the submit button is disabled.
 
-#### 3. Guardrail-2 pre-inference short-circuit
-Select P041 (eGFR 12 < 15), P042 (Total Bilirubin 6.8 mg/dL > 5x ULN), or P043 (ANC 320/µL < 500). The pipeline fires the Short-Circuit Killswitch with no LLM tokens spent, bypasses the specialists, and goes straight to the audit log.
+#### 3. Guardrail-2 short-circuit
+Select P041 (eGFR 11 < 15), P042 (total bilirubin 6.8 mg/dL > 4.0), or P043 (ANC 320/µL < 500). Guardrail-2 reports `BREACHED` and the verdict is `NOT_JUSTIFIED`. The specialists are still called in this path, and their results are replaced by the guardrail's.
 
-#### 4. Protocol overdose, 1-click remediation, and FHIR sync
-Select P036 (Michael Chang), order `Apixaban 40 mg oral twice daily` (limit is 5 mg BID). The Compliance Agent returns `NON_COMPLIANT`, the reducer returns `NOT_JUSTIFIED`, and the HITL Exception Drawer opens with a `1-Click Fix to Standard` button. Click it, then Confirm & Update FHIR Database; the graph re-evaluates and flips to `JUSTIFIED`.
+#### 4. Protocol overdose, 1-click remediation
+Select P036, order `Apixaban 40 mg oral twice daily` (the limit is 5 mg BID). The Compliance Agent returns `NON_COMPLIANT`, the reducer returns `NOT_JUSTIFIED`, and the HITL drawer opens with a `1-Click Fix to Standard` button. Click it, then Confirm & Update; the graph re-evaluates to `JUSTIFIED`.
 
 #### 5. Free-text clinical note with typo correction
 Open the Modify Dosage / Override drawer and enter:
 > *"Patient exhibits stable renal function (CrCl 72 mL/min). Titrate apixiban to 5mg bid per protocol Arm A."*
 
-Click Evaluate Note via Clinical LLM. The system shows `Spelling Corrected: "apixiban" -> Apixaban` and builds a structured FHIR payload (5 mg, oral, twice daily, every 12 hours, target `MedicationRequest.dosageInstruction[0]`).
+Click Evaluate Note. The system shows `Spelling Corrected: "apixiban" -> Apixaban` and builds a structured payload (5 mg, oral, twice daily, every 12 hours, target `MedicationRequest.dosageInstruction[0]`).
 
 #### 6. Non-clinical or vague note rejection
 Enter *"Hello doctor, please accept this patient, it's a very nice day outside."* The system flags `Clinical Warning: Inappropriate or Ambiguous Doctor Note` and disables submission until an actionable order is entered.
@@ -574,27 +588,31 @@ Enter *"Hello doctor, please accept this patient, it's a very nice day outside."
 
 ## Test Patient Matrix
 
-TrialGuard ships with 17 synthetic patients designed to exercise every path through the pipeline.
+The repository ships 54 synthetic patients: P001–P032 are baseline profiles across the four trial cohorts, and P033–P054 are scenario patients (P033 is injected by `apps/gateway/services/patient_service.py`; the others are in `patients_expanded.json`). The table lists the scenario patients P034–P054, with the scenario taken from each fixture's cohort label. These describe what each fixture was designed to exercise; the walkthrough above lists the ones whose outcomes were checked.
 
-| PID | Patient | Trial Protocol | Scenario | Trigger | Expected Behavior |
-|:---|:---|:---|:---|:---|:---|
-| P034 | Sunita Rao | NCT02415400 (Arm A) | Compliant | Apixaban 5 mg BID, normal CrCl | Unanimous `JUSTIFIED` |
-| P038 | Ananya Deshmukh | NCT02415400 (Arm A) | Guardrail-1 | Missing biological sex | Resupply loop, then lockout |
-| P039 | Robert Chen | NCT00699998 (Cohort B) | Guardrail-1 | Missing age | Resupply loop, then lockout |
-| P040 | Evelyn Vance | NCT02415400 (Cohort C) | Guardrail-1 | Missing baseline blood pressure | Resupply loop, then lockout |
-| P041 | Elena Rostova | NCT00699998 (Cohort B) | Guardrail-2 | eGFR 12 mL/min (< 15) | `SHORT_CIRCUITED` |
-| P042 | Marcus Vance | NCT00809965 (Cohort B) | Guardrail-2 | Total Bilirubin 6.8 mg/dL (> 5x ULN) | `SHORT_CIRCUITED` |
-| P043 | Priya Patel | NCT02415400 (Cohort C) | Guardrail-2 | ANC 320/µL (< 500) | `SHORT_CIRCUITED` |
-| P036 | Michael Chang | NCT02415400 (Arm A) | Overdose | Apixaban 40 mg BID (> 5 mg cap) | `NOT_JUSTIFIED`, then 1-click fix |
-| P044 | David Kim | NCT02415400 (Arm A) | Overdose | Apixaban 60 mg BID | `NOT_JUSTIFIED`, then 1-click fix |
-| P045 | Sofia Alvarez | NCT02415400 (Arm A) | Washout breach | 8 days since prior anticoagulant (< 30) | RAG rule violation, `NOT_JUSTIFIED` |
-| P046 | Arthur Pendelton | NCT00699998 (Cohort B) | Organ boundary | CrCl 22 mL/min (< 30 floor) | RAG rule violation, `NOT_JUSTIFIED` |
-| P047 | Maria Santos | NCT02415400 (Cohort C) | Exclusion | Active systemic lupus erythematosus | Autoimmune exclusion |
-| P048 | Lucas Scott | NCT02415400 (Arm A) | Safety DDI | Apixaban + Clarithromycin (CYP3A4) | Safety dissent, `NOT_JUSTIFIED` |
-| P049 | Naomi Campbell | NCT02415400 (Cohort C) | Financial dissent | Off-label Pembrolizumab 400 mg | Financial agent denies coverage |
-| P050 | James Wilson | NCT00781573 (Arm A) | Tripartite dissent | Triple anticoagulant clash | Deadlock, HITL escalation |
-| P051 | Clara Oswald | NCT02415400 (Arm A) | Compliant | Standard antithrombotic protocol | Unanimous `JUSTIFIED` |
-| P052 | Ronald Miller | NCT02415400 (Cohort C) | Compliant | Pembrolizumab 200 mg IV Q3W | Unanimous `JUSTIFIED` |
+| PID | Patient | Trial | Designed scenario |
+|:---|:---|:---|:---|
+| P034 | Elena Rostova | NCT02415400 | Guardrail-1: missing demographics |
+| P035 | Kavita Sharma | NCT00809965 | Guardrail-2: catastrophic hepatotoxicity (ALT 620 U/L) |
+| P036 | Darius Vance | NCT02415400 | Overdose: apixaban 40 mg BID |
+| P037 | Mei-Ling Zhou | NCT02415400 | Unapproved dose and multi-organ conflict, rejected by all specialists |
+| P038 | Ananya Deshmukh | NCT02415400 | Guardrail-1: missing biological sex |
+| P039 | Robert Chen | NCT00699998 | Guardrail-1: missing age |
+| P040 | Fatima Al-Mansoor | NCT02415400 | Guardrail-1: missing age and sex |
+| P041 | Vikram Malhotra | NCT00699998 | Guardrail-2: eGFR 11 |
+| P042 | Zoe Washington | NCT00809965 | Guardrail-2: total bilirubin 6.8 mg/dL |
+| P043 | Suresh Patel | NCT02415400 | Guardrail-2: ANC 320/µL |
+| P044 | Claire Dubois | NCT02415400 | Protocol rule: overdose (60 mg BID) |
+| P045 | Tariq Mahmoud | NCT02415400 | Protocol rule: 8-day washout after GI bleed |
+| P046 | Devraj Sengupta | NCT00699998 | Protocol rule: renal floor (CrCl 22 mL/min) |
+| P047 | Hannah Rosen | NCT02415400 | Protocol rule: active autoimmune disease exclusion |
+| P048 | Carlos Mendoza | NCT02415400 | Safety dissent: ketoconazole and clarithromycin interaction |
+| P049 | Aditi Joshi | NCT02415400 | Financial dissent: off-label biologic ($52,800) |
+| P050 | Benjamin Sterling | NCT00781573 | Multi-specialist dissent: triple antithrombotic therapy |
+| P051 | Lakshmi Ramanathan | NCT02415400 | Compliant: atrial fibrillation |
+| P052 | Alexander Wright | NCT02415400 | Compliant: solid-tumor oncology |
+| P053 | Sneha Kulkarni | NCT00809965 | Compliant: NAFLD / MASH |
+| P054 | David Kim | NCT00699998 | Compliant: renal SGLT2i |
 
 *All patient names and records are synthetic.*
 
@@ -602,21 +620,33 @@ TrialGuard ships with 17 synthetic patients designed to exercise every path thro
 
 ## Audit Trail & Regulatory Alignment
 
-The audit design is guided by electronic-records and good-clinical-practice principles:
+How the audit trail works:
 
-* Hash-chained records. Each audit record contains a timestamp, user/agent ID, source-data snapshot, verdict, and a SHA-256 signature. Any post-decision modification is appended with a co-signing rationale and a parent-hash reference, so edits are visible and the chain is tamper-evident.
-* Override accountability. Every Accept, Reject, and Modify is stored with the system's recommendation alongside it, so reviewers can see what was advised and what the human chose.
-* Completeness before dispensation. Guardrail-1 enforces demographic and lab completeness (in the spirit of FDA 21 CFR 312.62 and ICH E6(R2) GCP) before an order proceeds; barred subjects are logged in a permanent lockout registry.
-* HL7 FHIR R4. The system uses standard `Patient`, `MedicationRequest`, `Observation` (labs and vitals), and `Condition` resources.
+* Hash-chained reports. When a decision is saved, the report (agent results, consensus verdict, the human decision and rationale, and timestamps) is sealed: `hash = sha256(prev_hash + canonical_json(report))`, where `prev_hash` is the hash of the patient's previous report (a fixed all-zero value for the first one) and the JSON is serialized with sorted keys and no whitespace. `hash` and `prev_hash` are stored on the report in both the local JSON store and Supabase. The implementation is in [`packages/mcp-audit`](packages/mcp-audit/src/mcp_audit/chain.py).
+* Verification. `verify_chain()` recomputes the chain and reports the first record that fails: a changed field, a removed or reordered record, or a broken link. `GET /api/reports/{patient_id}/verify` exposes it, the graph UI's audit node shows the current chain head and status, and the PDF certificate prints the report's hash, the previous hash, and the chain status.
+* LangGraph path. The final audit entry is sealed the same way and includes a digest of the run's earlier audit logs. It is one record per run, not a persistent chain.
+* Override accountability. Every Accept, Reject, and Modify is saved with the system's recommendation alongside it, so reviewers can see what was advised and what the human chose.
+* HL7 FHIR R4 shapes. Patient data uses `Patient`-, `MedicationRequest`-, `Observation`- and `Condition`-style structures. There is no connection to a FHIR server in the running app.
 
-> This is an *alignment* with these standards as a design goal. TrialGuard has not undergone formal validation or regulatory review.
+What the hash chain does not give you:
+
+* Deleting the newest reports from a chain cannot be detected, because nothing outside the chain records the latest hash. Storing the head hash somewhere else would close that gap.
+* Reports are chained per patient. Two writers saving for the same patient at the same time (for example a deployed gateway and a local one) can fork the chain; verification will report it.
+* Reports written before the chain was added have no hash. They are counted and skipped, and the chain starts at the first sealed report.
+* It is not a signature: anyone who can rewrite the whole chain can recompute valid hashes.
+
+Regulatory wording: parts of the UI and the PDF mention 21 CFR Part 11 and ICH E6. This is an alignment goal only. The system has no electronic signatures, user authentication or access controls, and has not undergone validation or regulatory review. Guardrail-1 is modelled on the idea behind FDA 21 CFR 312.62 (complete subject identification) and ICH E6(R2).
 
 ---
 
 ## Limitations & Future Work
 
-* No head-to-head evaluation yet. We did not benchmark TrialGuard against a real-world workflow because we have not yet found a fair baseline to measure against. Claims about speed, deviation catch rate, and reviewer-burden reduction are therefore design targets, not measured results.
-* Synthetic data only. Testing used open-source protocols and 17 synthetic patients.
+* No head-to-head evaluation yet. We did not benchmark TrialGuard against a real-world workflow because we have not yet found a fair baseline to measure against. Claims about speed, deviation catch rate, and reviewer-burden reduction (including the figures in `TrialGuard_Project_Report.pdf`) are design targets, not measured results.
+* Synthetic data only. Testing used open-source protocols and synthetic patients.
+* The running app does not do live protocol retrieval; the gateway path uses fixed clauses and some scripted demo outcomes (see [Two execution paths](#two-execution-paths)). Moving the gateway onto the retrieval pipeline and the LangGraph workflow is the main engineering gap.
+* No leadership view of accept/override behavior, no lockout registry, and no user identity on decisions (the reviewer is recorded as a fixed role).
+* The audit chain does not detect truncation (see above).
+* Known bug, not fixed: the standalone `apps/orchestrator/server.py` `/api/adjudicate` background task references an undefined variable (`accumulated_state`). The web app does not use that server.
 * Next steps: obtain a real (or safely de-identified) clinical trial agreement and FHIR dataset to test against, and run structured evaluations with real users.
 
 ---
@@ -630,28 +660,54 @@ lsof -ti :3000,8000,8001,8002,8003 | xargs kill -9
 ```
 
 Do I need Supabase?
-No. If `SUPABASE_URL` is blank, TrialGuard uses in-memory state and local disk persistence (`packages/mcp-ehr/src/mcp_ehr/patients_expanded.json`). All features, including FHIR updates, work out of the box.
+No. If `SUPABASE_URL` is blank, TrialGuard uses local files and memory: patient fixtures in `packages/mcp-ehr/src/mcp_ehr/patients_expanded.json` and reports in `apps/gateway/data/adjudication_reports.json` (gitignored).
+
+The compliance agent shows `UNKNOWN`
+It needs an LLM key (`KADO_API_KEY` or `OPENAI_API_KEY`). Without one it reports that it could not complete the assessment.
 
 `Operation not permitted (os error 1)` when running Python
-This can happen inside sandboxed CLI environments. Run the commands directly in your local terminal with `python3 start_all.py` or `uv run python start_all.py`.
+This can happen inside sandboxed CLI environments. Run the commands directly in your local terminal.
 
 Using a different LLM provider
-Set `GEMINI_API_KEY`, `OPENAI_API_KEY`, or `GROQ_API_KEY` in `.env`. If one provider rate-limits or fails, the orchestrator falls back to the next.
+Point `KADO_BASE_URL` and `KADO_MODEL` at any OpenAI-compatible endpoint. There is no automatic fallback between providers.
+
+---
+
+## Repository history
+
+TrialGuard was built during KADO TechQuest (Agentic AI) in a private repository under a team account. I moved the code to this personal repository afterwards, so earlier history is not included here and the commit log is short. Commits on this repository after the move are the post-hackathon work described below.
+
+---
+
+## Team and my contribution
+
+**Team:** Team Ctrl+Agen, 5 members. Names: [CONFIRM].
+
+**My role:** team lead. I owned the end-to-end architecture:
+* three context-isolated specialist agents over A2A JSON-RPC 2.0;
+* a FastMCP tool server for EHR (FHIR) data; the RAG service is a separate FastAPI service rather than an MCP server [CONFIRM how this should be described];
+* deterministic aggregation and safety guardrails;
+* the Accept / Reject / Modify human-in-the-loop step.
+
+I supervised the data layer (Supabase/Postgres, Chroma RAG) and the frontend, and organised the user and market research.
+
+**Work I did after the hackathon**, with Claude Code assistance: the audit hash chain, its tests, and this README cleanup (including a corrected FastMCP server start-up, the repo reorganisation, and the claim audit in [`docs/README_AUDIT.md`](docs/README_AUDIT.md)). [CONFIRM wording]
 
 ---
 
 ## References
 
-1. van der Sijs, H. et al., "Appropriateness of Overridden Alerts in Computerized Physician Order Entry," systematic review, 2020.
+1. Poly, T. N. et al., "Appropriateness of Overridden Alerts in Computerized Physician Order Entry: Systematic Review," *JMIR Medical Informatics*, 2020.
 2. Alanazi, A. et al., "An Evaluation of Drug-Drug Interaction Alerts Produced by Clinical Decision Support Systems in a Tertiary Hospital," 2023.
-3. Applied Clinical Trials Online / Tufts CSDD, "Quantifying Protocol Deviation Experience by Clinical Phase," 2020.
-4. Lindblad, A. S. et al., "Central site monitoring," *Clinical Trials*, 2014.
+3. Getz, K. A. et al., "Benchmarking Protocol Deviations and Their Variation by Major Disease Categories," *Therapeutic Innovation & Regulatory Science*, 2022.
+4. Lindblad, A. S. et al., "Central site monitoring," *Clinical Trials*, 2014. [CONFIRM source for the 15–30% figure]
 5. TransCelerate BioPharma, RACT/RBM methodology; Applied Clinical Trials Online, "Excel-Based RACTs Go To The Cloud," 2015.
-6. Ferdowsi, S. et al., "Overview of the CT-DEB'26 Shared Task on Predicting Dosing Errors in Interventional Clinical Trials," CL4Health @ LREC 2026.
+6. Ferdowsi, S. et al., "Overview of the CT-DEB'26 Shared Task on Predicting Dosing Errors in Interventional Clinical Trials," CL4Health @ LREC 2026. [CONFIRM citation]
 7. CluePoints, "AI-Powered Clinical Trial Analytics," cluepoints.com.
 
 ---
 
+## Acknowledgements
 
 Thank you to the practitioners who gave their time and feedback: Rutuparna Kulkarni (Clinical Research Coordinator, Heartcare Clinical Research LLP, Ahmedabad), Dr. Surbhi Narula (Ophthalmologist), Dr. Chetna Malik (Dermatologist), Dr. Shubham Arora (Radiologist), all at GS Medical College & Hospital, Hapur, Dr. Darshan D (PharmD, clinical research and pharmacovigilance), Aryana Nayak and Nishchita Gowda (KIMS Koppal Medical College, Karnataka).
 
