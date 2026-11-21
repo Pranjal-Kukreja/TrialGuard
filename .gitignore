@@ -97,3 +97,4 @@ apps/gateway/data/
 .vercel
 
 .env*
+!.env.example
