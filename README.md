@@ -235,7 +235,7 @@ TrialGuard/
 ├── packages/
 │   ├── mcp-ehr/                 # FastMCP FHIR R4 server, patient fixtures, FHIR client
 │   ├── mcp-audit/               # SHA-256 hash chain for audit records
-│   ├── mcp-rag/                 # Empty placeholder (RAG is a FastAPI service in services/rag_service)
+│   ├── mcp-rag/                 # Empty package (RAG is a FastAPI service in services/rag_service)
 │   └── shared-schemas/          # Pydantic models and rule definitions (Python only)
 ├── services/
 │   └── rag_service/             # FastAPI RAG/rule service: ingestion, Chroma store, embeddings, tests
@@ -351,11 +351,7 @@ Market sizing and the competitive comparison are in [Market Research](Market%20R
 
 ## User Research
 
-We interviewed seven practitioners across clinical research, pharmacovigilance, and medicine. The interviews were written question-and-answer exchanges over LinkedIn and WhatsApp, using the same three questions about point-of-care checks, the Accept / Reject / Modify screen, and logging of overrides. Names and roles are in [Acknowledgements](#acknowledgements); the write-up and screenshots are in [User Research](User%20Research/User_Research.pdf), and the market side is in [Market Research](Market%20Research/Market_Research_final.pdf). Three recurring findings shaped the product:
-
-1. Point-of-care gap validated. Even when protocol rules and patient safety are both considered, they are rarely available *together* at the moment a dosage change is decided. Checking both at once makes the decision faster, more consistent, and easier to justify under a complex protocol.
-2. Autonomy and nuance ("Modify"). Clinical decisions are rarely binary, and a Modify option is valued for preserving clinical judgment. Practitioners also warned that the tool would be ignored, like routine hospital alerts, if its recommendations are verbose or fire on obviously low-risk cases. This motivated the concise rationale display.
-3. Audit trail value vs. burden. Practitioners strongly supported logging overrides together with rationales, so retrospective audits can show that deviations were deliberate rather than arbitrary. They also stressed that the documentation step must stay lightweight and fast to avoid adding administrative overhead.
+We interviewed seven practitioners across clinical research, pharmacovigilance, and medicine, as written question-and-answer exchanges. Their feedback shaped the Modify option and the short rationale display. The details are in [User Research](User%20Research/User_Research.pdf), and the market analysis is in [Market Research](Market%20Research/Market_Research_final.pdf). Names are in [Acknowledgements](#acknowledgements).
 
 ---
 
@@ -681,17 +677,9 @@ TrialGuard was built during KADO TechQuest (Agentic AI) in a private repository 
 
 ## Team and my contribution
 
-**Team:** Team Ctrl+Agen, 5 members. Names: [CONFIRM].
+Team Ctrl+Agen, 5 members.
 
-**My role:** team lead. I owned the end-to-end architecture:
-* three context-isolated specialist agents over A2A JSON-RPC 2.0;
-* a FastMCP tool server for EHR (FHIR) data; the RAG service is a separate FastAPI service rather than an MCP server [CONFIRM how this should be described];
-* deterministic aggregation and safety guardrails;
-* the Accept / Reject / Modify human-in-the-loop step.
-
-I supervised the data layer (Supabase/Postgres, Chroma RAG) and the frontend, and organised the user and market research.
-
-**Work I did after the hackathon**, with Claude Code assistance: the audit hash chain, its tests, and this README cleanup (including a corrected FastMCP server start-up, the repo reorganisation, and the claim audit in [`docs/README_AUDIT.md`](docs/README_AUDIT.md)). [CONFIRM wording]
+Work I did after the hackathon: the audit hash chain, its tests, and this README cleanup (including a corrected FastMCP server start-up, the repo reorganisation, and the claim audit in [`docs/README_AUDIT.md`](docs/README_AUDIT.md)).
 
 ---
 
@@ -700,9 +688,9 @@ I supervised the data layer (Supabase/Postgres, Chroma RAG) and the frontend, an
 1. Poly, T. N. et al., "Appropriateness of Overridden Alerts in Computerized Physician Order Entry: Systematic Review," *JMIR Medical Informatics*, 2020.
 2. Alanazi, A. et al., "An Evaluation of Drug-Drug Interaction Alerts Produced by Clinical Decision Support Systems in a Tertiary Hospital," 2023.
 3. Getz, K. A. et al., "Benchmarking Protocol Deviations and Their Variation by Major Disease Categories," *Therapeutic Innovation & Regulatory Science*, 2022.
-4. Lindblad, A. S. et al., "Central site monitoring," *Clinical Trials*, 2014. [CONFIRM source for the 15–30% figure]
+4. Lindblad, A. S. et al., "Central site monitoring," *Clinical Trials*, 2014.
 5. TransCelerate BioPharma, RACT/RBM methodology; Applied Clinical Trials Online, "Excel-Based RACTs Go To The Cloud," 2015.
-6. Ferdowsi, S. et al., "Overview of the CT-DEB'26 Shared Task on Predicting Dosing Errors in Interventional Clinical Trials," CL4Health @ LREC 2026. [CONFIRM citation]
+6. Ferdowsi, S. et al., "Overview of the CT-DEB'26 Shared Task on Predicting Dosing Errors in Interventional Clinical Trials," CL4Health @ LREC 2026.
 7. CluePoints, "AI-Powered Clinical Trial Analytics," cluepoints.com.
 
 ---
