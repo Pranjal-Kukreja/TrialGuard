@@ -35,9 +35,8 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 MCP_EHR_SRC = REPO_ROOT / "packages" / "mcp-ehr" / "src"
 MCP_EHR_PKG = MCP_EHR_SRC / "mcp_ehr"
 
-for p in [str(REPO_ROOT), str(MCP_EHR_SRC), str(MCP_EHR_PKG)]:
-    if p not in sys.path:
-        sys.path.insert(0, p)
+if str(REPO_ROOT) not in sys.path:  # `apps` is a namespace package under the repo root
+    sys.path.insert(0, str(REPO_ROOT))
 
 EXPANDED_FILE_PATH = MCP_EHR_PKG / "patients_expanded.json"
 SEEDED_ID_PATH = MCP_EHR_PKG / "seeded_patient_ids.json"

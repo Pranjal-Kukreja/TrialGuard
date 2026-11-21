@@ -161,23 +161,8 @@ def multi_agent_evaluation_node(state: TrialState) -> Dict[str, Any]:
 
 
 def _import_get_patient():
-    try:
-        from mcp_ehr.fhir_client import get_patient
-        return get_patient
-    except ImportError:
-        try:
-            from fhir_client import get_patient
-            return get_patient
-        except ImportError:
-            candidates = [
-                REPO_ROOT / "packages" / "mcp-ehr" / "src" / "mcp_ehr",
-                REPO_ROOT / "packages" / "mcp-ehr" / "src",
-            ]
-            for candidate in candidates:
-                if candidate.exists() and str(candidate) not in sys.path:
-                    sys.path.insert(0, str(candidate))
-            from fhir_client import get_patient
-            return get_patient
+    from mcp_ehr.fhir_client import get_patient
+    return get_patient
 
 
 def fhir_fetch_node(state: TrialState) -> Dict[str, Any]:

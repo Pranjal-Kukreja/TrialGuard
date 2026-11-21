@@ -13,7 +13,6 @@ Handles:
 
 import json
 import os
-import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from groq import Groq
@@ -22,26 +21,8 @@ from pydantic import BaseModel, Field
 # ---------------------------------------------------------------------------
 # Dynamic Path Resolution & Schema Imports
 # ---------------------------------------------------------------------------
-CURRENT_FILE = Path(__file__).resolve()
-REPO_ROOT = CURRENT_FILE.parents[4] if len(CURRENT_FILE.parents) >= 5 else CURRENT_FILE.parents[2]
-
-for p in [
-    str(REPO_ROOT),
-    str(REPO_ROOT / "packages" / "shared-schemas"),
-    str(REPO_ROOT / "packages" / "mcp-ehr" / "src" / "mcp_ehr"),
-]:
-    if p not in sys.path:
-        sys.path.insert(0, p)
-
-try:
-    from shared_schemas.state import PatientData, TrialState
-except ImportError:
-    from state import PatientData, TrialState
-
-try:
-    from mcp_ehr.fhir_client import get_patient
-except ImportError:
-    from fhir_client import get_patient
+from shared_schemas.state import PatientData, TrialState
+from mcp_ehr.fhir_client import get_patient
 
 
 # ---------------------------------------------------------------------------

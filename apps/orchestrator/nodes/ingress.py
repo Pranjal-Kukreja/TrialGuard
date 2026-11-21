@@ -13,7 +13,6 @@ Updated to synchronize with the complete TrialGuard pipeline:
 """
 
 import copy
-import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from langgraph.types import interrupt
@@ -24,26 +23,10 @@ DEFAULT_MAX_MISSING_DATA_RETRIES = 3
 
 
 def _resolve_fhir_patient(patient_id: str) -> dict:
-    """Attempts to fetch patient data from mcp_ehr with dynamic path fallback."""
+    """Fetches patient data from the mcp_ehr package; returns {} if the lookup fails."""
     try:
         from mcp_ehr.fhir_client import get_patient
         return get_patient(patient_id)
-    except ImportError:
-        repo_root = Path(__file__).resolve().parents[3]
-        pkg_src = repo_root / "packages" / "mcp-ehr" / "src"
-        pkg_inner = pkg_src / "mcp_ehr"
-        for p in (str(pkg_src), str(pkg_inner)):
-            if p not in sys.path:
-                sys.path.insert(0, p)
-        try:
-            from mcp_ehr.fhir_client import get_patient
-            return get_patient(patient_id)
-        except Exception:
-            try:
-                from fhir_client import get_patient
-                return get_patient(patient_id)
-            except Exception:
-                return {}
     except Exception:
         return {}
 

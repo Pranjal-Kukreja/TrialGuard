@@ -5763,6 +5763,7 @@ dependencies = [
     { name = "pydantic" },
     { name = "shared-schemas" },
     { name = "techquest-mcp-audit" },
+    { name = "techquest-mcp-ehr" },
 ]
 
 [package.metadata]
@@ -5776,6 +5777,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.13.5" },
     { name = "shared-schemas", editable = "packages/shared-schemas" },
     { name = "techquest-mcp-audit", editable = "packages/mcp-audit" },
+    { name = "techquest-mcp-ehr", editable = "packages/mcp-ehr" },
 ]
 
 [[package]]

@@ -16,7 +16,6 @@ CANDIDATE_PATHS = [
     Path(__file__).resolve().parents[3] / "packages" / "mcp-ehr" / "src" / "mcp_ehr" / "patients_expanded.json",
     Path(__file__).resolve().parents[3] / "services" / "rag_service" / "data" / "mock_fhir" / "patients_expanded.json",
     Path(__file__).resolve().parents[2] / "packages" / "mcp-ehr" / "src" / "mcp_ehr" / "patients_expanded.json",
-    Path("/Users/aahannayak/RESOURCE/techquest/packages/mcp-ehr/src/mcp_ehr/patients_expanded.json"),
 ]
 
 # Synthetic severe renal impairment patient profile for clinical trial exclusion testing

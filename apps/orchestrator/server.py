@@ -19,49 +19,23 @@ from pydantic import BaseModel, Field
 # ---------------------------------------------------------------------------
 # Path Resolution & Package Imports
 # ---------------------------------------------------------------------------
-CURRENT_FILE = Path(__file__).resolve()
-REPO_ROOT = CURRENT_FILE.parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:  # `apps` is a namespace package under the repo root
+    sys.path.insert(0, str(REPO_ROOT))
 
-ORCHESTRATOR_DIR = CURRENT_FILE.parent
-MCP_EHR_DIR = (REPO_ROOT / "packages" / "mcp-ehr" / "src" / "mcp_ehr").resolve()
-SHARED_SCHEMAS_BASE = (REPO_ROOT / "packages" / "shared-schemas").resolve()
-SHARED_SCHEMAS_PKG = (SHARED_SCHEMAS_BASE / "shared_schemas").resolve()
-
-for p in [str(REPO_ROOT), str(ORCHESTRATOR_DIR), str(MCP_EHR_DIR), str(SHARED_SCHEMAS_BASE), str(SHARED_SCHEMAS_PKG)]:
-    if p not in sys.path:
-        sys.path.insert(0, p)
-
-try:
-    from fhir_client import get_patient, list_patients_for_ui
-except ImportError as e:
-    raise RuntimeError(f"Failed to import fhir_client from {MCP_EHR_DIR}: {e}")
-
-try:
-    from shared_schemas.state import (
-        CardiacFunction,
-        ComplianceVerdictRecord,
-        FinancialVerdictRecord,
-        LabResults,
-        MultiAgentIterationSnapshot,
-        PatientData,
-        ProtocolFacts,
-        SafetyVerdictRecord,
-        TrialState,
-        VitalSigns,
-    )
-except ImportError:
-    from state import (
-        CardiacFunction,
-        ComplianceVerdictRecord,
-        FinancialVerdictRecord,
-        LabResults,
-        MultiAgentIterationSnapshot,
-        PatientData,
-        ProtocolFacts,
-        SafetyVerdictRecord,
-        TrialState,
-        VitalSigns,
-    )
+from mcp_ehr.fhir_client import get_patient, list_patients_for_ui
+from shared_schemas.state import (
+    CardiacFunction,
+    ComplianceVerdictRecord,
+    FinancialVerdictRecord,
+    LabResults,
+    MultiAgentIterationSnapshot,
+    PatientData,
+    ProtocolFacts,
+    SafetyVerdictRecord,
+    TrialState,
+    VitalSigns,
+)
 
 try:
     from apps.orchestrator.report_generator import generate_adjudication_pdf_bytes

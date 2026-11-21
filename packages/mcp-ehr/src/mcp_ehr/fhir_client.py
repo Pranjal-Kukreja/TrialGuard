@@ -12,7 +12,6 @@ Updated to synchronize with the expanded PatientData contract:
 
 import json
 import re
-import sys
 from datetime import date
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -20,12 +19,8 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
 
-_pkg_dir = str(Path(__file__).parent)
-if _pkg_dir not in sys.path:
-    sys.path.insert(0, _pkg_dir)
-
 try:
-    from fhir_codes import CODE_SYSTEM, FIELD_ROUTES
+    from mcp_ehr.fhir_codes import CODE_SYSTEM, FIELD_ROUTES
 except ImportError:
     CODE_SYSTEM = "https://techquest-hackathon.local/lab-codes"
     FIELD_ROUTES = {
@@ -431,11 +426,7 @@ def list_patients_for_ui(query: Optional[str] = None) -> List[Dict[str, Any]]:
             from mcp_ehr.seed_data import SYNTHETIC_PATIENTS
             patients_pool = SYNTHETIC_PATIENTS
         except ImportError:
-            try:
-                from seed_data import SYNTHETIC_PATIENTS
-                patients_pool = SYNTHETIC_PATIENTS
-            except ImportError:
-                pass
+            pass
 
     results = []
     for p in patients_pool:

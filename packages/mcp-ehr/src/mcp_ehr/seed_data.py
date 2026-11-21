@@ -27,11 +27,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
 
-_pkg_dir = str(Path(__file__).parent)
-if _pkg_dir not in sys.path:
-    sys.path.insert(0, _pkg_dir)
-
-from fhir_codes import CODE_SYSTEM, FIELD_ROUTES, HACKATHON_TAG_CODE, HACKATHON_TAG_SYSTEM
+from mcp_ehr.fhir_codes import CODE_SYSTEM, FIELD_ROUTES, HACKATHON_TAG_CODE, HACKATHON_TAG_SYSTEM
 
 FHIR_BASE_URL = (
     os.getenv("FHIR_BASE_URL")

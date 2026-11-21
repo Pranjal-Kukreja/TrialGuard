@@ -13,7 +13,6 @@ Run this server:
 
 import copy
 import os
-import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -35,25 +34,15 @@ for parent in [_pkg_dir] + list(_pkg_dir.parents):
 load_dotenv(find_dotenv(usecwd=True))
 load_dotenv(_repo_root / ".env")
 
-if str(_pkg_dir) not in sys.path:
-    sys.path.insert(0, str(_pkg_dir))
-
-try:
-    from fhir_client import (
-        find_nearest_patients as _find_nearest_patients,
-        get_patient as _get_patient,
-        list_patients_for_ui as _list_patients_for_ui,
-    )
-except ImportError:
-    from .fhir_client import (
-        find_nearest_patients as _find_nearest_patients,
-        get_patient as _get_patient,
-        list_patients_for_ui as _list_patients_for_ui,
-    )
+from mcp_ehr.fhir_client import (
+    find_nearest_patients as _find_nearest_patients,
+    get_patient as _get_patient,
+    list_patients_for_ui as _list_patients_for_ui,
+)
 
 mcp = FastMCP(
     name="ehr-server",
-    description="FHIR R4 EHR retrieval server for clinical trial adjudication pipeline.",
+    instructions="FHIR R4 EHR retrieval server for clinical trial adjudication pipeline.",
 )
 
 
