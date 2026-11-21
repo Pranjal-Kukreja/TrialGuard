@@ -44,4 +44,9 @@ techquest-mcp-rag = { workspace = true }
 [dependency-groups]
 dev = [
     "ipykernel>=7.3.0",
+    "pytest>=8.0",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["packages/mcp-audit/tests", "apps/gateway/tests", "apps/orchestrator/tests"]
+pythonpath = [".", "apps/gateway"]

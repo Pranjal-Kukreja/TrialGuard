@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.14' and sys_platform == 'emscripten'",
@@ -5554,6 +5554,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "ipykernel" },
+    { name = "pytest" },
 ]
 
 [package.metadata]
@@ -5578,7 +5579,10 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "ipykernel", specifier = ">=7.3.0" }]
+dev = [
+    { name = "ipykernel", specifier = ">=7.3.0" },
+    { name = "pytest", specifier = ">=8.0" },
+]
 
 [[package]]
 name = "techquest-agent-compliance"
@@ -5702,6 +5706,7 @@ dependencies = [
     { name = "pydantic" },
     { name = "python-dotenv" },
     { name = "shared-schemas" },
+    { name = "techquest-mcp-audit" },
     { name = "uvicorn" },
 ]
 
@@ -5715,6 +5720,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.7.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
     { name = "shared-schemas", editable = "packages/shared-schemas" },
+    { name = "techquest-mcp-audit", editable = "packages/mcp-audit" },
     { name = "uvicorn", specifier = ">=0.30.0" },
 ]
 
@@ -5756,6 +5762,7 @@ dependencies = [
     { name = "psycopg", extra = ["binary", "pool"] },
     { name = "pydantic" },
     { name = "shared-schemas" },
+    { name = "techquest-mcp-audit" },
 ]
 
 [package.metadata]
@@ -5768,6 +5775,7 @@ requires-dist = [
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.5" },
     { name = "pydantic", specifier = ">=2.13.5" },
     { name = "shared-schemas", editable = "packages/shared-schemas" },
+    { name = "techquest-mcp-audit", editable = "packages/mcp-audit" },
 ]
 
 [[package]]
