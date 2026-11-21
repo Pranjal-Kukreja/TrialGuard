@@ -240,7 +240,7 @@ TrialGuard/
 ├── services/
 │   └── rag_service/             # FastAPI RAG/rule service: ingestion, Chroma store, embeddings, tests
 ├── scripts/                     # seed_comprehensive_patients.py, batch_audit.py, check_all_confidence.py, visualize_graph.py
-├── docs/                        # README_AUDIT.md, generated LangGraph diagram
+├── docs/                        # CHANGES.md, generated LangGraph diagram
 ├── supabase/migrations/         # SQL for the adjudication_reports column
 ├── User Research/               # User_Research.pdf
 ├── Market Research/             # Market_Research_final.pdf
@@ -679,7 +679,7 @@ TrialGuard was built during KADO TechQuest (Agentic AI) in a private repository 
 
 Team Ctrl+Agen, 5 members.
 
-Work I did after the hackathon: the audit hash chain, its tests, and this README cleanup (including a corrected FastMCP server start-up, the repo reorganisation, and the claim audit in [`docs/README_AUDIT.md`](docs/README_AUDIT.md)).
+Work I did after the hackathon: the audit hash chain, its tests, and this README cleanup (including a corrected FastMCP server start-up, the repo reorganisation, and a summary in [`docs/CHANGES.md`](docs/CHANGES.md)).
 
 ---
 
