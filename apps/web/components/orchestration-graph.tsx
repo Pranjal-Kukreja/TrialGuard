@@ -643,6 +643,12 @@ export function OrchestrationGraph({
   })
   const [selectedInspector, setSelectedInspector] = useState<any | null>(null)
   const [copiedAudit, setCopiedAudit] = useState(false)
+  const [auditChain, setAuditChain] = useState<{
+    ok: boolean
+    length: number
+    head_hash: string | null
+    broken_index: number | null
+  } | null>(null)
   const [isExpanded, setIsExpanded] = useState(false)
   const currentActionRef = useRef(action || "")
   const onArbitrationCompleteRef = useRef(onArbitrationComplete)
@@ -814,6 +820,21 @@ export function OrchestrationGraph({
       cancelled = true
       clearTimeout(safetyTimer)
       eventSource.close()
+    }
+  }, [patientId, restartSignal])
+
+  // Real hash-chain status for this patient's saved reports
+  useEffect(() => {
+    let cancelled = false
+    setAuditChain(null)
+    fetch(`${getGatewayUrl()}/api/reports/${encodeURIComponent(patientId)}/verify`, { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!cancelled && data && typeof data.ok === "boolean") setAuditChain(data)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
     }
   }, [patientId, restartSignal])
 
@@ -1292,19 +1313,28 @@ export function OrchestrationGraph({
         position: { x: 2150, y: 370 },
         data: {
           title: "21 CFR Part 11 Audit",
-          subtitle: "Cryptographic Seal",
-          summary: "Cryptographically stores execution trajectory and clinician decision into Supabase PostgreSQL.",
+          subtitle: "SHA-256 Hash Chain",
+          summary: "Appends the saved clinician decision to this patient's SHA-256 hash-chained report store.",
           onInspect: () =>
             setSelectedInspector({
               type: "audit",
               title: "Complete Audit & Persistence Node",
               subtitle: "FDA 21 CFR Part 11 Audit Trail",
-              summary: "Cryptographically records every prompt, specialist verdict, latency metric, and physician action into Supabase.",
+              summary: "Saved decisions are stored as hash-chained report records (Supabase when configured, local JSON otherwise). The value below is the current head of this patient's chain.",
               raw: {
                 report_table: "public.patients",
                 compliance_standard: "FDA 21 CFR Part 11",
                 timestamp: new Date().toISOString(),
-                immutable_hash: "sha256:7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069",
+                chain_head_hash: auditChain?.head_hash ? `sha256:${auditChain.head_hash}` : null,
+                chain_status: auditChain
+                  ? auditChain.ok
+                    ? "verified"
+                    : `broken at record ${auditChain.broken_index}`
+                  : "unavailable",
+                chain_records: auditChain?.length ?? 0,
+                note: auditChain?.head_hash
+                  ? undefined
+                  : "No sealed report yet. A record is sealed when a decision is saved.",
               },
             }),
         },
@@ -1327,6 +1357,7 @@ export function OrchestrationGraph({
     activeAction,
     isViolation,
     renalDisplay,
+    auditChain,
   ])
 
   // Edges
