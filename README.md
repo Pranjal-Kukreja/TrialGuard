@@ -622,7 +622,7 @@ How the audit trail works:
 * Verification. `verify_chain()` recomputes the chain and reports the first record that fails: a changed field, a removed or reordered record, or a broken link. `GET /api/reports/{patient_id}/verify` exposes it, the graph UI's audit node shows the current chain head and status, and the PDF certificate prints the report's hash, the previous hash, and the chain status.
 * LangGraph path. The final audit entry is sealed the same way and includes a digest of the run's earlier audit logs. It is one record per run, not a persistent chain.
 * Override accountability. Every Accept, Reject, and Modify is saved with the system's recommendation alongside it, so reviewers can see what was advised and what the human chose.
-* HL7 FHIR R4 shapes. Patient data uses `Patient`-, `MedicationRequest`-, `Observation`- and `Condition`-style structures. There is no connection to a FHIR server in the running app.
+* HL7 FHIR R4 shapes. Patient data uses `Patient`-, `MedicationRequest`-, `Observation`- and `Condition`-style structures. The gateway reads patients from local JSON fixtures. The EHR client used by the MCP server and the LangGraph path also reads local fixtures first and falls back to the public HAPI FHIR R4 server for IDs it does not have. The app never writes to a FHIR server (`seed_data.py` is a separate script that can upload the synthetic patients to HAPI).
 
 What the hash chain does not give you:
 
