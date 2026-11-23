@@ -1122,24 +1122,8 @@ export async function updateFhirDatabase(
     // ignore on platforms without node fs access
   }
 
-  // 4. Update Supabase if configured
-  try {
-    const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    if (url && key) {
-      const supabase = createClient(url, key)
-      await supabase
-        .from("patients")
-        .update({
-          prescribed_action: standardized_action,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("patient_id", patientId)
-    }
-  } catch {
-    // transient supabase error ignored
-  }
-
+  // The override is not written to Supabase: patients has no prescribed_action column.
+  // The action is kept in memory above and stored with the final adjudication report.
   return { success: true, patientId, standardized_action }
 }
 
