@@ -3,6 +3,7 @@
 # TrialGuard
 ### Agentic Point-of-Care Validation for Clinical Trials
 
+[![CI](https://github.com/Pranjal-Kukreja/TrialGuard/actions/workflows/ci.yml/badge.svg)](https://github.com/Pranjal-Kukreja/TrialGuard/actions/workflows/ci.yml)
 [![Live App](https://img.shields.io/badge/Live%20App-techquest--roan.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://techquest-roan.vercel.app)
 [![A2A Protocol](https://img.shields.io/badge/Protocol-A2A%20JSON--RPC%202.0-4285F4?style=for-the-badge)](https://github.com/a2aproject/A2A)
 [![LangGraph](https://img.shields.io/badge/Orchestration-LangGraph-FF6F00?style=for-the-badge&logo=langchain&logoColor=white)](https://github.com/langchain-ai/langgraph)
@@ -542,6 +543,8 @@ curl -s http://localhost:8000/api/reports/P036/verify
 uv run pytest                                  # hash chain, report store, audit node (19 tests)
 (cd services/rag_service && uv run pytest)     # RAG / rule engine suite (31 tests)
 ```
+
+GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs both commands on every push and pull request.
 
 The first command covers the audit hash chain: a valid chain passes, editing any field of an earlier record fails verification at that record, record order matters, and the gateway's report store chains reports per patient and detects tampering. The agent contract tests need the agent services running and are not part of `pytest`:
 
