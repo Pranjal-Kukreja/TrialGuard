@@ -45,12 +45,13 @@
 15. [Evaluator Walkthrough](#evaluator-walkthrough)
 16. [Test Patient Matrix](#test-patient-matrix)
 17. [Audit Trail & Regulatory Alignment](#audit-trail--regulatory-alignment)
-18. [Limitations & Future Work](#limitations--future-work)
-19. [Troubleshooting](#troubleshooting)
-20. [Repository history](#repository-history)
-21. [Team and my contribution](#team-and-my-contribution)
-22. [References](#references)
-23. [Acknowledgements](#acknowledgements)
+18. [Database](#database)
+19. [Limitations & Future Work](#limitations--future-work)
+20. [Troubleshooting](#troubleshooting)
+21. [Repository history](#repository-history)
+22. [Team and my contribution](#team-and-my-contribution)
+23. [References](#references)
+24. [Acknowledgements](#acknowledgements)
 
 ---
 
@@ -363,13 +364,13 @@ Every claim in this project is labelled as implemented, simulated, or assumed.
 |:---|:---|
 | Implemented | FastAPI gateway; three A2A specialist services with JSON-RPC 2.0 `SendMessage`; context isolation checks; Guardrail-1 and Guardrail-2; deterministic reducer; Accept / Reject / Modify flow; hash-chained report store with a verify endpoint; ReactFlow dashboard with SSE; FastMCP EHR server; LangGraph reference workflow with a Postgres-or-memory checkpointer |
 | Simulated | Open-source protocol documents; synthetic FHIR-shaped patient data (54 profiles); the protocol clauses the gateway path passes to the Compliance agent; scripted outcomes for several demo patients; the cost table behind the Financial agent |
-| Built but not used by the running app | Chroma retrieval pipeline (needs a locally built index); LangGraph workflow and Postgres checkpointer (run via `scripts/batch_audit.py`, untested against a real database in this repo) |
+| Built but not used by the running app | Chroma retrieval pipeline (needs a locally built index); LangGraph workflow and Postgres checkpointer (run via `scripts/batch_audit.py`; only the checkpointer's table setup has been run against a local Postgres, not a full pause-and-resume) |
 | Not implemented | RAG as an MCP server; leadership view of researcher accept/override behavior; a lockout registry for barred subjects (lockout is per-session UI state); FHIR server write-back; Gemini and multi-provider LLM fallback |
 | Assumed | That accumulated Accept / Reject / Modify records would give trial leadership a materially different view of researcher behavior than they have today |
 
 The pipeline is designed to run on an organization's own protocol documents and a real FHIR dataset without architectural changes. The substitutions above reflect what data was available to us, not a limit of the pipeline.
 
-Supabase: the web app reads the `patients` table (`apps/web/app/actions.ts`), and `scripts/seed_comprehensive_patients.py` can upsert synthetic patients into it. The gateway reads patients from local JSON, not Supabase. Reports are written locally first, then to `patients.clinical_data.adjudication_reports`, then to the `adjudication_reports` jsonb column added by [`supabase/migrations`](supabase/migrations/20260916_add_adjudication_reports.sql). The repository does not contain the SQL that creates the `patients` table itself.
+Supabase: the web app reads the `patients` table (`apps/web/app/actions.ts`), and `scripts/seed_comprehensive_patients.py` can upsert synthetic patients into it. The gateway reads patients from local JSON, not Supabase. Reports are written locally first, then to `patients.clinical_data.adjudication_reports`, then to the `adjudication_reports` jsonb column added by [`supabase/migrations`](supabase/migrations/20260916_add_adjudication_reports.sql). The `patients` definition is in the first migration; see [Database](#database).
 
 ---
 
@@ -632,6 +633,150 @@ What the hash chain does not give you:
 * It is not a signature: anyone who can rewrite the whole chain can recompute valid hashes.
 
 Regulatory wording: parts of the UI and the PDF mention 21 CFR Part 11 and ICH E6. This is an alignment goal only. The system has no electronic signatures, user authentication or access controls, and has not undergone validation or regulatory review. Guardrail-1 is modelled on the idea behind FDA 21 CFR 312.62 (complete subject identification) and ICH E6(R2).
+
+---
+
+## Database
+
+Everything in this section comes from the code and the files in [`supabase/migrations`](supabase/migrations), plus a local run against a throwaway `postgres:16` container (details at the end). The hosted Supabase project belongs to a teammate's account and was not accessible while writing this, so nothing here was checked against it.
+
+### Rebuilding the schema
+
+The migrations rebuild the application tables on any fresh Postgres. Apply them in filename order:
+
+```bash
+for f in supabase/migrations/*.sql; do psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$f"; done
+```
+
+| Migration | What it does |
+|:---|:---|
+| [`20260915_create_patients.sql`](supabase/migrations/20260915_create_patients.sql) | Creates `public.patients` (`create table if not exists`) |
+| [`20260916_add_adjudication_reports.sql`](supabase/migrations/20260916_add_adjudication_reports.sql) | Adds the `adjudication_reports` jsonb column (`add column if not exists`) |
+
+Both are idempotent. The LangGraph checkpoint tables are not in the migrations; see below.
+
+### The `patients` table
+
+| Column | Type | Notes |
+|:---|:---|:---|
+| `patient_id` | text, not null | Primary key (`patients_pkey`) |
+| `trial_id` | text | |
+| `name` | text | |
+| `dob` | date | |
+| `age` | integer | |
+| `sex` | text | |
+| `cohort` | text | |
+| `diagnosis` | text | |
+| `fhir_id` | text | |
+| `assigned_demo_trial_id` | text | |
+| `demo_category` | text | |
+| `clinical_data` | jsonb | The full patient record (labs, medications, protocol facts) |
+| `created_at`, `updated_at` | timestamptz | Default `now()` |
+| `adjudication_reports` | jsonb, not null, default `'[]'` | Added by the second migration |
+
+`scripts/seed_comprehensive_patients.py` upserts rows with every column except the timestamps and `adjudication_reports`. The web app reads the table with `select *` (`getPatientsFromSupabase`).
+
+### How finalized reports are stored
+
+When a clinician's decision is saved (`POST /api/orchestrator/checkpoint`), `append_final_report` in `apps/gateway/services/supabase_reports.py`:
+
+1. Seals the report into the patient's [hash chain](#audit-trail--regulatory-alignment) and writes it to a local JSON store (`apps/gateway/data/adjudication_reports.json`, git-ignored). This always happens first.
+2. If `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set, reads the patient's row and writes the report list back to `clinical_data -> 'adjudication_reports'`.
+3. If that read or update does not succeed, tries the `adjudication_reports` column instead.
+
+Reading merges the remote list and the local store, de-duplicated by `report_id`.
+
+The live database was created from the `patients` definition above, and the second migration may not have been applied there. The two-step write exists so that it works either way: `clinical_data` is present in both cases.
+
+### Checkpoints and fallbacks
+
+The LangGraph reference workflow (`apps/orchestrator`) persists thread state with `PostgresSaver`. `checkpointer.setup()` creates its tables on first use, so they are not in the migrations: `checkpoints`, `checkpoint_blobs`, `checkpoint_writes` and `checkpoint_migrations`. The connection string is read from the first of `SUPABASE_DB_URI`, `DATABASE_URL`, `POSTGRES_URL`, `SUPABASE_POSTGRES_URL` that is set.
+
+With no database configured the workflow uses an in-memory checkpointer (state is lost on restart), and the gateway keeps reports only in the local JSON store.
+
+### How `prescribed_action` works
+
+`prescribed_action` is an input to an adjudication run. It is not a column on `patients`.
+
+* The web UI shows the action and lets the clinician edit it. It sends it in the body of `POST /api/orchestrator/runs`. If the request carries none, the gateway derives one from the patient's medications, cohort and diagnoses (`apps/gateway/routers/orchestrator.py`).
+* On Modify, the clinician supplies a new action and the run restarts with it (the gateway's `/resume` route; `hitl_review_node` on the LangGraph path).
+* When the decision is saved, the report stores `original_prescribed_action` and `final_prescribed_action` inside `clinical_data.adjudication_reports` (or the fallback column).
+* An override made in the UI is also held in the Next.js server's memory and written into the local fixture JSON files. It is not written to Supabase.
+
+### Example queries
+
+Both queries read the reports from `clinical_data`. The field names (`saved_at`, `final_decision`, `final_verdict`, `final_prescribed_action`, `hash`) are the keys written by `checkpoint_orchestrator` and `seal_record`. `final_decision` holds the clinician's action (`accept` or `reject`) and `final_verdict` holds the consensus verdict (`JUSTIFIED`, `NOT_JUSTIFIED` or `NEEDS_REVIEW`). To read the fallback column instead, replace `p.clinical_data -> 'adjudication_reports'` with `p.adjudication_reports`.
+
+**1. One patient's finalized reports, newest first**
+
+```sql
+select
+  r ->> 'saved_at'                 as saved_at,
+  r ->> 'final_decision'           as final_decision,
+  r ->> 'final_verdict'            as final_verdict,
+  r ->> 'final_prescribed_action'  as final_prescribed_action,
+  left(r ->> 'hash', 12)           as hash_prefix
+from public.patients p
+cross join lateral jsonb_array_elements(
+  case when jsonb_typeof(p.clinical_data -> 'adjudication_reports') = 'array'
+       then p.clinical_data -> 'adjudication_reports' else '[]'::jsonb end
+) as r
+where p.patient_id = 'P036'
+order by (r ->> 'saved_at')::timestamptz desc;
+```
+
+```
+         saved_at          | final_decision | final_verdict |     final_prescribed_action     | hash_prefix
+---------------------------+----------------+---------------+---------------------------------+--------------
+ 2026-09-20T11:30:00+00:00 | accept         | JUSTIFIED     | Apixaban 5 mg oral twice daily  | b225d3e95b63
+ 2026-09-20T10:00:00+00:00 | reject         | NOT_JUSTIFIED | Apixaban 40 mg oral twice daily | 30f9685c3ba5
+(2 rows)
+```
+
+**2. Patients with a report of a given verdict**
+
+```sql
+select
+  p.patient_id,
+  r ->> 'saved_at'       as saved_at,
+  r ->> 'final_decision' as final_decision,
+  r ->> 'final_verdict'  as final_verdict
+from public.patients p
+cross join lateral jsonb_array_elements(
+  case when jsonb_typeof(p.clinical_data -> 'adjudication_reports') = 'array'
+       then p.clinical_data -> 'adjudication_reports' else '[]'::jsonb end
+) as r
+where r ->> 'final_verdict' = 'NOT_JUSTIFIED'
+order by p.patient_id, (r ->> 'saved_at')::timestamptz desc;
+```
+
+```
+ patient_id |         saved_at          | final_decision | final_verdict
+------------+---------------------------+----------------+---------------
+ P036       | 2026-09-20T10:00:00+00:00 | reject         | NOT_JUSTIFIED
+ P041       | 2026-09-22T08:00:00+00:00 | reject         | NOT_JUSTIFIED
+(2 rows)
+```
+
+The output above comes from four synthetic rows (P036 with two reports, P041 and P051 with one, P052 with none) in a local throwaway database, not from the hosted project. The report records were built with the repo's own `seal_record`, so their shape and hashes are real, but the clinical content is made up. Pulling P036's reports back out of `jsonb` and running `verify_chain` on them returned `ok: true`, and changing one field of the first report made it fail at index 0.
+
+### Indexes
+
+The only filter the code applies to `patients` is equality on `patient_id` (the report store), which the primary key serves. The web app reads the whole table with no filter. No other index is justified by a query in the codebase, so none is added.
+
+### Known gaps
+
+* **Hosted database state is unverified.** It is on a teammate's account. The `adjudication_reports` column migration may not be applied there, in which case reports are stored only under `clinical_data`.
+* **Reports for unknown patients stay local.** The Supabase write updates an existing `patients` row. If there is no row for that `patient_id`, the report exists only in the local JSON store, which is git-ignored and is lost on a host with an ephemeral disk.
+* **Writes are not atomic.** Saving a report reads the list, appends, and writes it back without a lock or transaction. Concurrent saves for one patient can lose a report or fork the hash chain (see the chain limits above). The fallback-column write also does not check the response status.
+* **UI overrides are not persisted to the database.** `updateFhirDatabase` used to try to write a `prescribed_action` column that does not exist, and the failure was silent. That call is removed. The in-memory override is lost when the Next.js server restarts; the fixture-file edit below persists only where the disk is writable. Only a saved decision stores the action in the database.
+* **The UI rewrites committed fixtures.** The same function edits `patients_expanded.json` on disk. It is the only code that writes `default_prescribed_action`, and four patients (P034–P037) in `packages/mcp-ehr` carry that field. Nothing in the repository reads it, so it does not supply defaults to the graph.
+* **No row-level security is defined.** The migrations do not enable RLS or create policies, and the web server action falls back to the public anon key when the service-role key is absent. Access control on the hosted project is unknown.
+* **Checkpoint persistence is only partly tested.** Running `PostgresSaver.setup()` against local Postgres created the four tables. A full run that pauses at the human review step and resumes from a stored checkpoint was not run against a database.
+
+### What was run
+
+On a local `postgres:16` container: both migrations applied in filename order without errors, and a second pass was a no-op; the two queries above, plus the fallback-column variant of query 1, returned the output shown; `checkpointer.setup()` created the four checkpoint tables; with no database variable set the code returned the in-memory checkpointer. Not run: anything against the hosted Supabase project, PostgREST (the HTTP layer the gateway actually uses), or Supabase-specific roles and policies.
 
 ---
 
