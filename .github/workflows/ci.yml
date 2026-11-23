@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      # uv.lock is the source of truth; --frozen fails the job instead of re-resolving.
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Tests (hash chain, report store, audit node)
+        run: uv run pytest
+
+      - name: Tests (RAG and rule engine)
+        working-directory: services/rag_service
+        run: uv run pytest
