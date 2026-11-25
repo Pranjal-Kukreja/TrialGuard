@@ -19,6 +19,8 @@
 
 <p align="center">
   Live app: <a href="https://techquest-roan.vercel.app">https://techquest-roan.vercel.app</a>
+  &nbsp;|&nbsp;
+  Demo video: <a href="https://drive.google.com/file/d/1yC2pBDGfxaFBB_ST_dA1P-YAsrSrYjQi/view?usp=share_link">Google Drive</a>
 </p>
 
 </div>
@@ -368,6 +370,18 @@ Every claim in this project is labelled as implemented, simulated, or assumed.
 | Built but not used by the running app | Chroma retrieval pipeline (needs a locally built index); LangGraph workflow and Postgres checkpointer (run via `scripts/batch_audit.py`; only the checkpointer's table setup has been run against a local Postgres, not a full pause-and-resume) |
 | Not implemented | RAG as an MCP server; leadership view of researcher accept/override behavior; a lockout registry for barred subjects (lockout is per-session UI state); FHIR server write-back; Gemini and multi-provider LLM fallback |
 | Assumed | That accumulated Accept / Reject / Modify records would give trial leadership a materially different view of researcher behavior than they have today |
+
+### RAG status
+
+What the retrieval code does and does not do today. The deployed gateway (the live app and `start_all.py`) shows **fixed protocol clauses** (`_simulated_rag_output` in `apps/gateway/routers/orchestrator.py`). The Chroma retrieval pipeline is a built component: it is called in-process from the LangGraph node (`apps/orchestrator/nodes/rag_node.py`) and served by the `services/rag_service` FastAPI app, and it is **not integrated into the live demo**.
+
+| Status | What |
+|:---|:---|
+| Implemented | Regex chunking of trial eligibility text (`services/rag_service/src/preprocessing/chunker.py`); `BAAI/bge-small-en-v1.5` embeddings (downloaded from Hugging Face on first use); Chroma store with two cosine collections, `trialguard_trials` and `trialguard_fda_labels`; dense retrieval filtered by `trial_id`; an evidence guard that drops chunks from other trials; exact lookup of the source chunk behind each rule; a `/evaluate` API in `services/rag_service` |
+| Simulated | The protocol evidence in the deployed gateway path (fixed clauses per trial family, with fixed scores); the evidence panels in the web UI that display it |
+| Not implemented | RAG as an MCP server (`packages/mcp-rag` contains only a `pyproject.toml`); BM25 or hybrid search; reranking; a score threshold; reading `services/rag_service/config.yaml` (no code loads it); FDA label retrieval from the repo data (the raw label data and label chunk file are not in the repo, so that index cannot be built); retrieval metrics (none have been measured yet; see `services/rag_service/eval/` once the baseline is committed) |
+
+The retrieval corpus is **4 trials and 40 eligibility chunks** (`services/rag_service/data/processed/chunks/trial_chunks.jsonl`). The vector index is not committed (`vector_db/` is gitignored); build it locally with `cd services/rag_service && python -m scripts.build_embeddings`.
 
 The pipeline is designed to run on an organization's own protocol documents and a real FHIR dataset without architectural changes. The substitutions above reflect what data was available to us, not a limit of the pipeline.
 
@@ -792,6 +806,18 @@ On a local `postgres:16` container: both migrations applied in filename order wi
 * The audit chain does not detect truncation (see above).
 * Known bug, not fixed: the standalone `apps/orchestrator/server.py` `/api/adjudicate` background task references an undefined variable (`accumulated_state`). The web app does not use that server.
 * Next steps: obtain a real (or safely de-identified) clinical trial agreement and FHIR dataset to test against, and run structured evaluations with real users.
+
+### Known limitations
+
+Specific, code-level limits a reviewer should know about:
+
+* **Compliance agent defaults when the LLM call fails.** In `apps/gateway/services/compliance_agent.py`, if the LLM call raises, the agent returns `COMPLIANT` with confidence 0.90 (lines 45-74), unless the action text matches one of the dose strings below, in which case it returns `NON_COMPLIANT` at 0.95.
+* **Hard-coded dose-string rules.** The same file checks the action text for the substrings `"20 mg"`, `"40 mg"`, `"50 mg"`, `"60 mg"`, `"400 mg"` and `"overdose"` (line 35). When any matches, the status is forced to `NON_COMPLIANT` even if the LLM answered otherwise (lines 86-87). The list does not depend on the drug or the trial, and it is a plain substring match. `apps/gateway/services/safety_agent.py` (line 65) uses the same list.
+* **Safety agent defaults when the LLM call fails.** In `safety_agent.py`, if the LLM call raises, the result is empty (lines 44-46) and the status defaults to `SAFE` (line 70) unless one of its own rule checks trips (dose strings, CrCl or eGFR below 30, ALT or AST above 120, ANC or platelets below the cutoffs). Missing lab values are filled with normal-looking defaults (for example CrCl 65, eGFR 70, ALT 30, platelets 220000, ANC 3800; lines 56-62).
+* **No retrieval metrics yet.** Nothing in the repo measures retrieval quality until the evaluation added in `services/rag_service/eval/`. Before that there was no recall, MRR or similar metric, and the tests assert rule-engine decisions and response keys, not which chunks are retrieved.
+* **Synthetic data only.** Patients are synthetic and the protocol corpus is 4 trials / 40 eligibility chunks.
+* **`services/rag_service/config.yaml` is unused.** The model name, collection names and top-k are hard-coded in `src/`; no code reads the file.
+* **`packages/mcp-rag` is empty.** It contains only a `pyproject.toml`; there is no MCP RAG server.
 
 ---
 
