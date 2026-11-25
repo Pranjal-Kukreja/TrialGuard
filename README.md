@@ -379,9 +379,33 @@ What the retrieval code does and does not do today. The deployed gateway (the li
 |:---|:---|
 | Implemented | Regex chunking of trial eligibility text (`services/rag_service/src/preprocessing/chunker.py`); `BAAI/bge-small-en-v1.5` embeddings (downloaded from Hugging Face on first use); Chroma store with two cosine collections, `trialguard_trials` and `trialguard_fda_labels`; dense retrieval filtered by `trial_id`; an evidence guard that drops chunks from other trials; exact lookup of the source chunk behind each rule; a `/evaluate` API in `services/rag_service` |
 | Simulated | The protocol evidence in the deployed gateway path (fixed clauses per trial family, with fixed scores); the evidence panels in the web UI that display it |
-| Not implemented | RAG as an MCP server (`packages/mcp-rag` contains only a `pyproject.toml`); BM25 or hybrid search; reranking; a score threshold; reading `services/rag_service/config.yaml` (no code loads it); FDA label retrieval from the repo data (the raw label data and label chunk file are not in the repo, so that index cannot be built); retrieval metrics (none have been measured yet; see `services/rag_service/eval/` once the baseline is committed) |
+| Not implemented | RAG as an MCP server (`packages/mcp-rag` contains only a `pyproject.toml`); BM25 or hybrid search; reranking; a score threshold; reading `services/rag_service/config.yaml` (no code loads it); FDA label retrieval from the repo data (the raw label data and label chunk file are not in the repo, so that index cannot be built); reviewed retrieval labels (the baseline below uses unreviewed labels) |
 
 The retrieval corpus is **4 trials and 40 eligibility chunks** (`services/rag_service/data/processed/chunks/trial_chunks.jsonl`). The vector index is not committed (`vector_db/` is gitignored); build it locally with `cd services/rag_service && python -m scripts.build_embeddings`.
+
+#### Retrieval baseline
+
+A first measurement of the current dense-only retrieval over the 4-trial / 40-chunk corpus, 36 labelled queries, **labels reviewed: 0 of 36**. Copied from [`services/rag_service/eval/results/baseline.md`](services/rag_service/eval/results/baseline.md); method and caveats are in [`services/rag_service/eval/README.md`](services/rag_service/eval/README.md). The † cell is trivially 1.000 because the trial has 5 or fewer chunks. This does not describe the live demo, which uses fixed clauses.
+
+Filtered by `trial_id` (as the pipeline does):
+
+| Scope | Queries | Chunks in trial | recall@1 | recall@3 | recall@5 | MRR |
+|:---|---:|---:|---:|---:|---:|---:|
+| **Overall** | 36 | 40 (all) | 0.778 | 0.889 | 0.972 | 0.853 |
+| NCT00699998 | 13 | 14 | 0.692 | 0.846 | 1.000 | 0.804 |
+| NCT00781573 | 9 | 10 | 0.556 | 0.778 | 0.889 | 0.694 |
+| NCT00809965 | 4 | 5 | 1.000 | 1.000 | 1.000 † | 1.000 |
+| NCT02415400 | 10 | 11 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+Unfiltered (all 40 chunks compete):
+
+| Scope | Queries | Chunks in trial | recall@1 | recall@3 | recall@5 | MRR |
+|:---|---:|---:|---:|---:|---:|---:|
+| **Overall** | 36 | 40 (all) | 0.694 | 0.833 | 0.861 | 0.770 |
+| NCT00699998 | 13 | 14 | 0.615 | 0.769 | 0.769 | 0.692 |
+| NCT00781573 | 9 | 10 | 0.556 | 0.778 | 0.778 | 0.664 |
+| NCT00809965 | 4 | 5 | 0.750 | 0.750 | 1.000 | 0.812 |
+| NCT02415400 | 10 | 11 | 0.900 | 1.000 | 1.000 | 0.950 |
 
 Statements in `TrialGuard_Project_Report.pdf` that do not match the code (for example the RAG MCP server) are listed in [`docs/REPORT_ERRATA.md`](docs/REPORT_ERRATA.md).
 
@@ -816,7 +840,7 @@ Specific, code-level limits a reviewer should know about:
 * **Compliance agent defaults when the LLM call fails.** In `apps/gateway/services/compliance_agent.py`, if the LLM call raises, the agent returns `COMPLIANT` with confidence 0.90 (lines 45-74), unless the action text matches one of the dose strings below, in which case it returns `NON_COMPLIANT` at 0.95.
 * **Hard-coded dose-string rules.** The same file checks the action text for the substrings `"20 mg"`, `"40 mg"`, `"50 mg"`, `"60 mg"`, `"400 mg"` and `"overdose"` (line 35). When any matches, the status is forced to `NON_COMPLIANT` even if the LLM answered otherwise (lines 86-87). The list does not depend on the drug or the trial, and it is a plain substring match. `apps/gateway/services/safety_agent.py` (line 65) uses the same list.
 * **Safety agent defaults when the LLM call fails.** In `safety_agent.py`, if the LLM call raises, the result is empty (lines 44-46) and the status defaults to `SAFE` (line 70) unless one of its own rule checks trips (dose strings, CrCl or eGFR below 30, ALT or AST above 120, ANC or platelets below the cutoffs). Missing lab values are filled with normal-looking defaults (for example CrCl 65, eGFR 70, ALT 30, platelets 220000, ANC 3800; lines 56-62).
-* **No retrieval metrics yet.** Nothing in the repo measures retrieval quality until the evaluation added in `services/rag_service/eval/`. Before that there was no recall, MRR or similar metric, and the tests assert rule-engine decisions and response keys, not which chunks are retrieved.
+* **Retrieval metrics are a first baseline only.** `services/rag_service/eval/` measures recall@k and MRR on 36 queries whose labels are not yet reviewed (0 of 36), over a 4-trial / 40-chunk corpus. Before that there was no retrieval metric. The tests (`pytest`) assert rule-engine decisions and response keys, not which chunks are retrieved.
 * **Synthetic data only.** Patients are synthetic and the protocol corpus is 4 trials / 40 eligibility chunks.
 * **`services/rag_service/config.yaml` is unused.** The model name, collection names and top-k are hard-coded in `src/`; no code reads the file.
 * **`packages/mcp-rag` is empty.** It contains only a `pyproject.toml`; there is no MCP RAG server.

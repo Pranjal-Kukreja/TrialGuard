@@ -1,0 +1,1788 @@
+{
+  "chromadb_version": "1.5.9",
+  "chunks_per_trial": {
+    "NCT00699998": 14,
+    "NCT00781573": 10,
+    "NCT00809965": 5,
+    "NCT02415400": 11
+  },
+  "collection": "trialguard_trials",
+  "description": "Baseline of the current dense-only retrieval (no BM25, no rerank, no tuning). Gold labels in queries.jsonl may be unreviewed.",
+  "distance": "cosine",
+  "git_commit": "7b7a5c75e14e7423f5bc073a7d2f0cebeb516e8b",
+  "git_tracked_files_modified": "no",
+  "indexed_chunks": 40,
+  "ks": [
+    1,
+    3,
+    5
+  ],
+  "labels_reviewed": 0,
+  "model": "BAAI/bge-small-en-v1.5",
+  "num_queries": 36,
+  "per_query": [
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-007",
+          "NCT02415400-eligibility-010",
+          "NCT02415400-eligibility-000",
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-006"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT02415400-eligibility-001"
+      ],
+      "id": "q001",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT02415400",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-008",
+          "NCT00781573-eligibility-000",
+          "NCT00699998-eligibility-006",
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-001",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-005"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-010",
+          "NCT02415400-eligibility-007",
+          "NCT02415400-eligibility-000",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-006"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT02415400-eligibility-002"
+      ],
+      "id": "q002",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT02415400",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-002",
+          "NCT00781573-eligibility-003",
+          "NCT00699998-eligibility-005",
+          "NCT00809965-eligibility-003",
+          "NCT02415400-eligibility-001",
+          "NCT00809965-eligibility-000",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-007",
+          "NCT00809965-eligibility-002",
+          "NCT00781573-eligibility-008"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-003",
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-000",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-007",
+          "NCT02415400-eligibility-006",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-005"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT02415400-eligibility-003"
+      ],
+      "id": "q003",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT02415400",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-003",
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-000",
+          "NCT00781573-eligibility-002",
+          "NCT00699998-eligibility-004",
+          "NCT00699998-eligibility-000",
+          "NCT02415400-eligibility-001",
+          "NCT00809965-eligibility-000",
+          "NCT02415400-eligibility-002",
+          "NCT00781573-eligibility-009"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-000",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-003",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-010",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-006"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT02415400-eligibility-004"
+      ],
+      "id": "q004",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT02415400",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-000",
+          "NCT00781573-eligibility-002",
+          "NCT00809965-eligibility-000",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-002",
+          "NCT00809965-eligibility-002",
+          "NCT02415400-eligibility-003",
+          "NCT00781573-eligibility-009",
+          "NCT00781573-eligibility-005"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-010",
+          "NCT02415400-eligibility-007",
+          "NCT02415400-eligibility-006",
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-000"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT02415400-eligibility-005"
+      ],
+      "id": "q005",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT02415400",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-005",
+          "NCT00809965-eligibility-003",
+          "NCT02415400-eligibility-001",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-003",
+          "NCT02415400-eligibility-009",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-010",
+          "NCT00781573-eligibility-005",
+          "NCT02415400-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-006",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-007",
+          "NCT02415400-eligibility-010",
+          "NCT02415400-eligibility-003"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT02415400-eligibility-006"
+      ],
+      "id": "q006",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT02415400",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-006",
+          "NCT00809965-eligibility-004",
+          "NCT00809965-eligibility-001",
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-007",
+          "NCT00699998-eligibility-001",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-008"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-007",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-000",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-010",
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-003"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT02415400-eligibility-007"
+      ],
+      "id": "q007",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT02415400",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-007",
+          "NCT02415400-eligibility-009",
+          "NCT00781573-eligibility-008",
+          "NCT00699998-eligibility-012",
+          "NCT00809965-eligibility-002",
+          "NCT00699998-eligibility-011",
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-009",
+          "NCT00809965-eligibility-003"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-007",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-006",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-010",
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-003"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT02415400-eligibility-008"
+      ],
+      "id": "q008",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT02415400",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-008",
+          "NCT00809965-eligibility-001",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-001",
+          "NCT00781573-eligibility-001",
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-005",
+          "NCT02415400-eligibility-001",
+          "NCT00699998-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-007",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-006",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-010",
+          "NCT02415400-eligibility-003",
+          "NCT02415400-eligibility-000"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT02415400-eligibility-009"
+      ],
+      "id": "q009",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT02415400",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-009",
+          "NCT00781573-eligibility-008",
+          "NCT02415400-eligibility-007",
+          "NCT00699998-eligibility-012",
+          "NCT00809965-eligibility-002",
+          "NCT00809965-eligibility-003",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-003",
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-005"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT02415400-eligibility-010",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-006",
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-007",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-000"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT02415400-eligibility-010"
+      ],
+      "id": "q010",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT02415400",
+      "unfiltered": {
+        "first_gold_rank": 2,
+        "mrr": 0.5,
+        "ranked_ids": [
+          "NCT00781573-eligibility-004",
+          "NCT02415400-eligibility-010",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-006",
+          "NCT00809965-eligibility-000",
+          "NCT00781573-eligibility-003",
+          "NCT02415400-eligibility-002",
+          "NCT00781573-eligibility-007",
+          "NCT00809965-eligibility-003",
+          "NCT00809965-eligibility-002"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 2,
+        "mrr": 0.5,
+        "ranked_ids": [
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-008",
+          "NCT00699998-eligibility-002",
+          "NCT00699998-eligibility-000"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-001"
+      ],
+      "id": "q011",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 2,
+        "mrr": 0.5,
+        "ranked_ids": [
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-001",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-002",
+          "NCT00781573-eligibility-007",
+          "NCT00809965-eligibility-000",
+          "NCT00699998-eligibility-009",
+          "NCT00781573-eligibility-003",
+          "NCT00809965-eligibility-003",
+          "NCT02415400-eligibility-005"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 5,
+        "mrr": 0.2,
+        "ranked_ids": [
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-000",
+          "NCT00699998-eligibility-002",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-004"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-002"
+      ],
+      "id": "q012",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": null,
+        "mrr": 0.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-005",
+          "NCT00809965-eligibility-000",
+          "NCT00781573-eligibility-007",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-001",
+          "NCT00781573-eligibility-006",
+          "NCT00699998-eligibility-001",
+          "NCT00809965-eligibility-003"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 4,
+        "mrr": 0.25,
+        "ranked_ids": [
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-008",
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-002",
+          "NCT00699998-eligibility-000"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-008"
+      ],
+      "id": "q013",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": null,
+        "mrr": 0.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-003",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-008",
+          "NCT00809965-eligibility-001",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-007",
+          "NCT00781573-eligibility-007",
+          "NCT00809965-eligibility-000"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-000",
+          "NCT00699998-eligibility-002",
+          "NCT00699998-eligibility-004",
+          "NCT00699998-eligibility-008"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-009"
+      ],
+      "id": "q014",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-009",
+          "NCT00781573-eligibility-007",
+          "NCT00699998-eligibility-001",
+          "NCT02415400-eligibility-008",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-006",
+          "NCT02415400-eligibility-001",
+          "NCT00781573-eligibility-005",
+          "NCT02415400-eligibility-005",
+          "NCT00781573-eligibility-003"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-000",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-004",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-013"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-010"
+      ],
+      "id": "q015",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-010",
+          "NCT02415400-eligibility-001",
+          "NCT00809965-eligibility-000",
+          "NCT00699998-eligibility-001",
+          "NCT00781573-eligibility-005",
+          "NCT00809965-eligibility-001",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-004",
+          "NCT02415400-eligibility-000",
+          "NCT00699998-eligibility-009"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 2,
+        "mrr": 0.5,
+        "ranked_ids": [
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-013",
+          "NCT00699998-eligibility-000",
+          "NCT00699998-eligibility-004",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-011",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-012"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-013"
+      ],
+      "id": "q016",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 6,
+        "mrr": 0.16666666666666666,
+        "ranked_ids": [
+          "NCT02415400-eligibility-006",
+          "NCT00809965-eligibility-004",
+          "NCT00781573-eligibility-003",
+          "NCT00809965-eligibility-003",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-013",
+          "NCT00809965-eligibility-000",
+          "NCT00781573-eligibility-005",
+          "NCT02415400-eligibility-002",
+          "NCT00781573-eligibility-007"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-003",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-011",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-002",
+          "NCT00699998-eligibility-006"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-003"
+      ],
+      "id": "q017",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-003",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-009",
+          "NCT00809965-eligibility-002",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-011",
+          "NCT02415400-eligibility-008",
+          "NCT00809965-eligibility-001",
+          "NCT00781573-eligibility-000"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-002",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-008",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-003",
+          "NCT00699998-eligibility-000",
+          "NCT00699998-eligibility-009"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-005"
+      ],
+      "id": "q018",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-005",
+          "NCT00809965-eligibility-001",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-007",
+          "NCT00781573-eligibility-002",
+          "NCT00699998-eligibility-002",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-001",
+          "NCT00809965-eligibility-002",
+          "NCT00809965-eligibility-003"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-011",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-008",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-006"
+      ],
+      "id": "q019",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-006",
+          "NCT00781573-eligibility-008",
+          "NCT00699998-eligibility-001",
+          "NCT00781573-eligibility-001",
+          "NCT02415400-eligibility-001",
+          "NCT00809965-eligibility-001",
+          "NCT00699998-eligibility-011",
+          "NCT00781573-eligibility-009",
+          "NCT02415400-eligibility-007",
+          "NCT00809965-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-002",
+          "NCT00699998-eligibility-011",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-008"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-007"
+      ],
+      "id": "q020",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 3,
+        "mrr": 0.3333333333333333,
+        "ranked_ids": [
+          "NCT00781573-eligibility-001",
+          "NCT02415400-eligibility-008",
+          "NCT00699998-eligibility-007",
+          "NCT02415400-eligibility-001",
+          "NCT00809965-eligibility-001",
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-003",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-002",
+          "NCT00699998-eligibility-011"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-011",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-008",
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-010"
+      ],
+      "id": "q021",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-010",
+          "NCT00809965-eligibility-001",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-009",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-001",
+          "NCT00781573-eligibility-000",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-012"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-011",
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-006",
+          "NCT00699998-eligibility-013",
+          "NCT00699998-eligibility-003"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-011"
+      ],
+      "id": "q022",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-011",
+          "NCT02415400-eligibility-007",
+          "NCT00781573-eligibility-008",
+          "NCT02415400-eligibility-009",
+          "NCT00699998-eligibility-012",
+          "NCT02415400-eligibility-001",
+          "NCT00699998-eligibility-010",
+          "NCT00781573-eligibility-009",
+          "NCT00699998-eligibility-001",
+          "NCT02415400-eligibility-005"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-012",
+          "NCT00699998-eligibility-005",
+          "NCT00699998-eligibility-011",
+          "NCT00699998-eligibility-010",
+          "NCT00699998-eligibility-001",
+          "NCT00699998-eligibility-007",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-013",
+          "NCT00699998-eligibility-008",
+          "NCT00699998-eligibility-006"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00699998-eligibility-012"
+      ],
+      "id": "q023",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00699998",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00699998-eligibility-012",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-007",
+          "NCT00781573-eligibility-008",
+          "NCT00809965-eligibility-001",
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-005",
+          "NCT00809965-eligibility-002",
+          "NCT00781573-eligibility-004"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 2,
+        "mrr": 0.5,
+        "ranked_ids": [
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-008",
+          "NCT00781573-eligibility-006",
+          "NCT00781573-eligibility-004",
+          "NCT00781573-eligibility-009",
+          "NCT00781573-eligibility-002"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00781573-eligibility-000"
+      ],
+      "id": "q024",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00781573",
+      "unfiltered": {
+        "first_gold_rank": 2,
+        "mrr": 0.5,
+        "ranked_ids": [
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-000",
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-005",
+          "NCT00699998-eligibility-006",
+          "NCT00809965-eligibility-000",
+          "NCT02415400-eligibility-002",
+          "NCT00781573-eligibility-007",
+          "NCT02415400-eligibility-005",
+          "NCT00809965-eligibility-003"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 6,
+        "mrr": 0.16666666666666666,
+        "ranked_ids": [
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-006",
+          "NCT00781573-eligibility-008",
+          "NCT00781573-eligibility-002",
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-004",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-009"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0
+      },
+      "gold_chunk_ids": [
+        "NCT00781573-eligibility-002"
+      ],
+      "id": "q025",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00781573",
+      "unfiltered": {
+        "first_gold_rank": null,
+        "mrr": 0.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-003",
+          "NCT00809965-eligibility-000",
+          "NCT00699998-eligibility-005",
+          "NCT02415400-eligibility-002",
+          "NCT00781573-eligibility-007",
+          "NCT02415400-eligibility-000",
+          "NCT02415400-eligibility-001",
+          "NCT00699998-eligibility-006",
+          "NCT00781573-eligibility-006"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 3,
+        "mrr": 0.3333333333333333,
+        "ranked_ids": [
+          "NCT00781573-eligibility-006",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-004",
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-008",
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-009",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-002"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00781573-eligibility-004"
+      ],
+      "id": "q026",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00781573",
+      "unfiltered": {
+        "first_gold_rank": 3,
+        "mrr": 0.3333333333333333,
+        "ranked_ids": [
+          "NCT00781573-eligibility-006",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-004",
+          "NCT02415400-eligibility-010",
+          "NCT00781573-eligibility-003",
+          "NCT00699998-eligibility-005",
+          "NCT00809965-eligibility-000",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-001",
+          "NCT00781573-eligibility-007"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-006",
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-004",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-008",
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-009",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00781573-eligibility-006"
+      ],
+      "id": "q027",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00781573",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-006",
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-003",
+          "NCT02415400-eligibility-010",
+          "NCT00781573-eligibility-004",
+          "NCT00781573-eligibility-005",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-001",
+          "NCT00781573-eligibility-007",
+          "NCT00809965-eligibility-000"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-008",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-006",
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-004",
+          "NCT00781573-eligibility-009",
+          "NCT00781573-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00781573-eligibility-007"
+      ],
+      "id": "q028",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00781573",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-007",
+          "NCT02415400-eligibility-005",
+          "NCT02415400-eligibility-001",
+          "NCT00809965-eligibility-003",
+          "NCT02415400-eligibility-000",
+          "NCT00781573-eligibility-005",
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-003",
+          "NCT00809965-eligibility-000",
+          "NCT00809965-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 4,
+        "mrr": 0.25,
+        "ranked_ids": [
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-008",
+          "NCT00781573-eligibility-006",
+          "NCT00781573-eligibility-004",
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-009",
+          "NCT00781573-eligibility-002"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00781573-eligibility-008"
+      ],
+      "id": "q029",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00781573",
+      "unfiltered": {
+        "first_gold_rank": 7,
+        "mrr": 0.14285714285714285,
+        "ranked_ids": [
+          "NCT00781573-eligibility-003",
+          "NCT02415400-eligibility-002",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-007",
+          "NCT00699998-eligibility-005",
+          "NCT00809965-eligibility-000",
+          "NCT00781573-eligibility-008",
+          "NCT02415400-eligibility-001",
+          "NCT00781573-eligibility-006",
+          "NCT00699998-eligibility-006"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-008",
+          "NCT00781573-eligibility-009",
+          "NCT00781573-eligibility-006",
+          "NCT00781573-eligibility-004",
+          "NCT00781573-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00781573-eligibility-001"
+      ],
+      "id": "q030",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00781573",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-001",
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-003",
+          "NCT02415400-eligibility-008",
+          "NCT00809965-eligibility-003",
+          "NCT00699998-eligibility-001",
+          "NCT02415400-eligibility-001",
+          "NCT00699998-eligibility-007",
+          "NCT02415400-eligibility-002",
+          "NCT00699998-eligibility-010"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-006",
+          "NCT00781573-eligibility-008",
+          "NCT00781573-eligibility-004",
+          "NCT00781573-eligibility-009",
+          "NCT00781573-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00781573-eligibility-003"
+      ],
+      "id": "q031",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00781573",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-003",
+          "NCT02415400-eligibility-002",
+          "NCT00809965-eligibility-003",
+          "NCT00699998-eligibility-005",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-007",
+          "NCT00699998-eligibility-007",
+          "NCT00809965-eligibility-000",
+          "NCT00699998-eligibility-008"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-009",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-001",
+          "NCT00781573-eligibility-004",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-008",
+          "NCT00781573-eligibility-003",
+          "NCT00781573-eligibility-007",
+          "NCT00781573-eligibility-006",
+          "NCT00781573-eligibility-002"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00781573-eligibility-009"
+      ],
+      "id": "q032",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00781573",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00781573-eligibility-009",
+          "NCT02415400-eligibility-009",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-005",
+          "NCT00699998-eligibility-012",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-001",
+          "NCT00699998-eligibility-005",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-007"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00809965-eligibility-000",
+          "NCT00809965-eligibility-001",
+          "NCT00809965-eligibility-003",
+          "NCT00809965-eligibility-002",
+          "NCT00809965-eligibility-004"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00809965-eligibility-000"
+      ],
+      "id": "q033",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00809965",
+      "unfiltered": {
+        "first_gold_rank": 4,
+        "mrr": 0.25,
+        "ranked_ids": [
+          "NCT00781573-eligibility-003",
+          "NCT02415400-eligibility-001",
+          "NCT00699998-eligibility-005",
+          "NCT00809965-eligibility-000",
+          "NCT00781573-eligibility-005",
+          "NCT00781573-eligibility-007",
+          "NCT02415400-eligibility-008",
+          "NCT02415400-eligibility-002",
+          "NCT00781573-eligibility-006",
+          "NCT00809965-eligibility-001"
+        ],
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00809965-eligibility-003",
+          "NCT00809965-eligibility-000",
+          "NCT00809965-eligibility-002",
+          "NCT00809965-eligibility-001",
+          "NCT00809965-eligibility-004"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00809965-eligibility-003"
+      ],
+      "id": "q034",
+      "reviewed": false,
+      "source": "rule_mapping",
+      "trial_id": "NCT00809965",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00809965-eligibility-003",
+          "NCT02415400-eligibility-001",
+          "NCT02415400-eligibility-005",
+          "NCT00781573-eligibility-007",
+          "NCT00699998-eligibility-005",
+          "NCT02415400-eligibility-008",
+          "NCT00781573-eligibility-003",
+          "NCT02415400-eligibility-002",
+          "NCT02415400-eligibility-000",
+          "NCT00809965-eligibility-000"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00809965-eligibility-001",
+          "NCT00809965-eligibility-003",
+          "NCT00809965-eligibility-000",
+          "NCT00809965-eligibility-002",
+          "NCT00809965-eligibility-004"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00809965-eligibility-001"
+      ],
+      "id": "q035",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00809965",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00809965-eligibility-001",
+          "NCT02415400-eligibility-008",
+          "NCT00699998-eligibility-001",
+          "NCT02415400-eligibility-001",
+          "NCT00699998-eligibility-005",
+          "NCT02415400-eligibility-002",
+          "NCT00699998-eligibility-008",
+          "NCT00699998-eligibility-009",
+          "NCT00699998-eligibility-010",
+          "NCT00781573-eligibility-007"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "filtered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00809965-eligibility-004",
+          "NCT00809965-eligibility-001",
+          "NCT00809965-eligibility-003",
+          "NCT00809965-eligibility-002",
+          "NCT00809965-eligibility-000"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      },
+      "gold_chunk_ids": [
+        "NCT00809965-eligibility-004"
+      ],
+      "id": "q036",
+      "reviewed": false,
+      "source": "hand_written",
+      "trial_id": "NCT00809965",
+      "unfiltered": {
+        "first_gold_rank": 1,
+        "mrr": 1.0,
+        "ranked_ids": [
+          "NCT00809965-eligibility-004",
+          "NCT02415400-eligibility-006",
+          "NCT02415400-eligibility-009",
+          "NCT00699998-eligibility-013",
+          "NCT00781573-eligibility-000",
+          "NCT00781573-eligibility-009",
+          "NCT00781573-eligibility-005",
+          "NCT02415400-eligibility-007",
+          "NCT00809965-eligibility-001",
+          "NCT00781573-eligibility-003"
+        ],
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0
+      }
+    }
+  ],
+  "queries_file": "queries.jsonl",
+  "results": {
+    "filtered": {
+      "overall": {
+        "mrr": 0.8527777777777777,
+        "queries": 36,
+        "recall@1": 0.7777777777777778,
+        "recall@3": 0.8888888888888888,
+        "recall@5": 0.9722222222222222
+      },
+      "per_trial": {
+        "NCT00699998": {
+          "chunks_in_trial": 14,
+          "mrr": 0.8038461538461538,
+          "queries": 13,
+          "recall@1": 0.6923076923076923,
+          "recall@3": 0.8461538461538461,
+          "recall@5": 1.0
+        },
+        "NCT00781573": {
+          "chunks_in_trial": 10,
+          "mrr": 0.6944444444444444,
+          "queries": 9,
+          "recall@1": 0.5555555555555556,
+          "recall@3": 0.7777777777777778,
+          "recall@5": 0.8888888888888888
+        },
+        "NCT00809965": {
+          "chunks_in_trial": 5,
+          "mrr": 1.0,
+          "queries": 4,
+          "recall@1": 1.0,
+          "recall@3": 1.0,
+          "recall@5": 1.0
+        },
+        "NCT02415400": {
+          "chunks_in_trial": 11,
+          "mrr": 1.0,
+          "queries": 10,
+          "recall@1": 1.0,
+          "recall@3": 1.0,
+          "recall@5": 1.0
+        }
+      }
+    },
+    "unfiltered": {
+      "overall": {
+        "mrr": 0.7701719576719577,
+        "queries": 36,
+        "recall@1": 0.6944444444444444,
+        "recall@3": 0.8333333333333334,
+        "recall@5": 0.8611111111111112
+      },
+      "per_trial": {
+        "NCT00699998": {
+          "chunks_in_trial": 14,
+          "mrr": 0.6923076923076923,
+          "queries": 13,
+          "recall@1": 0.6153846153846154,
+          "recall@3": 0.7692307692307693,
+          "recall@5": 0.7692307692307693
+        },
+        "NCT00781573": {
+          "chunks_in_trial": 10,
+          "mrr": 0.6640211640211641,
+          "queries": 9,
+          "recall@1": 0.5555555555555556,
+          "recall@3": 0.7777777777777778,
+          "recall@5": 0.7777777777777778
+        },
+        "NCT00809965": {
+          "chunks_in_trial": 5,
+          "mrr": 0.8125,
+          "queries": 4,
+          "recall@1": 0.75,
+          "recall@3": 0.75,
+          "recall@5": 1.0
+        },
+        "NCT02415400": {
+          "chunks_in_trial": 11,
+          "mrr": 0.95,
+          "queries": 10,
+          "recall@1": 0.9,
+          "recall@3": 1.0,
+          "recall@5": 1.0
+        }
+      }
+    }
+  },
+  "retrieved_k": 10,
+  "sentence_transformers_version": "6.0.1"
+}
