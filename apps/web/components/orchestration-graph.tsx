@@ -916,7 +916,7 @@ export function OrchestrationGraph({
     let fallbackAction = "Apixaban 5 mg oral twice daily"
     let ragTrial = patient?.trial_id || "NCT02415400"
     let ragArm = "Arm A: 5 mg BID"
-    let ragSummary = "Semantic vector retrieval matches clinical action against protocol criteria (Arm A: 5 mg BID, CrCl >= 30 mL/min)."
+    let ragSummary = "Simulated evidence (fixed protocol clauses) for the clinical action against protocol criteria (Arm A: 5 mg BID, CrCl >= 30 mL/min)."
     let ragRule = "Arm A Standard Protocol: Apixaban 5 mg BID; CrCl >= 30 mL/min required."
     let ragEvidence = [
       { chunk_id: `${ragTrial}-dosing-002`, text: "Apixaban 5 mg orally twice daily. CrCl >= 30 mL/min required.", score: 0.96 },
@@ -926,7 +926,7 @@ export function OrchestrationGraph({
     if (allTxt.includes("pembrolizumab") || allTxt.includes("oncology") || allTxt.includes("carcinoma") || allTxt.includes("cancer")) {
       fallbackAction = "Pembrolizumab 200 mg IV every 3 weeks"
       ragArm = "Cohort C: 200 mg Q3W"
-      ragSummary = "Semantic vector retrieval matches oncology protocol criteria (Cohort C: Pembrolizumab 200 mg Q3W, ANC >= 1,500/µL)."
+      ragSummary = "Simulated evidence (fixed protocol clauses) for oncology protocol criteria (Cohort C: Pembrolizumab 200 mg Q3W, ANC >= 1,500/µL)."
       ragRule = "Cohort C Oncology Protocol: Pembrolizumab 200 mg IV Q3W; ANC >= 1,500/µL, Plt >= 100,000/µL required."
       ragEvidence = [
         { chunk_id: `${ragTrial}-dosing-001`, text: `Cohort C Oncology Protocol (${ragTrial}): Pembrolizumab 200 mg IV every 3 weeks (Q3W). Requires hematologic reserve (ANC >= 1,500/uL).`, score: 0.96 },
@@ -935,7 +935,7 @@ export function OrchestrationGraph({
     } else if (allTxt.includes("empagliflozin") || allTxt.includes("renal") || allTxt.includes("nephropathy")) {
       fallbackAction = "Empagliflozin 10 mg oral once daily"
       ragArm = "Cohort B: 10 mg Daily"
-      ragSummary = "Semantic vector retrieval matches renal protocol criteria (Cohort B: Empagliflozin 10 mg daily, eGFR >= 30 mL/min/1.73m²)."
+      ragSummary = "Simulated evidence (fixed protocol clauses) for renal protocol criteria (Cohort B: Empagliflozin 10 mg daily, eGFR >= 30 mL/min/1.73m²)."
       ragRule = "Cohort B Renal Protocol: Empagliflozin 10 mg daily; eGFR >= 30 mL/min/1.73m² required."
       ragEvidence = [
         { chunk_id: `${ragTrial}-dosing-001`, text: "Cohort B Standard Protocol: Empagliflozin 10 mg orally once daily. Requires eGFR >= 30 mL/min/1.73m2.", score: 0.95 },
@@ -944,7 +944,7 @@ export function OrchestrationGraph({
     } else if (allTxt.includes("pioglitazone") || allTxt.includes("nafld") || allTxt.includes("mash") || allTxt.includes("steatohepatitis")) {
       fallbackAction = "Pioglitazone 30 mg oral once daily"
       ragArm = "Cohort B: 30 mg Daily"
-      ragSummary = "Semantic vector retrieval matches metabolic NAFLD protocol criteria (Cohort B: Pioglitazone 30 mg daily, ALT/AST < 3x ULN)."
+      ragSummary = "Simulated evidence (fixed protocol clauses) for metabolic NAFLD protocol criteria (Cohort B: Pioglitazone 30 mg daily, ALT/AST < 3x ULN)."
       ragRule = "Cohort B NAFLD Protocol: Pioglitazone 30 mg daily; ALT/AST < 3x ULN required."
       ragEvidence = [
         { chunk_id: `${ragTrial}-dosing-001`, text: "Cohort B NAFLD Protocol: Pioglitazone 30 mg orally once daily. Requires monitoring of liver transaminases (ALT/AST < 3x ULN).", score: 0.95 },
@@ -996,14 +996,14 @@ export function OrchestrationGraph({
         data: {
           stage: "Stage 1",
           title: "RAG Protocol Retrieval",
-          subtitle: "ChromaDB Vector Store",
-          tag: "Retrieved",
+          subtitle: "Simulated evidence (fixed protocol clauses)",
+          tag: "Simulated",
           status: "completed",
           icon: "search",
           metrics: {
             trial: ragTrial,
-            chunks: "2 Sections",
-            relevance: "0.96 Score",
+            chunks: "2 fixed clauses",
+            relevance: "n/a (not measured)",
             arm: ragArm,
           },
           summary: ragSummary,
@@ -1011,12 +1011,12 @@ export function OrchestrationGraph({
             setSelectedInspector({
               type: "rag",
               title: "RAG Protocol Retrieval Node",
-              subtitle: "ChromaDB Clinical Trial Vector Store",
-              summary: `Retrieves top-k protocol text chunks for trial ${ragTrial} using hybrid semantic similarity search.`,
+              subtitle: "Fixed protocol clauses (not a vector search)",
+              summary: `Shows fixed protocol clauses for trial ${ragTrial}. This is simulated evidence, not the result of a vector search.`,
               metrics: {
                 trialId: ragTrial,
                 section: "Dosing Protocol & Eligibility",
-                topScore: 0.96,
+                topScore: "n/a (simulated)",
                 protocolRule: ragRule,
               },
               raw: {

@@ -2328,7 +2328,7 @@ export function DecisionGateway({
             {arbitrationResult.protocol_evidence && arbitrationResult.protocol_evidence.length > 0 && (
               <div className="space-y-2">
                 <p className="font-bold text-sky-400 uppercase tracking-wider text-[11px]">
-                  Vector Protocol Evidence Chunks (ChromaDB / RAG)
+                  Protocol Evidence (simulated: fixed protocol clauses)
                 </p>
                 <div className="grid gap-2.5">
                   {arbitrationResult.protocol_evidence.map((chunk: any, i: number) => (
