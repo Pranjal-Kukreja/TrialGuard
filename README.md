@@ -383,6 +383,8 @@ What the retrieval code does and does not do today. The deployed gateway (the li
 
 The retrieval corpus is **4 trials and 40 eligibility chunks** (`services/rag_service/data/processed/chunks/trial_chunks.jsonl`). The vector index is not committed (`vector_db/` is gitignored); build it locally with `cd services/rag_service && python -m scripts.build_embeddings`.
 
+Statements in `TrialGuard_Project_Report.pdf` that do not match the code (for example the RAG MCP server) are listed in [`docs/REPORT_ERRATA.md`](docs/REPORT_ERRATA.md).
+
 The pipeline is designed to run on an organization's own protocol documents and a real FHIR dataset without architectural changes. The substitutions above reflect what data was available to us, not a limit of the pipeline.
 
 Supabase: the web app reads the `patients` table (`apps/web/app/actions.ts`), and `scripts/seed_comprehensive_patients.py` can upsert synthetic patients into it. The gateway reads patients from local JSON, not Supabase. Reports are written locally first, then to `patients.clinical_data.adjudication_reports`, then to the `adjudication_reports` jsonb column added by [`supabase/migrations`](supabase/migrations/20260916_add_adjudication_reports.sql). The `patients` definition is in the first migration; see [Database](#database).
