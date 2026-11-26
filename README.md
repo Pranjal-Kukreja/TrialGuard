@@ -375,6 +375,8 @@ Every claim in this project is labelled as implemented, simulated, or assumed.
 
 What the retrieval code does and does not do today. The deployed gateway (the live app and `start_all.py`) shows **fixed protocol clauses** (`_simulated_rag_output` in `apps/gateway/routers/orchestrator.py`). The Chroma retrieval pipeline is a built component: it is called in-process from the LangGraph node (`apps/orchestrator/nodes/rag_node.py`) and served by the `services/rag_service` FastAPI app, and it is **not integrated into the live demo**.
 
+In the demo, each patient is assigned a trial in advance and the gateway picks protocol clauses with rules, so a drug or protocol outside the demo set gets only a generic clause. The retrieval pipeline was evaluated offline on the 4-trial corpus below. Making it live means hosting the vector index with the gateway and calling the retriever from it in place of `_simulated_rag_output`.
+
 | Status | What |
 |:---|:---|
 | Implemented | Regex chunking of trial eligibility text (`services/rag_service/src/preprocessing/chunker.py`); `BAAI/bge-small-en-v1.5` embeddings (downloaded from Hugging Face on first use); Chroma store with two cosine collections, `trialguard_trials` and `trialguard_fda_labels`; dense retrieval filtered by `trial_id`; an evidence guard that drops chunks from other trials; exact lookup of the source chunk behind each rule; a `/evaluate` API in `services/rag_service` |
@@ -822,7 +824,6 @@ The only filter the code applies to `patients` is equality on `patient_id` (the 
 
 * No head-to-head evaluation yet. We did not benchmark TrialGuard against a real-world workflow because we have not yet found a fair baseline to measure against. Claims about speed, deviation catch rate, and reviewer-burden reduction (including the figures in `TrialGuard_Project_Report.pdf`) are design targets, not measured results.
 * Synthetic data only. Testing used open-source protocols and synthetic patients.
-* The running app does not do live protocol retrieval; the gateway path uses fixed clauses and some scripted demo outcomes (see [Two execution paths](#two-execution-paths)). Moving the gateway onto the retrieval pipeline and the LangGraph workflow is the main engineering gap.
 * No leadership view of accept/override behavior, no lockout registry, and no user identity on decisions (the reviewer is recorded as a fixed role).
 * The audit chain does not detect truncation (see above).
 * Known bug, not fixed: the standalone `apps/orchestrator/server.py` `/api/adjudicate` background task references an undefined variable (`accumulated_state`). The web app does not use that server.

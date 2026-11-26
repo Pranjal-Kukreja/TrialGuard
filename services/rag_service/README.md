@@ -35,3 +35,19 @@ uv run pytest
 ```
 
 These tests cover the rule engine and API contracts (decisions and response keys). They do not measure retrieval quality.
+
+## Design choices
+
+What the code does, and the tradeoffs that come with it. These are descriptions of the code, not measured claims.
+
+| Choice | Where | Tradeoff |
+|:---|:---|:---|
+| `BAAI/bge-small-en-v1.5` embeddings (384 dimensions), normalized | `src/rag/embeddings.py` | Small, free and runs locally with no API. It is a general-domain model, not a biomedical one. The BGE-recommended query instruction prefix is not used, and its effect has not been measured here. |
+| Chroma `PersistentClient`, cosine distance, two collections (trials, FDA labels) | `src/rag/vector_store.py` | Simple and local. The index is not hosted, so only a machine that has built it can retrieve. |
+| Hard metadata filter on `trial_id` | `Retriever.retrieve_trial` | Keeps one trial's criteria out of another trial's results. A wrong `trial_id` returns the wrong trial's text without an error. See the filtered and unfiltered rows in the baseline. |
+| Dense retrieval only; k=6 for trials and k=4 for FDA (k=4 and k=3 in the LangGraph node) | `src/rag/retriever.py`, `apps/orchestrator/nodes/rag_node.py` | No BM25, reranking or score threshold. `config.yaml` also lists k values, but no code reads it. |
+| Query built from the patient's diagnoses, medications and failing rule parameters | `src/rag/query_builder.py` | Long patient-specific queries may drift from the criterion text. |
+| Regex chunking of the eligibility section only | `src/preprocessing/chunker.py` | Short chunks of one criterion each. Some chunks are not criteria (for example a website footer in `NCT02415400-eligibility-000`), and dosing text is not indexed. |
+
+With 4 trials and 40 chunks, k is larger than the chunk count of several trials, so recall there is partly trivial. See [`eval/README.md`](eval/README.md) for how the baseline marks those cells.
+
