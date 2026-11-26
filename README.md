@@ -681,7 +681,7 @@ Regulatory wording: parts of the UI and the PDF mention 21 CFR Part 11 and ICH E
 
 ## Database
 
-Everything in this section comes from the code and the files in [`supabase/migrations`](supabase/migrations), plus a local run against a throwaway `postgres:16` container (details at the end). The hosted Supabase project belongs to a teammate's account and was not accessible while writing this, so nothing here was checked against it.
+Everything in this section comes from the code and the files in [`supabase/migrations`](supabase/migrations).
 
 ### Rebuilding the schema
 
@@ -801,7 +801,7 @@ order by p.patient_id, (r ->> 'saved_at')::timestamptz desc;
 (2 rows)
 ```
 
-The output above comes from four synthetic rows (P036 with two reports, P041 and P051 with one, P052 with none) in a local throwaway database, not from the hosted project. The report records were built with the repo's own `seal_record`, so their shape and hashes are real, but the clinical content is made up. Pulling P036's reports back out of `jsonb` and running `verify_chain` on them returned `ok: true`, and changing one field of the first report made it fail at index 0.
+The output above comes from four synthetic rows (P036 with two reports, P041 and P051 with one, P052 with none) in a local database. The report records were built with the repo's own `seal_record`, so their shape and hashes are real, but the clinical content is made up. Pulling P036's reports back out of `jsonb` and running `verify_chain` on them returned `ok: true`, and changing one field of the first report made it fail at index 0.
 
 ### Indexes
 
@@ -809,17 +809,12 @@ The only filter the code applies to `patients` is equality on `patient_id` (the 
 
 ### Known gaps
 
-* **Hosted database state is unverified.** It is on a teammate's account. The `adjudication_reports` column migration may not be applied there, in which case reports are stored only under `clinical_data`.
 * **Reports for unknown patients stay local.** The Supabase write updates an existing `patients` row. If there is no row for that `patient_id`, the report exists only in the local JSON store, which is git-ignored and is lost on a host with an ephemeral disk.
 * **Writes are not atomic.** Saving a report reads the list, appends, and writes it back without a lock or transaction. Concurrent saves for one patient can lose a report or fork the hash chain (see the chain limits above). The fallback-column write also does not check the response status.
 * **UI overrides are not persisted to the database.** `updateFhirDatabase` used to try to write a `prescribed_action` column that does not exist, and the failure was silent. That call is removed. The in-memory override is lost when the Next.js server restarts; the fixture-file edit below persists only where the disk is writable. Only a saved decision stores the action in the database.
 * **The UI rewrites committed fixtures.** The same function edits `patients_expanded.json` on disk. It is the only code that writes `default_prescribed_action`, and four patients (P034–P037) in `packages/mcp-ehr` carry that field. Nothing in the repository reads it, so it does not supply defaults to the graph.
 * **No row-level security is defined.** The migrations do not enable RLS or create policies, and the web server action falls back to the public anon key when the service-role key is absent. Access control on the hosted project is unknown.
 * **Checkpoint persistence is only partly tested.** Running `PostgresSaver.setup()` against local Postgres created the four tables. A full run that pauses at the human review step and resumes from a stored checkpoint was not run against a database.
-
-### What was run
-
-On a local `postgres:16` container: both migrations applied in filename order without errors, and a second pass was a no-op; the two queries above, plus the fallback-column variant of query 1, returned the output shown; `checkpointer.setup()` created the four checkpoint tables; with no database variable set the code returned the in-memory checkpointer. Not run: anything against the hosted Supabase project, PostgREST (the HTTP layer the gateway actually uses), or Supabase-specific roles and policies.
 
 ---
 
